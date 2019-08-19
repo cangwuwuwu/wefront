@@ -1,29 +1,7 @@
-# test
+# WeFront
 
-## Project setup
-```
-npm install
-```
+### 简介
+该项目是[Wecoding](https://github.com/cangwuwuwu/wecoding)的前端项目
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+涉及到的技术有: Vue、Vue-cli、Vue-router、JQuery、iView等
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

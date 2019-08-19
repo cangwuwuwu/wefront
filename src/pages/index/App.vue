@@ -1,0 +1,76 @@
+<template>
+  <div class="index">
+    <Tabs v-model="tags" @on-click="changeTags">
+      <TabPane label="Welcome" name="/index/cover">
+          <router-view name="cover"></router-view>
+      </TabPane>
+      <TabPane label="登录" name="/index/signin">
+        <router-view name="signin"/>
+<!--        <Signin />-->
+      </TabPane>
+      <TabPane label="注册" name="/index/signup">
+        <router-view name="signup"/>
+<!--        <Signup />-->
+      </TabPane>
+    </Tabs>
+
+    <footer class="mastfoot mt-auto">
+      <p class="mb-1">&copy; 2019 Wecoding</p>
+      <ul class="list-inline">
+        <li class="list-inline-item"><a href="https://github.com/cangwuwuwu/wecoding">源码</a></li>
+        <li class="list-inline-item"><a href="#">反馈</a></li>
+        <li class="list-inline-item"><a href="#">支持</a></li>
+        <Divider type="vertical" style="background: #2d8cf0" />
+        <li class="list-inline-item"><a href="#">中文</a></li>
+        <li class="list-inline-item"><a href="#">English</a></li>
+      </ul>
+    </footer>
+
+    <BackTop></BackTop>
+  </div>
+</template>
+
+<script>
+export default {
+    name: 'index',
+    data() {
+        return {
+            tags: ''
+        }
+    },
+    mounted: function(){
+        this.getCurrentPathToTags();
+    },
+    methods: {
+        getCurrentPathToTags() {
+            this.tags = this.$route.path
+        },
+        changeTags(name) {
+            this.tags = name;
+            this.$router.push(name)
+        },
+    },
+}
+</script>
+
+<style scoped>
+.index {
+    font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    padding: 60px;
+    margin: auto;
+    width: 900px
+}
+
+.index >>> .ivu-tabs-nav-scroll {
+    display: inline-block;
+}
+
+.index >>> .list-inline-item {
+    display: inline-block;
+    margin-right: .5rem;
+}
+</style>
