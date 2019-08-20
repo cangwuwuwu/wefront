@@ -5,7 +5,7 @@
         <div>
             <Card style="padding: 20px;border: 1px solid #dcdee2;">
                 <Row type="flex" justify="center" align="bottom">
-                    <img :src="'/images/' + name + '_path.jpg'"/>
+                    <img :src="'@/assets/images/' + name + '_path.jpg'"/>
                 </Row>
             </Card>
         </div>

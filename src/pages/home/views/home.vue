@@ -169,19 +169,19 @@
                     <Card class="box-left" style="width:1062px;">
                         <Carousel v-model="value1" loop trigger="hover">
                             <CarouselItem>
-                                <div class="demo-carousel"><img src="../../../../public/images/business.jpg"/></div>
+                                <div class="demo-carousel"><img src="@/assets/images/business.jpg"/></div>
                             </CarouselItem>
                             <CarouselItem>
-                                <div class="demo-carousel"><img src="../../../../public/images/resource.jpg"/></div>
+                                <div class="demo-carousel"><img src="@/assets/images/resource.jpg"/></div>
                             </CarouselItem>
                             <CarouselItem>
-                                <div class="demo-carousel"><img src="../../../../public/images/talk.jpg"/></div>
+                                <div class="demo-carousel"><img src="@/assets/images/talk.jpg"/></div>
                             </CarouselItem>
                             <CarouselItem>
-                                <div class="demo-carousel"><img src="../../../../public/images/friends.jpg"/></div>
+                                <div class="demo-carousel"><img src="@/assets/images/friends.jpg"/></div>
                             </CarouselItem>
                             <CarouselItem>
-                                <div class="demo-carousel"><img src="../../../../public/images/photos.jpg"/></div>
+                                <div class="demo-carousel"><img src="@/assets/images/photos.jpg"/></div>
                             </CarouselItem>
                         </Carousel>
                     </Card>
@@ -296,11 +296,11 @@
             <div v-if="msglist.length == 0" class="card-surround-gray">
                 <Card>
                     <p>
-                        <img alt="空的" src="../../../../public/images/isempty.jpg"/>
+                        <img alt="空的" src="@/assets/images/isempty.jpg"/>
                     </p>
                 </Card>
             </div>
-            <div v-for="amsg in revmsglist" class="card-surround-gray">
+            <div v-for="(amsg, index) in revmsglist" :key="index" class="card-surround-gray">
                 <Card>
                     <p slot="title">
                         {{ amsg.msgType }}消息: {{ amsg.msgHead }}
@@ -332,7 +332,7 @@
                     </Spin>
                 </Card>
             </div>
-            <div v-for="ahismsg in hismsglist" style="padding: 10px;">
+            <div v-for="(ahismsg,index) in hismsglist" :key="index" style="padding: 10px;">
                 <Card>
                     <p slot="title">
                         {{ ahismsg.msgType }}消息: {{ ahismsg.msgHead }}
@@ -381,7 +381,7 @@
                         <a target="_blank" href="https://blog.csdn.net/qq_43581949"><h3>作者博客</h3></a>
                         <Poptip trigger="hover" placement="right-end" title="扫二维码,  加入我们">
                             <h3>加入我们</h3>
-                            <div slot="content"><img alt="二维码" src="../../../../public/images/ours2code.jpg"/></div>
+                            <div slot="content"><img alt="二维码" src="@/assets/images/ours2code.jpg"/></div>
                         </Poptip>
                     </Col>
                     <Col span="5">

@@ -2,9 +2,9 @@
 .idea
 node_modules
 /dist
-/public/md
-/public/images
 /src/pages/docs
+/src/assets/images/mdpics
+/src/assets/md
 
 # local env files
 .env.local

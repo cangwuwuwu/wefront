@@ -24,12 +24,12 @@
             <Col span="5">
             <Poptip trigger="hover" placement="right-end" title="前往github给个star吧...">
                 <a target="_blank" href="https://github.com/cangwuwuwu/wecoding"><h3>点赞/Star</h3></a>
-                <div slot="content"><img alt="star" src="../../../../public/images/star.png"/></div>
+                <div slot="content"><img alt="star" src="@/assets/images/star.png"/></div>
             </Poptip>
                 <a target="_blank" href="https://blog.csdn.net/qq_43581949"><h3>作者博客</h3></a>
                 <Poptip trigger="hover" placement="right-end" title="扫二维码,  加入我们">
                     <h3>加入我们</h3>
-                    <div slot="content"><img alt="二维码" src="../../../../public/images/ours2code.jpg"/></div>
+                    <div slot="content"><img alt="二维码" src="@/assets/images/ours2code.jpg"/></div>
                 </Poptip>
             </Col>
             <Col span="5">
