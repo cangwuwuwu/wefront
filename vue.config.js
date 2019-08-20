@@ -16,6 +16,16 @@ module.exports = {
             entry: 'src/pages/guide/main.js',
             template: 'public/guide.html',
             filename: 'guide.html'
+        },
+        help: {
+            entry: 'src/pages/guide/main.js',
+            template: 'public/guide.html',
+            filename: 'guide.html'
+        },
+        resources: {
+            entry: 'src/pages/resources/main.js',
+            template: 'public/resources.html',
+            filename: 'resources.html'
         }
     },
     configureWebpack: {

@@ -12,22 +12,20 @@
         </Back-Top>
     </div>
 </template>
-
 <script>
-    import Head from './views/heads.vue'
-    import Footer from './views/footers.vue'
-
-    export default {
-        name: "App",
+import Head from '@/pages/guide/views/heads.vue'
+import Footer from '@/pages/guide/views/footers.vue'
+export default {
+    name: "App",
         components: {
             Head, Footer
         },
-        data() {
-            return {
-                
-            }
+    data() {
+        return {
+            
         }
-    }
+    },
+}
 </script>
 
 <style scoped>

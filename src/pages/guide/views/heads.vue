@@ -13,6 +13,7 @@
                                 <span class="ivu-badge-status ivu-badge"></span>
                                 <sup class="ivu-badge-dot" style="margin: 20px 20px"></sup>
                             </a>
+                            <a href="/help" target="_self" class="ivu-menu-item">帮助</a>
                         </div>
                     </div>
                 </ul>

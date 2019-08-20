@@ -4,6 +4,7 @@ import Vue from 'vue';
 Vue.use(Router);
 
 import Guide from '@/pages/guide/views/guide.vue'
+import Help from '@/pages/guide/views/help.vue'
 import Content from '@/pages/guide/views/content.vue'
 
 export default new Router({
@@ -70,6 +71,20 @@ export default new Router({
                     path: 'wifi',
                     component: Content
                 },
+            ]
+        },
+        {
+            path: '/help',
+            component: Help,
+            children: [
+                {
+                    path: '',
+                    component: Content
+                },
+                {
+                    path: 'update-log',
+                    component: Content 
+                }
             ]
         }
         
