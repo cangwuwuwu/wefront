@@ -12,28 +12,16 @@ module.exports = {
             template: 'public/home.html',
             filename: 'home.html'
         },
-        guide: {
-            entry: 'src/pages/guide/main.js',
-            template: 'public/guide.html',
-            filename: 'guide.html'
+        docs: {
+            entry: 'src/pages/docs/main.js',
+            template: 'public/docs.html',
+            filename: 'docs.html'
         },
-        help: {
-            entry: 'src/pages/guide/main.js',
-            template: 'public/guide.html',
-            filename: 'guide.html'
-        },
-        resources: {
-            entry: 'src/pages/resources/main.js',
-            template: 'public/resources.html',
-            filename: 'resources.html'
+        chat: {
+            entry: 'src/pages/chat/main.js',
+            template: 'public/chat.html',
+            filename: 'chat.html'
         }
-    },
-    configureWebpack: {
-        // resolve: {
-        //     alias: {
-        //         '@public': '../src/public',
-        //     }
-        // }
     },
     chainWebpack: config => {
         config.module

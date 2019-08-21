@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="doc">
 
         <Head></Head>
 
@@ -12,20 +12,22 @@
         </Back-Top>
     </div>
 </template>
+
 <script>
-import Head from '@/pages/guide/views/heads.vue'
-import Footer from '@/pages/guide/views/footers.vue'
-export default {
-    name: "App",
+    import Head from '@/pages/docs/views/heads.vue'
+    import Footer from '@/pages/docs/views/footers.vue'
+
+    export default {
+        name: "docs",
         components: {
             Head, Footer
         },
-    data() {
-        return {
-            
+        data() {
+            return {
+                
+            }
         }
-    },
-}
+    }
 </script>
 
 <style scoped>

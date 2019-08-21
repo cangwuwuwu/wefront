@@ -55,9 +55,8 @@ footer h3:hover {
 
 .wecoding-logo {
     position: absolute;
-    left: 70px;
+    /* left: 70px; */
     font-size: 23px;
-    color: #2d8cf0;
 }
 
 .card-shadow {
@@ -75,7 +74,6 @@ footer h3:hover {
 }
 
 .res-content-div {
-    margin: 16px 10px 16px 8px!important;
     background-color: #fff;
     width: auto;
     overflow: hidden;

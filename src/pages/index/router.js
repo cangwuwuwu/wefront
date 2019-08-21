@@ -3,7 +3,6 @@ import Vue from 'vue';
 
 Vue.use(Router);
 
-import Index from './App.vue'
 import Signin from '@/pages/index/views/signin'
 import Signup from '@/pages/index/views/signup'
 import Cover from '@/pages/index/views/cover'
@@ -23,6 +22,9 @@ export default new Router({
                 'signin': Signin,
                 'signup': Signup
             },
+            meta: {
+                title: '欢迎-Wecoding|便捷的校内信息交流网站'
+            }
         },
         {
             path: '/index/signin',
@@ -32,7 +34,7 @@ export default new Router({
                 'signup': Signup
             },
             meta: {
-                title: '登录-Wecoding:便捷的校内信息交流网站'
+                title: '登录-Wecoding|便捷的校内信息交流网站'
             }
         },
         {
@@ -43,7 +45,7 @@ export default new Router({
                 'signup': Signup
             },
             meta: {
-                title: '注册-Wecoding:便捷的校内信息交流网站'
+                title: '注册-Wecoding|便捷的校内信息交流网站'
             }
         }
     ]

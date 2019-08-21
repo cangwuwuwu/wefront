@@ -2,9 +2,9 @@
 .idea
 node_modules
 /dist
-/src/pages/docs
 /src/assets/images/mdpics
 /src/assets/md
+/src/pages/chat
 
 # local env files
 .env.local

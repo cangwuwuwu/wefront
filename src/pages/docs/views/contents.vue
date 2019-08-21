@@ -39,14 +39,11 @@
     '扫下方的**加入我们**二维码，欢迎同学加入项目开发 (因为我实在是肝不动了:)\n';
 
 export default {
-    name: 'docs',
+    name: 'contents',
     data() {
         return {
             md: marked(mdinit),
         }
-    },
-    created() {
-        
     },
     watch: {
         $route(to) {
@@ -61,7 +58,7 @@ export default {
             var _self = this
             $.ajax({
                 type: 'get',
-                url: '../md/'+ name +'.md',
+                url: '../../md/'+ name +'.md',
                 success(data_md) {
                     _self.md = marked(data_md);
                 },

@@ -11,7 +11,7 @@
                 <Icon type="md-help-circle" size="30"/>
             </Col>
             <Col span="9">
-                <Icon custom="iconfont icon-WE" size="45"/>
+                <Icon custom="iconfont icon-logo6-copy" size="45"/>
             </Col>
         </Row>
         <Row>
@@ -33,8 +33,8 @@
                 </Poptip>
             </Col>
             <Col span="5">
-                <a href="/help"><h3>帮助</h3></a>
-                <a target="_blank" href="/help/update-log"><h3>更新日志</h3></a>
+                <a href="/docs/help"><h3>帮助</h3></a>
+                <a target="_blank" href="/docs/help/update-log"><h3>更新日志</h3></a>
                 <h3 @click="bug = true">反馈Bug</h3>
             </Col>
             <Col span="9">
