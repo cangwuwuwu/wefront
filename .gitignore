@@ -4,7 +4,6 @@ node_modules
 /dist
 /src/assets/images/mdpics
 /src/assets/md
-/src/pages/chat
 
 # local env files
 .env.local

@@ -21,17 +21,17 @@
                     交流讨论
                 </template>
                 <MenuGroup title="现在开始">
-                    <MenuItem to="forum" name="forum">
+                    <MenuItem to="/chat/forum" name="forum">
                         <Icon type="md-chatboxes"></Icon>
                         论坛
                     </MenuItem>
-                    <MenuItem to="chatroom" name="chatroom">
+                    <MenuItem to="/chat/room" name="chatroom">
                         <Icon type="ios-chatbubbles"></Icon>
                         聊天室
                     </MenuItem>
                 </MenuGroup>
             </Submenu>
-            <MenuItem to="help" name="help">
+            <MenuItem to="/docs/help" name="help">
                 <Icon type="md-help-circle" size="16"></Icon>
                 帮助
             </MenuItem>
@@ -87,7 +87,7 @@
                         <DropdownMenu slot="list">
                             <DropdownItem name="#">
                                 <Icon type="md-at" size="17"></Icon>
-                                <span id="username" sec:authentication="name"></span>
+                                <span id="username" sec:authentication="name">admin</span>
                             </DropdownItem>
                             <DropdownItem name="me" divided>
                                 <Icon type="ios-person" size="17"></Icon>
@@ -135,7 +135,7 @@
 
         <div style="padding: 20px">
             <Breadcrumb style="padding: 0 20px 0 20px;">
-                <BreadcrumbItem to="/index">Cover</BreadcrumbItem>
+                <BreadcrumbItem to="/index/cover">Cover</BreadcrumbItem>
                 <BreadcrumbItem to="/home">Home</BreadcrumbItem>
             </Breadcrumb>
             <Row>
@@ -227,67 +227,7 @@
             <Divider orientation="left">我的信息</Divider>
             <div class="card-surround-gray">
                 <Card :bordered="false">
-                    <Row>
-                        <Col span="4">
-                            <img :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuImg"/>
-                            <div class="ivu-head" @click="handleView">
-                                <Icon title="查看大图" type="ios-eye-outline" size="15"></Icon>
-                                查看大图
-                            </div>
-                        </Col>
-                        <Col span="20">
-                            <Upload
-                                    type="drag"
-                                    action="">
-                                <div style="padding: 20px 0">
-                                    <Icon type="ios-cloud-upload" size="20" style="color: #3399ff"></Icon>
-                                    <p>点击或拖拽上传</p>
-                                </div>
-                            </Upload>
-                        </Col>
-                        <Modal title="查看大图" footer-hide v-model="visible">
-                            <img width="60" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuBigImg"
-                                 v-if="visible" style="width: 100%">
-                        </Modal>
-                    </Row>
-                    <div>
-                        {{ myinfo.stuId }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>
-                        {{ myinfo.stuName }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>{{ myinfo.stuGender }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>
-                        {{ myinfo.stuEmail }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>
-                        {{ myinfo.stuArea }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>
-                        {{ myinfo.stuPhone }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>
-                        {{ myinfo.stuBirthday }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <div>
-                        {{ myinfo.stuRegistTime }}
-                    </div>
-                    <div>
-                        {{ myinfo.stuInfo }}
-                        <Icon type="ios-create-outline"/>
-                    </div>
-                    <Spin fix v-if="spinShow">
-                        <Icon type="ios-loading" size=25 class="demo-spin-icon-load"></Icon>
-                        <div>加载中...</div>
-                    </Spin>
+                    <MyInfo/>
                 </Card>
             </div>
 
@@ -363,12 +303,17 @@
 <script>
     import $ from 'jquery'
     import Stomp from 'stompjs'
+    // import VueCropper from 'vue-cropper'
+    // import Cropper from '@/pages/home/views/cropper.vue'
+    import store from '../store'
+    import {formatDate} from '@/assets/js/date.js'
     import Footer from '@/pages/docs/views/footers.vue'
+    import MyInfo from '@/pages/home/views/myinfo.vue'
 
     export default {
         name: 'home',
         components: {
-            Footer
+            Footer, MyInfo
         },
         data() {
             return {
@@ -385,42 +330,43 @@
                 msgcount: 0,
                 value1: 0,
                 value2: '0',
-                myinfo: [],
                 msglist: [],
                 hismsglist: [],
                 allhismsglist: [],
-                spinShow: true,
                 spinShowHis: false,
                 personinfo: false,
-                visible: false,
                 bug: false,
                 loading: false
             }
         },
         mounted: function () {
             // 获取用户名
+            this.username = $("#username").text();
             this.connectMsgWsServer(this.username);
+            // 放到vuex中
+            store.commit('setUsername', this.username)
         },
         methods: {
             connectMsgWsServer(username) {
+                var _self = this;
                 if (username !== '') {
                     var ws = new WebSocket('ws://39.106.85.24:15674/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
-                        this.success('消息服务器连接成功!');
+                        _self.$Message.success('消息服务器连接成功!');
                         client.subscribe('/exchange/wecoding.fanout/', function (msg) {
                             console.log(msg);
                             let jsonMsg = JSON.parse(msg.body);
-                            this.$Notice.info({
+                            _self.$Notice.info({
                                 title: '收到一条' + jsonMsg.msgType + '消息',
                                 desc: jsonMsg.msgHead,
                             });
-                            this.msgcount += 1;
-                            this.msglist.push(jsonMsg);
+                            _self.msgcount += 1;
+                            _self.msglist.push(jsonMsg);
                         })
                     };
                     var onError = function () {
-                        this.success('消息服务器连接失败!')
+                        _self.$Message.error('消息服务器连接失败!')
                     };
                     client.connect('guest', 'guest', onConnect, onError, '/');
                 } else {
@@ -430,16 +376,54 @@
             handleView() {
                 this.visible = true;
             },
+            changeinfo2list(myinfo) {
+                return [
+                    {title: '姓名', value: myinfo.stuName, class: 'tb-point'},
+                    {title: '性别', value: myinfo.stuGender, class: 'tb-point'},
+                    {title: '邮箱', value: myinfo.stuEmail, class: 'tb-point'},
+                    {title: '籍贯', value: myinfo.stuArea, class: 'tb-point'},
+                    {title: '电话', value: myinfo.stuPhone, class: 'tb-point'},
+                    {title: '生日', value: formatDate(new Date(myinfo.stuBirthday), 'yyyy-MM-dd'), class: 'tb-point'},
+                    // {title: '注册日期', value: formatDate(new Date(myinfo.stuRegistTime), 'yyyy-MM-dd hh:mm'), class: 'not-allow'},
+                    {title: '个人简介', value: myinfo.stuInfo, class: 'tb-point'}
+                ];
+            },
             changecolor(type) {
                 this.theme = type;
             },
             go(link) {
+                let _self = this;
                 if (link === 'me') {
                     this.personinfo = true;
-                    $.get("stu/stu-username/" + this.username, function (data_my) {
-                        this.myinfo = data_my;
-                        this.spinShow = false;
-                    });
+                    // $.get("stu/stu-username/" + this.username, function (data_my) {
+                    //     var myinfo = _self.changeinfo2list(data_my);
+                    //     myinfo.stuImg = data_my.stuImg;
+                    //     myinfo.stuBigImg = data_my.stuBigImg;
+                    //     store.commit('getMyInfo', myinfo)
+                    //     _self.spinShow = false;
+                    // });
+                    var a = {
+                        stuArea: "北京市",
+                        stuBigImg: "rBg7v105w4qABS5DAAAKk7Ss4-Q583.png",
+                        stuBirthday: "1969-12-31T00:00:00.000+0000",
+                        stuEmail: "222@qq.com",
+                        stuGender: "猛男",
+                        stuId: 2,
+                        stuImg: "rBg7v105w4qABS5DAAAKk7Ss4-Q583_40x40.png",
+                        stuInfo: "他是管理员.",
+                        stuModifyTime: "2019-08-21T13:26:58.000+0000",
+                        stuName: "admin",
+                        stuPhone: "222",
+                        stuRegistTime: "2019-07-12T16:00:00.000+0000",
+                        stuUsername: "admin",
+                    }
+                    var myinfo = _self.changeinfo2list(a);
+                    myinfo.stuImg = a.stuImg;
+                    myinfo.stuBigImg = a.stuBigImg;
+                    myinfo.stuId = a.stuId;
+                    myinfo.stuUsername = a.stuUsername;
+                    myinfo.stuRegistTime = formatDate(new Date(a.stuRegistTime), 'yyyy-MM-dd hh:mm');
+                    store.commit('getMyInfo', myinfo)
                     this.msgcount = 0;
                 } else window.location = link;
             },

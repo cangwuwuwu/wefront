@@ -18,12 +18,5 @@ export default new Router({
                 window.location = "/guide.html"
             }
         },
-        // {
-        //     path: '/resources',
-        //     component: Resources,
-        //     meta: {
-        //         title: '资源分享-Wecoding:便捷的校内信息交流网站'
-        //     }
-        // },
     ]
 })

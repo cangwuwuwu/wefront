@@ -2002,7 +2002,7 @@ a {
     height:0;
     padding-bottom:50%;
     background-color:#dedede;
-    background-image:url("../images/1.jpg");
+    /* background-image:url("../images/1.jpg"); */
     background-position:center;
     -webkit-background-size:cover;
     -moz-background-size:cover;
@@ -2049,7 +2049,7 @@ a {
     position:absolute;
     right:.5em;
     top:.5em;
-    background-image:url("../images/1.jpg");
+    /* background-image:url("../images/1.jpg"); */
     -webkit-background-size:cover;
     -moz-background-size:cover;
     background-size:cover;
@@ -2300,7 +2300,7 @@ a {
 .msg-audio-btn {
     width:2em;
     height:2em;
-    background-image:url("../lib/files/images/voice/play_d3902da6d6.gif");
+    /* background-image:url("../lib/files/images/voice/play_d3902da6d6.gif"); */
     background-position:center top;
 }
 .msg-audio-btn.playing {
@@ -2447,7 +2447,7 @@ ul,li {
     -webkit-background-size:cover;
     -moz-background-size:cover;
     background-size:cover;
-    -ms-behavior:url("./kehu/files/backgroundsize.min.htc")
+    /* -ms-behavior:url("./kehu/files/backgroundsize.min.htc") */
 }
 .indicator {
     position:relative;
