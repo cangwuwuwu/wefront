@@ -38,7 +38,7 @@ export default {
             tags: ''
         }
     },
-    mounted: function(){
+    mounted() {
         this.getCurrentPathToTags();
     },
     methods: {

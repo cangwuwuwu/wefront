@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+// import Vuex from 'vuex'
 import App from './App.vue'
 import iView from 'iview'
 import router from '@/pages/docs/router'
@@ -10,7 +10,7 @@ import 'highlight.js/styles/github.css';
 
 
 Vue.config.productionTip = false;
-Vue.use(Vuex)
+// Vue.use(Vuex)
 Vue.use(iView);
 
 router.beforeEach((to, from , next) => {
@@ -19,15 +19,6 @@ router.beforeEach((to, from , next) => {
     }
     next()
 });
-
-var store = new Vuex.Store({
-    state: {
-
-    },
-    mutations: {
-        
-    }
-})
 
 new Vue({
     render: h => h(App),

@@ -1,7 +1,7 @@
 <template>
     <div class="signup">
-        <h1>请注册</h1>
-        <Form ref="formItem" :model="formItem"  :rules="ruleValidate" :label-width="80">
+        <h1 class="cover-head">请注册</h1>
+        <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
             <FormItem label="学号" prop="id">
                 <Input v-model="formItem.id" placeholder="南工学号"></Input>
             </FormItem>
@@ -1933,5 +1933,9 @@ export default {
 }
 .left-from-item >>> .ivu-form-item-content {
     margin-left: 0!important;
+}
+.cover-head {
+    padding-bottom: 10px;
+    font-size: 30px
 }
 </style>

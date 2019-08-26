@@ -201,11 +201,7 @@ export default {
             return formatDate(date, 'MM-dd hh:mm')
         }
     },
-    watch: {
-        $route() {
-            this.getCurrentPathToTags();
-        }
-    }
+    
 }
 </script>
 <style scoped>

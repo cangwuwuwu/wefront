@@ -1,5 +1,5 @@
 <template>
-    <footer class="footer">
+    <footer :class="'footer ' + hometheme">
         <Row>
             <Col span="5">
                 <Icon type="logo-github" size="30"/>
@@ -83,6 +83,7 @@ export default {
             loading: false
         }
     },
+    props: ["hometheme"],
     methods: {
             sendfeedback() {
                 if (this.bugtype === '' || this.bugcontent === '')
@@ -105,6 +106,11 @@ export default {
         }
 }
 </script>
-<style scoped>
-
+<style scoped lang="less">
+.dark,.dark a,.purple,.purple a {
+    color: @font-in-dark;
+}
+.primary, .primary a {
+    color: @light-color;
+}
 </style>

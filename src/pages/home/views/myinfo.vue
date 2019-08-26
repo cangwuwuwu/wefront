@@ -1,16 +1,8 @@
 <template>
     <div class="myinfo">
         <Row type="flex" align="middle" style="margin-bottom: 20px">
-            <Col span="4" offset="2">
-                <div class="demo-upload-list">
-                    <img :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuImg"/>
-                    <div class="demo-upload-list-cover">
-                        <Icon title="查看大图" type="md-qr-scanner" @click.native="handleView"></Icon>
-                        <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead"></Icon>
-                    </div>
-                </div>
-            </Col>
-            <Col span="15" offset="3">
+            
+            <Col span="12" offset="2">
                 <Row>
                     <Icon type="ios-contact" size="18"></Icon>
                     <span style="font-size: 25px;font-weight: bold;">{{ myinfo.stuUsername }}</span><br>
@@ -22,7 +14,15 @@
                     {{ myinfo.stuRegistTime }}
                 </Row>
             </Col>
-
+            <Col span="4" offset="4">
+                <div class="demo-upload-list">
+                    <img :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuImg"/>
+                    <div class="demo-upload-list-cover">
+                        <Icon title="查看大图" type="md-qr-scanner" @click.native="handleView"></Icon>
+                        <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead"></Icon>
+                    </div>
+                </div>
+            </Col>
             <Modal footer-hide v-model="visible" class="handle-view-modal">
                 <img width="60" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuBigImg"
                      v-if="visible" style="width: 100%;height: 100%">
@@ -97,6 +97,9 @@
                     <Col span="1" offset="1">
                         <h1>预览</h1>
                     </Col>
+                    <Col span="5" offset="4" v-if="previews.url === ''">
+                        <img style="width:500px" src="@/assets/images/upload.svg"/>
+                    </Col>
                     <Col span="2">
                         <div :style="previewStyle2">
                             <div :style="previews.div">
@@ -116,7 +119,7 @@
                              :style="{'width': previews.w + 'px', 'height': previews.h + 'px',
                              'overflow': 'hidden','margin': '5px','border-radius': '50%'}">
                             <div :style="previews.div">
-                                <img :src="option.img" :style="previews.img">
+                                <img :src="previews.url" :style="previews.img">
                             </div>
                         </div>
                     </Col>
@@ -145,12 +148,12 @@
                             </th>
                             <th class="" style="width: 15%;">
                                 <div>
-                                    <div v-if="index === editInput" :class="'ivu-table-cell ' + my.class">
+                                    <div v-if="index === editInput" class="ivu-table-cell tb-point">
                                         <Icon type="md-checkmark-circle-outline" size="20"
                                               @click.native="saveInfo(index, my.value)"></Icon>
                                         <Icon type="md-close-circle" size="20" @click.native="cancelInfo(index)"></Icon>
                                     </div>
-                                    <div v-else :class="'ivu-table-cell ' + my.class">
+                                    <div v-else class="ivu-table-cell tb-point">
                                         <Icon type="ios-create-outline" size="20"
                                               @click.native="modifyInfo(index, my.value)"></Icon>
                                     </div>
@@ -219,7 +222,6 @@
         watch: {
             changeMyInfo() {
                 this.myinfo = this.$store.state.myinfo;
-                console.log(this.myinfo)
             }
         },
         methods: {
@@ -244,13 +246,13 @@
                     this.$Message.error('邮箱不能为空！');
                     return;
                 }
+                let _self = this;
                 $.ajax({
-                    url: 'stu/stu-id',
-                    type: 'post',
+                    url: 'http://192.168.137.1:8080/stu',
+                    type: 'put',
+                    // contentType:"application/json",
                     data: {
                         stuId: this.myinfo.stuId,
-                        stuUsername: this.myinfo.stuUsername,
-                        stuRegistTime: this.myinfo.stuRegistTime,
                         stuName: this.myinfo[0].value,
                         stuGender: this.myinfo[1].value,
                         stuEmail: this.myinfo[2].value,
@@ -260,15 +262,15 @@
                         stuInfo: this.myinfo[6].value,
                     },
                     success(update_info) {
-                        this.editInput = -1;
+                        _self.editInput = -1;
                         if (update_info === 1)
-                            this.$Message.success('更新成功!');
+                            _self.$Message.success('更新成功!');
                         else
-                            this.$Message.error('出错了,请稍后再试');
+                            _self.$Message.error('出错了,请稍后再试');
                     },
                     error() {
-                        this.$Message.error('x_x好像哪里出错了...');
-                        this.cancelInfo(index)
+                        _self.$Message.error('x_x好像哪里出错了...');
+                        _self.cancelInfo(index)
                     }
                 })
             },
@@ -296,15 +298,19 @@
                             processData: false,
                             contentType : false,
                             data: formData,
-                            success(data_myinfo) {
-                                _self.myinfo.stuImg = data_myinfo.stuImg;
-                                _self.myinfo.stuBigImg = data_myinfo.stuBigImg;
+                            success(data_myhead) {
+                                _self.$emit('updateHead', data_myhead.stuImg)
+                                console.log(data_myhead.stuImg)
+                                _self.myinfo.stuImg = data_myhead.stuImg;
+                                _self.myinfo.stuBigImg = data_myhead.stuBigImg;
                                 _self.$Message.success('上传成功!')
                                 _self.head_loading = false;
+                                _self.visibleUpload = false
                             },
                             error() {
                                 _self.$Message.error('发生了一点小意外,头像上传失败了')
                                 _self.head_loading = false;
+                                _self.visibleUpload = false
                             }
                         })
                     })
@@ -505,4 +511,5 @@
         background-size: 20px 20px;
         background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%),linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
     }
+    
 </style>

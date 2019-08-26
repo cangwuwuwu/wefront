@@ -3,7 +3,7 @@
 node_modules
 /dist
 /src/assets/images/mdpics
-/src/assets/md
+/public/md/
 
 # local env files
 .env.local

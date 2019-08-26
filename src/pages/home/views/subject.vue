@@ -1,107 +1,161 @@
 <template>
-    
+    <div class="subject">
+        <Row type="flex" align="middle" class="subject-row">
+            <Col span="15">
+                <img src="@/assets/images/features_overview.svg" class="subject-img"/>
+            </Col>
+            <Col span="6" offset="3">
+                <div id="guide" class="subject-head">校园指南</div>
+                <Collapse simple>
+                    <Panel>
+                        GUIDE
+                        <p slot="content">
+                            <Row>
+                                <Col span="19">
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    学校信息 <br>
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    新生专区 <br>
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    其他指南 <br>
+                                </Col>
+                                <Col span="5" style="padding-top: 10px">
+                                    <!-- <Icon type="ios-arrow-forward" size="50" @click="goesto('/docs/guide')" style="cursor: pointer"/> -->
+                                    <!-- <span style="font-size: 25px">前往</span> -->
+                                </Col>
+                            </Row>
+                        </p>
+                    </Panel>
+                </Collapse>
+            </Col>
+        </Row>
+        <Row type="flex" align="middle" class="subject-row">
+            <Col span="6" style="text-align: right">
+                <div id="resource" class="subject-head" >资源分享</div>
+                <Collapse simple>
+                    <Panel>
+                        RESOURCE
+                        <p slot="content">
+                            <Row>
+                                <Col span="5" style="padding-top: 20px">
+                                    <!-- <Icon type="ios-arrow-back" size="50" @click="goesto('/docs/resources')" style="cursor: pointer"/> -->
+                                </Col>
+                                <Col span="19">
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    学习视频 <br>
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    PDF资源 <br>
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    在线资料 <br>
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    学习路线 <br>
+                                </Col>
+                            </Row>
+                        </p>
+                    </Panel>
+                </Collapse>
+            </Col>
+            <Col span="15" offset="3">
+                <img src="@/assets/images/filing_system.svg" class="subject-img"/>
+            </Col>
+        </Row>
+        <Row type="flex" align="middle" class="subject-row">
+            <Col span="15">
+                <img src="@/assets/images/conversation.svg" class="subject-img"/>
+            </Col>
+            <Col span="6" offset="3">
+                <div id="conversation" class="subject-head" >交流讨论</div>
+                <Collapse simple>
+                    <Panel>
+                        CONVERSATION
+                        <p slot="content">
+                            <Row>
+                                <Col span="19">
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    交流论坛 <br>
+                                    <Icon type="md-radio-button-off" size="25"/>
+                                    在线聊天 <br>
+                                </Col>
+                                <Col span="5">
+                                    <!-- <Icon type="ios-arrow-forward" size="50" @click="goesto('/chat/room')" style="cursor: pointer"/> -->
+                                </Col>
+                            </Row>
+                        </p>
+                    </Panel>
+                </Collapse>
+            </Col>
+        </Row>
+        <Row type="flex" align="middle" class="subject-row">
+            <Col span="6" style="text-align: right">                
+                <div id="photo" class="subject-head" >照片墙</div>
+                <Collapse simple>
+                    <Panel>
+                        PHOTOS
+                        <p slot="content">
+                            
+                            
+                        </p>
+                    </Panel>
+                </Collapse>
+            </Col>
+            <Col span="15" offset="3">
+                <img src="@/assets/images/image_post.svg" class="subject-img"/>
+            </Col>
+        </Row>
+        <Row type="flex" align="middle" class="subject-row">
+            <Col span="15">
+                <img src="@/assets/images/questions.svg" class="subject-img"/>
+            </Col>
+            <Col span="6" offset="3">
+                <div id="help" class="subject-head">获取帮助</div><Collapse simple>
+                    <Panel>
+                        HELP
+                        <p slot="content">
+                            <Icon type="md-radio-button-off" size="25"/>
+                            更新日志 <br>
+                        </p>
+                    </Panel>
+                </Collapse>
+            </Col>
+        </Row>
+        
+    </div>
 </template>
 <script>
-import $ from 'jquery'
-import VueCropper from 'vue-cropper'
-
 export default {
     name: 'subject',
-    components: { 
-      VueCropper 
-    }, 
     data() {
         return {
-            option: {
-                img: "",                         //裁剪图片的地址
-                info: true,                      //裁剪框的大小信息
-                outputSize: 0.7,                   // 裁剪生成图片的质量
-                outputType: 'jpeg',              //裁剪生成图片的格式
-                canScale: true,                 // 图片是否允许滚轮缩放
-                autoCrop: true,                  // 是否默认生成截图框
-                autoCropWidth: 100,              // 默认生成截图框宽度
-                autoCropHeight: 100,             // 默认生成截图框高度
-                fixed: false,                    //是否开启截图框宽高固定比例
-                fixedNumber: [4, 4]              //截图框的宽高比例
-            },
-            status:'',
-            headImg:''
+            
         }
     },
-    mounted() {
-        let _self = this;
-        $("input[type='file']").change(function(){
-            // Indicator.open();
-            let file = this.files[0];
-            if (window.FileReader) {
-                let reader = new FileReader();
-                reader.readAsDataURL(file);
-                //监听文件读取结束后事件    
-                reader.onloadend = function (e) {
-                    _self.option.img = e.target.result;
-                    // Indicator.close();
-                };
-            }
-        });
-    },
     methods: {
-        compressImg:function () {
-            let _self = this;
-            this.$refs.cropper.startCrop();
-            this.$refs.cropper.getCropData((data) => {
-                let file = _self.convertBase64UrlToBlob(data);
-                file.name = 'head.jpg';
-                _self.uploadAction(file);
-            })
-        },
-        uploadAction:function (file) {
-            // Indicator.open();
-            let _self = this;
-            let param = new FormData();  // 创建form对象
-            param.append('pics', file, file.name);  // 通过append向form对象添加数据
-            let config = {
-                headers: {'Content-Type': 'multipart/form-data'}
-            };
-            // 添加请求头
-            this.$axios.post('/appapi/user/i/up-headimg/pics', param, config)
-                .then(response => {
-                    if(response.status == 200){
-                        let data = response.data;
-                        // Indicator.close();
-                        //处理服务器返回数据
-                    }
-                })
-                .catch(error=>{
-                    // Indicator.close();
-                    console.log(error);
-                })
-        },
-        // 将base64的图片转换为file文件
-        convertBase64UrlToBlob(urlData) {
-            let bytes = window.atob(urlData.split(',')[1]);//去掉url的头，并转换为byte
-            //处理异常,将ascii码小于0的转换为大于0
-            let ab = new ArrayBuffer(bytes.length);
-            let ia = new Uint8Array(ab);
-            for (var i = 0; i < bytes.length; i++) {
-                ia[i] = bytes.charCodeAt(i);
-            }
-            return new Blob([ab], { type: 'image/jpeg' });
-        },
+        goesto(url) {
+            window.open(url);
+        }
     },
 }
+
 </script>
 
 <style scoped>
-    .btn{
-        width: 80%;
-        height: 40px;
-        margin-top: 50px;
-        color: white;
-        border-radius: 20px;
-        background-color: #3377ff;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-left: 10%;
+    .subject {
+        font-size: 17px;
+        box-shadow: 0 1px 6px rgba(0,0,0,.2);
+        border-color: #eee;
+        border-radius: 5px;
+    }
+
+    .subject-row {
+        padding: 50px
+    }
+
+    .subject-img {
+        width: 100%; 
+        height: auto;
+    }
+
+    .subject-head {
+        border-bottom: 1px solid black;font-weight: bold; font-size: 35px;margin-bottom: 25px
     }
 </style>

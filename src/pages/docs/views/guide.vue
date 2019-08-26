@@ -89,10 +89,7 @@
                 this.tagSet.delete(tag);
                 // console.log(index, tag)
             }
-        },
-        computed: {
-            
-        },
+        }
     }
 </script>
 
