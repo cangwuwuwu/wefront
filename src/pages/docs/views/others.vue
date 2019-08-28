@@ -5,7 +5,7 @@
         <div>
             <Card style="padding: 20px;border: 1px solid #dcdee2;">
                 <Row type="flex" justify="center" align="bottom">
-                    <img :src="'@/assets/images/' + name + '_path.jpg'"/>
+                    <img :src="'http://39.106.85.24:8999/' + choose + '_path.jpg'"/>
                 </Row>
             </Card>
         </div>
@@ -26,5 +26,6 @@ export default {
             cardhight: '900px'
         }
     },
+    props: ["choose"]
 }
 </script>

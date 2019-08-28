@@ -23,7 +23,8 @@
                         <Card>
                             <Row>
                                 <Col span="4">
-                                    <Avatar size="large" :style="{background: color[ranum()]}">{{user.stuUsername.substr(0,1)}}</Avatar>
+                                    <Avatar v-if="user.stuImg === '' || user.stuImg === null" size="large" :style="{background: color[ranum()]}">{{user.stuUsername.substr(0,1)}}</Avatar>
+                                    <Avatar v-else size="large" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + user.stuImg"></Avatar>
                                 </Col>
                                 <Col span="16" offset="4" class-name="user-right-col">
                                     <strong><div class="my-0" v-text="user.stuUsername">Username</div></strong>
@@ -63,112 +64,35 @@ export default {
     components: {},
     data() {
         return {
-            fivestus: [
-                {
-                    stuId: 2017101943,
-                    stuUsername: '大大大大大大大大大大大大哥',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101944,
-                    stuUsername: '小弟1',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101945,
-                    stuUsername: '小弟2',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101946,
-                    stuUsername: '小弟3',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101947,
-                    stuUsername: '小弟4',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101948,
-                    stuUsername: '小弟5',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101949,
-                    stuUsername: '小弟6',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101940,
-                    stuUsername: '小弟7',
-                    stuRegistTime: new Date()
-                }
-            ],
-            allstus: [
-                {
-                    stuId: 2017101943,
-                    stuUsername: '大大大大大大大大大大大大哥',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101944,
-                    stuUsername: '小弟1',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101945,
-                    stuUsername: '小弟2',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101946,
-                    stuUsername: '小弟3',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101947,
-                    stuUsername: '小弟4',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101948,
-                    stuUsername: '小弟5',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101949,
-                    stuUsername: '小弟6',
-                    stuRegistTime: new Date()
-                },
-                {
-                    stuId: 2017101940,
-                    stuUsername: '小弟7',
-                    stuRegistTime: new Date()
-                }
-            ],
+            fivestus: [],
+            allstus: [],
             color: ['#f56a00', '#7265e6', '#ffbf00', '#00a2ae',
                 '#333', '#ccc', '#dc3545', '#007bff',
                 '#28a745', '#6f42c1', '#eeaeee', '#00ffff'],
-            length: 8,
-            loading1: false,
+            length: 0,
+            loading1: true,
             keywords: ''
         }
+    },
+    mounted() {
+        this.getFiveMethod();
     },
     methods: {
         getFiveMethod() {
             // 加载右侧五位学生列表
             this.$Loading.start();
+            let _self = this;
             axios
-                .get('/signup/getFive')
+                .get('/api/signup/getFive')
                 .then(function (res) {
-                    this.allstus = res.allList;
-                    this.fivestus = res.randomList;
-                    this.length = res.len;
-                    this.loading1 = false;
-                    this.$Loading.finish();
+                    // console.log(res)
+                    _self.allstus = res.data.allList;
+                    _self.fivestus = res.data.randomList;
+                    _self.length = res.data.len;
+                    _self.loading1 = false;
+                    _self.$Loading.finish();
                 }).catch(function () {
-                this.$Loading.error();
+                _self.$Loading.error();
             })
         },
         goto(url) {
@@ -265,7 +189,6 @@ export default {
 }
 .cover >>> .ivu-spin-fix {
     z-index: 11;
-    background-color: rgba(241,242,242,.9);
 }
 
 .cover >>> .circular {

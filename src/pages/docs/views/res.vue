@@ -83,11 +83,11 @@
             </div>
         </Col>
         <Col span="20">
-            <router-view name="videos"></router-view>
+            <router-view :choose="real_choose" name="videos"></router-view>
            
-            <router-view name="web"></router-view>
+            <router-view :choose="real_choose" name="web"></router-view>
         
-            <router-view name="others"></router-view>
+            <router-view :choose="real_choose" name="others"></router-view>
         </Col>
     </Row>
 </template>
@@ -105,9 +105,25 @@ export default {
         if (this.choose === '/docs/resources') return;
         this.$router.push(this.choose)
     },
+    // watch: {
+    //     $router(to) {
+    //         this.choose = to.path
+    //         if (this.choose === '/docs/resources') return;
+    //         this.$router.push(this.choose)
+    //     }
+    // },
     methods: {
         chooseRes(name) {
             this.$router.push(name)
+            this.choose = name
+        }
+    },
+    computed: {
+        real_choose() {
+            let path = this.choose
+            // console.log(this.choose)
+            let index = path.lastIndexOf("\/")
+            return path.substring(index + 1, path.length).toLowerCase();
         }
     },
 }

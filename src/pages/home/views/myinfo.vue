@@ -248,7 +248,7 @@
                 }
                 let _self = this;
                 $.ajax({
-                    url: 'http://192.168.137.1:8080/stu',
+                    url: '/api/stu',
                     type: 'put',
                     // contentType:"application/json",
                     data: {
@@ -293,7 +293,7 @@
                         formData.append("file", data, name + '.png');
                         formData.append("stuId", stuId);
                         $.ajax({
-                            url: 'http://192.168.137.1:8080/stu/uploadheadimg',
+                            url: '/api/stu/uploadheadimg',
                             type: 'post',
                             processData: false,
                             contentType : false,

@@ -7,11 +7,11 @@
                         <Menu width="310" :active-name="choose" @on-select="path2Docs">
                             <div class="navigate-group catalogue">引导</div>
                             <MenuGroup title="功能介绍">
-                                <MenuItem name="/docs/help/bootstrap1">bootstrap1</MenuItem>
-                                <MenuItem name="/docs/help/bootstrap2">bootstrap2</MenuItem>
+                                <!-- <MenuItem name="/docs/help/bootstrap1">bootstrap1</MenuItem>
+                                <MenuItem name="/docs/help/bootstrap2">bootstrap2</MenuItem> -->
                             </MenuGroup>
                             <MenuGroup title="开发文档">
-                                <MenuItem name="/docs/help/document1">document1</MenuItem>
+                                <!-- <MenuItem name="/docs/help/document1">document1</MenuItem> -->
                             </MenuGroup>
                             <MenuGroup title="关于">
                                 <MenuItem name="/docs/help/update-log">更新日志</MenuItem>

@@ -233,18 +233,21 @@ export default {
             searchName: '',
             data: [],
             data_search: [],
-
         }
     },
+    props: ["choose"],
     mounted() {
         
     },
     watch: {
-        $route(to) {
-            let path = to.path
-            let index = path.lastIndexOf("\/")
-            path = path.substring(index + 1, path.length);
-            this.getRes(path);
+        choose: {
+            immediate:true,
+            handler:function() {
+                // console.log(this.choose)
+                if (this.choose !== '') {
+                    this.getRes(this.choose);
+                }
+            }
         }
     },
     methods: {
@@ -259,7 +262,6 @@ export default {
                     resUrl: list[i].resUrl,
                     resPassword: list[i].resPassword,
                     resUpTime: list[i].resUpTime,
-                    resFailTime: list[i].resFailTime,
                     resId: list[i].resMore.resId,
                     resHeat: list[i].resMore.resHeat,
                     resStatus: list[i].resMore.resStatus,
@@ -271,21 +273,19 @@ export default {
         getRes(name) {
             this.$Loading.start();
             this.loading= true;
-            this.name = name.toLowerCase();
             var _self = this;
             $.ajax({
-                url: 'resources/res/' + this.name,
+                url: '/api/resources/res/' + name,
                 data: {
                     page: this.page,
                     limit: 10
                 },
                 type: 'get',
                 success(res_language) {
-                    console.log(res_language);
+                    // console.log(res_language);
                     _self.data = _self.resTableData(res_language.list);
                     _self.total = res_language.total;
                     _self.page = res_language.pageNum;
-                    _self.$Loading.finish();
                     _self.loading = false;
                 },
                 error() {
@@ -311,7 +311,7 @@ export default {
             this.loading= true;
             var _self = this;
             $.ajax({
-                url: 'resources/search',
+                url: '/api/resources/search',
                 type: 'get',
                 data: {
                     page: _self.page,
@@ -345,7 +345,6 @@ export default {
             const status = arow.resStatus === 1 ? '有效' : '失效';
             const colorstatus = arow.resStatus === 1 ? 'success' : 'error';
             const uptime = arow.resUpTime;
-            const failtime = arow.resFailTime;
             const point = arow.resPoint;
             const count = arow.resHeat;
             const up = arow.resUploader;
@@ -460,30 +459,16 @@ export default {
                                 fontWeight: 'bold',
                                 fontSize: 25
                             }
-                        }, '有效时间 USETIME: '),
+                        }, '上传日期 UPTIME: '),
                         h('Tag', {
                             props: {
                                 type: 'border',
                                 color: 'primary'
                             }
                         }, [
-                            h('i-Time', {
+                            h('Time', {
                                 props: {
                                     time: uptime,
-                                    type: 'date'
-                                }
-                            })
-                        ]),
-                        h('span', '-  '),
-                        h('Tag', {
-                            props: {
-                                type: 'border',
-                                color: 'primary'
-                            }
-                        }, [
-                            h('i-Time', {
-                                props: {
-                                    time: failtime,
                                     type: 'date'
                                 }
                             })
@@ -534,7 +519,7 @@ export default {
         },
         countplus(params) {
             $.ajax({
-                url: 'resources/count',
+                url: '/api/resources/count',
                 type: 'post',
                 data: {
                     resId: params.row.resId

@@ -21,6 +21,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
     name: 'web',
     data() {
@@ -82,17 +83,30 @@ export default {
             name: '',
         }
     },
+    props: ["choose"],
     methods: {
-        getWebs() {
+        getWebs(name) {
             var _self = this;
-            $.ajax({
-                url: 'resources/web/' + _self.name,
-                type: 'get',
-                success(data_webs) {
-                    _self.data_web = data_webs;
-                }
+            axios
+            .get('/api/resources/web/'+ name)
+            .then(function(res) {
+                // console.log(res)
+                _self.data_web = res.data;
+                _self.$Loading.finish();
+            })
+            .catch(function(error) {
+                _self.$Loading.error();
             })
         },
+    },
+    watch: {
+        choose: {
+            immediate:true,
+            handler:function() {
+                if (this.choose === '') return;
+                this.getWebs(this.choose);
+            }
+        }
     },
 }
 </script>

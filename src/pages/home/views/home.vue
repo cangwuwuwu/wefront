@@ -2,7 +2,7 @@
     <div :class="'home ' + headtheme">
         <Menu mode="horizontal" :theme="headtheme"
                @on-select="selectMenu">
-            <MenuItem to="index" name="index" title="返回封面">
+            <MenuItem to="/" name="index" title="返回封面">
                 <!-- <Icon type="md-backspace" size="30"></Icon> -->
                 <span>返回封面</span>
             </MenuItem>
@@ -65,11 +65,11 @@
                 </MenuGroup>
             </Submenu>
             <MenuItem name="6" style="float: right;">
-                <div sec:authorize="isAuthenticated()">
+                <div>
                     <Dropdown @on-click="go">
                         <template>
                             <badge :count="msgcount">
-                                <Avatar v-if="headImg !== undefined" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + headImg"/>
+                                <Avatar v-if="headImg !== ''" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + headImg"/>
                                 <Avatar v-else icon="ios-person"/>
                             </badge>
                         </template>
@@ -79,7 +79,7 @@
                         <DropdownMenu slot="list">
                             <DropdownItem name="#">
                                 <Icon type="md-at" size="17"></Icon>
-                                <span id="username" sec:authentication="name">aaa</span>
+                                <span id="username" sec:authentication="name"></span>
                             </DropdownItem>
                             <DropdownItem name="me" divided>
                                 <Icon type="ios-person" size="17"></Icon>
@@ -304,7 +304,7 @@
         },
         mounted: function () {
             // 获取用户名
-            this.username = $("#username").text();
+            // this.username = $("#username").text();
 
             this.getMyinfoByUsername(this.username);
             this.connectMsgWsServer(this.username);
@@ -315,7 +315,7 @@
             getMyinfoByUsername(username) {
                 let _self = this;
                 $.ajax({
-                    url: 'http://192.168.137.1:8080/stu/stu-username/' + username,
+                    url: '/api/stu/username/' + username,
                     type: 'get',
                     processData: false,
                     contentType : false,
@@ -384,7 +384,7 @@
                 this.$refs[name].validate((valid) => {
                     if (valid) {
                         $.ajax({
-                            url: 'http://192.168.137.1:8080/stu/account',
+                            url: '/api/stu/account',
                             type: 'put',
                             data: {
                                 stuUsername: _self.username,
@@ -441,8 +441,6 @@
                 } else window.location = link;
             },
             selectMenu(name) {
-                // if (name.substr(0, 1) === '@') {              
-                // }
                 if (name === 'light' || name === 'dark' || 
                 name === 'primary' || name === 'pink' ) {
                     this.headtheme = name;
@@ -452,7 +450,7 @@
                 this.spinShowHis = true;
                 let _self = this;
                 $.ajax({
-                    url: 'http://192.168.137.1:8080/mymsg',
+                    url: '/api/mymsg',
                     type: 'get',
                     success(data_history_msg) {
                         console.log(data_history_msg);

@@ -4,7 +4,15 @@ const path = require('path')
 
 module.exports = {
     devServer: {
-        port: 8081,     // 端口
+        port: 8081, // 端口
+        proxy: {     // 跨域代理
+            '/api': {
+                target: 'http://localhost:8080',
+                pathRewrite: {
+                    '^/api': ''
+                }
+            }
+        }    
     },
     lintOnSave: false,
     pages: {
