@@ -8,36 +8,38 @@
         </Row>
 
         <div style="position: relative;">
-            <Row>
-                <Col span="6">
+            <Row type="flex">
+                <Col :md="{span: 7, offset:3}" :xs="{span: 8}">
                     <Tag color="geekblue">总用户数</Tag>
                     <Badge :count="length" class-name="demo-badge-alone"></Badge>
                 </Col>
-                <Col span="8" offset="8">
-                    <Input search placeholder="Search Username / ID" v-model="keywords" style="width: 300px" />
+                <Col :md="{span: 5}" :xs="{span: 12, offset: 4}">
+                    <Input search placeholder="Search Username / ID" v-model="keywords" style="width: 100%" />
                 </Col>
             </Row>
-            <Row :gutter="16" type="flex" align="middle">
-                <Col span="6" v-for="user in search(keywords)" :key="user.stuId" class-name="user-list-col">
-                    <div @click="displays(user.stuId)">
-                        <Card>
-                            <Row>
-                                <Col span="4">
-                                    <Avatar v-if="user.stuImg === '' || user.stuImg === null" size="large" :style="{background: color[ranum()]}">{{user.stuUsername.substr(0,1)}}</Avatar>
-                                    <Avatar v-else size="large" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + user.stuImg"></Avatar>
-                                </Col>
-                                <Col span="16" offset="4" class-name="user-right-col">
-                                    <strong><div class="my-0" v-text="user.stuUsername">Username</div></strong>
-                                    <small class="text-muted" v-text="user.stuId">ID</small>
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col offset="12">
-                                    <span class="text-muted">{{ user.stuRegistTime | formatDateTime }}</span>
-                                </Col>
-                            </Row>
-                        </Card>
-                    </div>
+            <Row :gutter="16" type="flex" align="middle" justify="center" style="margin:auto">
+                <Col :md="{span: 14}">
+                    <Col :md="{span: 6}" :xs="{span: 12}" v-for="user in search(keywords)" :key="user.stuId" class-name="user-list-col">
+                        <div @click="displays(user)">
+                            <Card style="height:116px">
+                                <Row>
+                                    <Col span="4">
+                                        <Avatar v-if="user.stuImg === '' || user.stuImg === null" size="large" :style="{background: color[ranum()]}">{{user.stuUsername.substr(0,1)}}</Avatar>
+                                        <Avatar v-else size="large" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + user.stuImg"></Avatar>
+                                    </Col>
+                                    <Col span="16" offset="4" class-name="user-right-col">
+                                        <strong><div class="my-0" v-text="user.stuUsername">Username</div></strong>
+                                        <small class="text-muted" v-text="user.stuId">ID</small>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col offset="12">
+                                        <span class="text-muted"><Time :time="user.stuRegistTime"/></span>
+                                    </Col>
+                                </Row>
+                            </Card>
+                        </div>
+                    </Col>
                 </Col>
             </Row>
             <Spin fix v-if="loading1">
@@ -53,12 +55,106 @@
                 <div style="padding-top: 100px">什么都没找到...</div>
             </col>
         </Row>
+
+        <Modal footer-hide width="1000" v-model="seehisinfo">
+            <Row style="padding: 20px;font-size: 14px;" type="flex" align="middle">
+                <Col :md="{span:3}" :xs="{span:5}">
+                    <div>头像:  </div>
+                </Col>
+                <Col :md="{span:5}" :xs="{span:6}" >
+                    <div class="head-area">
+                        <Avatar v-if="chooseUser.stuImg === '' || chooseUser.stuImg === null" size="large" class="anonymity-head">{{chooseUser.stuUsername.substr(0,1)}}</Avatar>
+                        <img v-else style="height: 100%;border-radius: 50%;" alt=" ta的头像" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + chooseUser.stuImg"/>
+                    </div>
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>ID学号:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuId }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>昵称:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuUsername }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>真实姓名:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuName }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>性别:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuGender }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>邮箱地址:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuEmail }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>籍贯:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuArea }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>联系方式:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuPhone }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>生日:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuBirthday | formatDate }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>注册日期:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:10}">
+                    {{ chooseUser.stuRegistTime | formatDateTime }}
+                </Col>
+            </Row>
+            <Row style="padding: 20px;font-size: 14px;">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>个人简介:  </div>
+                </Col>
+                <Col :md="{span:12}" :xs="{span:12}">
+                    {{ chooseUser.stuInfo }}
+                </Col>
+            </Row>
+        </Modal>
     </div>
 </template>
 
 <script>
     import axios from 'axios'
-    import { formatDate } from "@/assets/js/date.js"
+    import '@/utils/filter_utils'
 export default {
     name: 'cover',
     components: {},
@@ -71,7 +167,9 @@ export default {
                 '#28a745', '#6f42c1', '#eeaeee', '#00ffff'],
             length: 0,
             loading1: true,
-            keywords: ''
+            keywords: '',
+            seehisinfo: false,
+            chooseUser: {}
         }
     },
     mounted() {
@@ -84,15 +182,15 @@ export default {
             let _self = this;
             axios
                 .get('/api/signup/getFive')
-                .then(function (res) {
-                    // console.log(res)
+                .then(res => {
+                // console.log(res)
+                if (res) {
                     _self.allstus = res.data.allList;
                     _self.fivestus = res.data.randomList;
                     _self.length = res.data.len;
                     _self.loading1 = false;
                     _self.$Loading.finish();
-                }).catch(function () {
-                _self.$Loading.error();
+                }
             })
         },
         goto(url) {
@@ -115,16 +213,11 @@ export default {
                 }
             });
         },
-        displays(name) {
-            this.$Message.info('显示'+name+'的个人信息')
+        displays(user) {
+            this.seehisinfo = true
+            this.chooseUser = user
         }
-    },
-    filters: {
-        formatDateTime (time) {
-            let date = new Date(time);
-            return formatDate(date, 'MM-dd hh:mm')
-        }
-    },
+    }
     
 }
 </script>
@@ -218,9 +311,18 @@ export default {
     position: relative;
     margin: 0 auto;
 }
-/* .ivu-spin {
-    color: #2d8cf0;
-    vertical-align: middle;
+.head-area {
+    height: 80px; 
+    width:80px;
+    border-radius:50%; 
+    box-shadow:-1px 6px 4px #333333;
+}
+.anonymity-head {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 50px;
     text-align: center;
-} */
+    padding-top: 20px;
+}
 </style>

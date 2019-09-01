@@ -7,9 +7,11 @@
 
         <Footer></Footer>
 
-        <Back-Top :height="100">
-            <div class="top"><Icon type="ios-arrow-up" /></div>
-        </Back-Top>
+        <Col :md="{span:1}" :xs="{span:0}"> 
+            <Back-Top :height="100">
+                <div class="top"><Icon type="ios-arrow-up" /></div>
+            </Back-Top>
+        </Col>
     </div>
 </template>
 

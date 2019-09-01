@@ -1,46 +1,53 @@
 <template>
     <div :class="'home ' + headtheme">
+        <Col>
         <Menu mode="horizontal" :theme="headtheme"
                @on-select="selectMenu">
-            <MenuItem to="/" name="index" title="返回封面">
-                <!-- <Icon type="md-backspace" size="30"></Icon> -->
-                <span>返回封面</span>
+            <MenuItem to="/" name="index" class="wecoding-logo" title="返回封面">
+                <span><Icon custom="iconfont icon-logo6-copy" size="32"></Icon>coding</span>
             </MenuItem>
-            <MenuItem to="/docs/guide" target="_blank" name="guide">
+            <Col :md="{span: 17}" :xs="{span: 0}">
+                <MenuItem to="/docs/guide" name="guide">
                 <Icon type="ios-paper"></Icon>
-                校园指南
-            </MenuItem>
-            <MenuItem to="/docs/resources" target="_blank" name="resources">
-                <Icon type="logo-buffer" size="16"></Icon>
-                资源分享
-            </MenuItem>
-            <Submenu name="talk-chat">
+                    校园指南
+                </MenuItem>
+                <MenuItem to="/docs/resources" name="resources">
+                    <Icon type="logo-buffer" size="16"></Icon>
+                    资源分享
+                </MenuItem>
+                <Submenu name="talk-chat">
                 <template slot="title">
                     <Icon type="ios-stats"></Icon>
                     交流讨论
                 </template>
                 <MenuGroup title="现在开始">
-                    <MenuItem to="/chat/forum" target="_blank" name="forum">
+                    <MenuItem to="/chat/forum" name="forum">
                         <Icon type="md-chatboxes"></Icon>
                         论坛
                     </MenuItem>
-                    <MenuItem to="/chat/room" target="_blank" name="chatroom">
+                    <MenuItem to="/chat/room" name="chatroom">
                         <Icon type="ios-chatbubbles"></Icon>
                         聊天室
                     </MenuItem>
                 </MenuGroup>
             </Submenu>
-            <MenuItem to="/docs/help" target="_blank" name="help">
-                <Icon type="md-help-circle" size="16"></Icon>
-                帮助
-            </MenuItem>
-            <Poptip trigger="hover" title="相信我!  点进去你就出不来了 " content="戴上耳机，好好放松一下吧！">
-                <MenuItem to="https://static.hfi.me/mikutap/" target="_blank" name="relax">
-                    <Icon type="md-musical-note"></Icon>
-                    放松一下
+                <MenuItem to="/docs/help" name="help">
+                    <Icon type="md-help-circle" size="16"></Icon>
+                    帮助
                 </MenuItem>
-            </Poptip>
-            <Submenu name="choose-theme" style="float: right;">
+                <Poptip trigger="hover" title="相信我!  点进去你就出不来了 " content="戴上耳机，好好放松一下吧！">
+                    <MenuItem to="https://static.hfi.me/mikutap/" target="_blank" name="relax">
+                        <Icon type="md-musical-note"></Icon>
+                        轻松一下
+                    </MenuItem>
+                </Poptip>
+            </Col>
+            
+            <Col :md="{span: 0}" :xs="{span:2}" style="float: right;padding-right: 20px;cursor: pointer">
+                <Icon type="md-menu" size="25" @click="openmenu"/>
+            </Col>
+            <!-- <Col :xs="{span: 0}" :md="{span: 3}"> -->
+                <Submenu name="choose-theme" class="change-theme" style="float: right;">
                 <template slot="title">
                     <Icon type="md-color-palette"></Icon>
                     更换主题
@@ -64,12 +71,14 @@
                     </MenuItem>
                 </MenuGroup>
             </Submenu>
+            <!-- </Col> -->
             <MenuItem name="6" style="float: right;">
-                <div>
+                <div v-if="hasLogin !== false">
                     <Dropdown @on-click="go">
                         <template>
                             <badge :count="msgcount">
-                                <Avatar v-if="headImg !== ''" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + headImg"/>
+                                <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" 
+                                :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuImg"/>
                                 <Avatar v-else icon="ios-person"/>
                             </badge>
                         </template>
@@ -79,7 +88,7 @@
                         <DropdownMenu slot="list">
                             <DropdownItem name="#">
                                 <Icon type="md-at" size="17"></Icon>
-                                <span id="username" sec:authentication="name"></span>
+                                <span id="username"> {{ myinfo.stuUsername }}</span>
                             </DropdownItem>
                             <DropdownItem name="me" divided>
                                 <Icon type="ios-person" size="17"></Icon>
@@ -100,44 +109,63 @@
                         </DropdownMenu>
                     </Dropdown>
                 </div>
-                <!-- <div sec:authorize="!isAuthenticated()">
+                <div v-else>
                     <Dropdown @on-click="go">
                         <Avatar icon="ios-person"/>
                         <a class="ios-arrow-down" href="javascript:void(0)">
                             <Icon type="ios-arrow-down"></Icon>
                         </a>
                         <DropdownMenu slot="list">
-                            <DropdownItem name="login">
+                            <DropdownItem name="/index/signin">
                                 <Icon type="md-contact" size="17"></Icon>
                                 未登录
                             </DropdownItem>
-                            <DropdownItem name="login" divided>
+                            <DropdownItem name="/index/signin" divided>
                                 <Icon type="md-log-in" size="17"></Icon>
                                 登录
                             </DropdownItem>
-                            <DropdownItem name="signup">
+                            <DropdownItem name="/index/signup">
                                 <Icon type="md-log-out" size="17"></Icon>
                                 注册
                             </DropdownItem>
                         </DropdownMenu>
                     </Dropdown>
-                </div> -->
+                </div>
             </MenuItem>
         </Menu>
+        </Col>
 
+        <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu">
+            <div class="card-shadow">
+                <ul class="ivu-menu ivu-menu-light ivu-menu-vertical" style="width: auto;">
+                    <Menu width="310">
+                        <div class="navigate-group catalogue">起步</div>
+                        <MenuItem name="cover" to="/index/cover">返回封面</MenuItem>
+                        <MenuItem name="signin" to="/index/signin">登录</MenuItem>
+                        <MenuItem name="signup" to="/index/signup">注册</MenuItem>
+                        <a href="/docs/guide"><div class="navigate-group catalogue">校园指南</div></a>
+                        <MenuItem name="college-website" to="/docs/guide/college-website">学校信息</MenuItem>
+                        <MenuItem name="wel-new" to="/docs/guide/wel-new">新生专区</MenuItem>
+                        <MenuItem name="score" to="/docs/guide/score">其他指南</MenuItem>
+                        <a href="/docs/resources"><div class="navigate-group catalogue">资源分享</div></a>
+                        <MenuItem name="java" to="/docs/resources/java">Java/Kotlin</MenuItem>
+                        <MenuItem name="web" to="/docs/resources/vue">Web前端</MenuItem>
+                        <MenuItem name="python" to="/docs/resources/python">其他语言</MenuItem>
+                        <MenuItem name="tocet">四六级</MenuItem>
+                        <MenuItem name="toothers">其他专业</MenuItem>
+                        <div class="navigate-group catalogue">交流讨论</div>
+                        <MenuItem name="room" to="/chat/room">在线聊天</MenuItem>
+                        <a href="/docs/help"><MenuItem name="help" to="/docs/help">帮助文档</MenuItem></a>
+                        <MenuGroup title="更新中...">
+                        </MenuGroup>
+                    </Menu>
+                </ul>
+            </div>
+        </Drawer>
         
         <div style="padding: 20px">
-            <!-- <div style="position: absolute; left: 16%">
-                <Anchor show-ink container=".subject">
-                    <AnchorLink href="#guide" title="校园指南" />
-                    <AnchorLink href="#resource" title="资源分享" />
-                    <AnchorLink href="#conversation" title="交流讨论" />
-                    <AnchorLink href="#photo" title="照片墙" />
-                    <AnchorLink href="#help" title="获取帮助" />
-                </Anchor>
-            </div> -->
             <Row type="flex" justify="center" align="middle" style="width:100%">
-                <Col style="width: 60%; background: #fff">
+                <Col :md="{span: 16}" :xs="{span: 24}" style="background: #fff">
                     <Subject/>
                 </Col>
             </Row>
@@ -160,7 +188,8 @@
                     </Input>
                 </FormItem>
                 <FormItem prop="newpassword">
-                    <Input :type="newpasswdtype" icon="md-eye" @on-click="displayNewPassText" v-model="formChPass.newpassword" placeholder="新密码">
+                    <Input :type="newpasswdtype" icon="md-eye" @on-click="displayNewPassText" v-model="formChPass.newpassword" placeholder="新密码"
+                    @keyup.enter.native="changepassBtn('formChPass')">
                         <Icon type="ios-lock-outline" slot="prepend"></Icon>
                     </Input>
                 </FormItem>
@@ -170,11 +199,11 @@
             </Form>
         </Modal>
 
-        <Drawer :closable="false" width="500" v-model="personinfo">
+        <Drawer :closable="true" width="400" v-model="personinfo">
             <Divider orientation="left">我的信息</Divider>
             <div class="card-surround-gray">
                 <Card :bordered="false">
-                    <MyInfo @updateHead="changeHeadImg"/>
+                    <MyInfo :allinfo="myinfo" @updateHead="changeHeadImg"/>
                 </Card>
             </div>
 
@@ -242,22 +271,22 @@
 
         <Footer :hometheme="headtheme"></Footer>
 
-        <BackTop title="返回顶部" :height="100" :right="250" :bottom="250">
-            <div class="top"><Icon type="ios-arrow-up" /></div>
-        </BackTop>
-        <div title="收藏本站" class="ivu-back-top ivu-back-top-show" style="right: 250px; bottom: 200px;" @click="add2Favourite">
-            <div class="top">
-                <Icon type="md-star" size="25"/>
-            </div>
+<Col :xs="{span: 0}" :md="{span: 1}">
+    <BackTop title="返回顶部" :height="100" :right="250" :bottom="250">
+        <div class="top"><Icon type="ios-arrow-up" /></div>
+    </BackTop>
+    <div title="收藏本站" class="ivu-back-top ivu-back-top-show" style="right: 250px; bottom: 200px;" @click="add2Favourite">
+        <div class="top">
+            <Icon type="md-star" size="25"/>
         </div>
-
+    </div>
+</Col>
     </div>
 </template>
 
 <script>
     import $ from 'jquery'
     import Stomp from 'stompjs'
-    import store from '../store'
     import {formatDate} from '@/assets/js/date.js'
     import Footer from '@/pages/docs/views/footers.vue'
     import MyInfo from '@/pages/home/views/myinfo.vue'
@@ -271,7 +300,10 @@
         data() {
             return {
                 headtheme: 'light',
-                headImg: '',
+                catalog: false,
+                myinfo: {
+                    stuImg: ''
+                },
                 msg: '',
                 more: '加载更多',
                 username: '',
@@ -281,6 +313,7 @@
                 msglist: [],
                 hismsglist: [],
                 allhismsglist: [],
+                hasLogin: false,
                 spinShowHis: false,
                 personinfo: false,
                 changepassmd: false,
@@ -303,31 +336,33 @@
             }
         },
         mounted: function () {
-            // 获取用户名
-            // this.username = $("#username").text();
-
-            this.getMyinfoByUsername(this.username);
-            this.connectMsgWsServer(this.username);
-            // 放到vuex中
-            store.commit('setUsername', this.username)
+            this.getCurrentInfo();
+            let info = sessionStorage.getItem('wecoding_login_info')
+            // console.log(info)
+            if (info) {  
+                this.hasLogin = true;
+                this.username = JSON.parse(info).data.name
+                this.connectMsgWsServer(this.username)
+            } else {
+                this.connectMsgWsServer('')
+            }
         },
         methods: {
-            getMyinfoByUsername(username) {
+            getCurrentInfo() {
                 let _self = this;
                 $.ajax({
-                    url: '/api/stu/username/' + username,
+                    url: '/api/stu/current',
                     type: 'get',
                     processData: false,
                     contentType : false,
                     success(data_myinfo) {
-                        _self.headImg = data_myinfo.stuImg;
                         var myinfo = _self.changeinfo2list(data_myinfo);
                         myinfo.stuImg = data_myinfo.stuImg;
                         myinfo.stuBigImg = data_myinfo.stuBigImg;
                         myinfo.stuId = data_myinfo.stuId;
                         myinfo.stuUsername = data_myinfo.stuUsername;
                         myinfo.stuRegistTime = formatDate(new Date(data_myinfo.stuRegistTime), 'yyyy-MM-dd hh:mm');
-                        store.commit('getMyInfo', myinfo)
+                        _self.myinfo = myinfo;
                     },
                     error() {
                         _self.$Message.error('获取个人信息失败...')
@@ -375,8 +410,8 @@
                 ];
             },
             changeHeadImg(res) {
-                console.log(res)
-                this.headImg = res;
+                console.log("home.vue 381" + res)
+                this.myinfo.stuImg = res;
             },
             changepassBtn(name) {
                 let _self = this;
@@ -398,7 +433,7 @@
                                     _self.changepassmd = false;
                                     _self.formChPass.password = '';
                                     _self.formChPass.newpassword = '';
-                                    // window.location = 'login?logout' 登出
+                                    window.location = 'logout' 
                                 } else if (data_result === -1) {
                                     _self.changepassloading = false;
                                     _self.$Message.error('密码修改失败,请检查原密码是否输入正确!');
@@ -438,7 +473,26 @@
                     this.show2hismsg();
                 } else if (link === 'changepasswd') {
                     this.changepassmd = true;
-                } else window.location = link;
+                } else if (link === 'logout') {
+                    $.ajax({
+                        url: '/api/logout',
+                        type: 'get',
+                        success(logout) {
+                            console.log(logout)
+                            if (logout.status === 200) {
+                                _self.$Message.success(logout.message)
+                                setTimeout(function () {
+                                    sessionStorage.removeItem('wecoding_login_info');
+                                    window.location = "/index/signin"
+                                }, 1500);
+                            } else {
+                                _self.$Message.error('未知错误')
+                            }
+                        }
+                    })
+                } else {
+                    window.location = link;
+                }
             },
             selectMenu(name) {
                 if (name === 'light' || name === 'dark' || 
@@ -492,6 +546,10 @@
 	            }
 
             },
+            openmenu() {
+                // this.divheight === '200px' ? this.divheight = '0px' : this.divheight = '200px'
+                this.catalog = true;
+            },
             success(info) {
                 this.$Message.success({
                     content: info,
@@ -514,6 +572,19 @@
 </script>
 
 <style scoped lang="less">
+@media screen and (max-width: 770px) {
+    .change-theme {
+        display: none;
+    }
+}
+
+.card-home {
+    transition: height .2s ease-in-out;
+    overflow: hidden;
+}
+.card-home:hover {
+    height: 200px;
+}
 .top {
     background: @light-color;
     box-shadow: 0 1px 6px rgba(0,0,0,.2);
@@ -526,7 +597,11 @@
 .top .ivu-icon {
     color: @dark-color;
 }
-
+.catalogue {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 15px 15px;
+}
 .dark {
     background: @dark-color;
 }
@@ -544,5 +619,12 @@
     .top .ivu-icon {
         color: @light-pink-color;
     }
+}
+.catalog-menu p {
+    margin: 10px;
+    font-size: 20px;
+}
+.catalog-menu p a {
+    text-decoration: underline;
 }
 </style>

@@ -293,3 +293,8 @@ h3:hover {
     width: 400px;
     height: 400px;
 }
+.wecoding-logo {
+    position: absolute;
+    /* left: 70px; */
+    font-size: 23px;
+}

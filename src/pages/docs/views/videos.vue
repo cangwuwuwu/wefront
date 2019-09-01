@@ -11,11 +11,17 @@
                 </Tooltip>
             </div>
             <card>
-                <Table stripe :loading="loading" no-filtered-data-text="暂无筛选结果,换一页试试" :columns="columns"
-                    :data="useData(searchName)"></Table>
+                <div v-if="screenWidth > 400">
+                    <Table stripe :loading="loading" no-filtered-data-text="暂无筛选结果,换一页试试" :columns="columns"
+                        :data="useData(searchName)"></Table>
+                </div>
+                <div v-else>
+                    <Table stripe :loading="loading" no-filtered-data-text="暂无筛选结果,换一页试试" :columns="columns_small"
+                        :data="useData(searchName)"></Table>
+                </div>
             </card>
             <div style="float: right;padding-top: 15px;">
-                <Page :total="total" :current="page" @on-change="changePage" show-elevator show-total></Page>
+                <Page :total="total" :current="page" @on-change="changePage" show-total></Page>
             </div>
         </div>
     </div>
@@ -26,6 +32,7 @@ export default {
     name: 'videos',
     data() {
         return {
+            screenWidth: document.body.clientWidth,
             loading: false,
             columns: [
                 {
@@ -77,6 +84,7 @@ export default {
                 {
                     // title: '名称',
                     renderHeader: (h) => {
+                        let _self = this;
                         return[
                             h('span', {}, '名称 '),
                             h('Input', {
@@ -87,14 +95,16 @@ export default {
                                 },
                                 on: {
                                     input: function (event) {
-                                        this.searchName = event;
+                                        _self.searchName = event;
                                     },
                                     'on-enter': () => {
-                                        this.searchResByName(this.searchName.toLowerCase())
+                                        if (_self.searchName !== '') {
+                                            _self.searchResByName(_self.searchName.toLowerCase())
+                                        }
                                     },
                                     'on-clear': () => {
-                                        this.searchName = '';
-                                        this.data_search = [];
+                                        _self.searchName = '';
+                                        _self.data_search = [];
                                     }
                                 }
                             })
@@ -152,7 +162,7 @@ export default {
                     align: 'center',
                     sortable: true,
                     render: (h, params) => {
-                        return h('i-Time', {
+                        return h('Time', {
                             props: {
                                 time: params.row.resUpTime,
                                 type: 'date'
@@ -227,24 +237,121 @@ export default {
                     }
                 }
             ],
+            columns_small: [
+                {
+                    // title: '名称',
+                    renderHeader: (h) => {
+                        let _self = this;
+                        return[
+                            h('Input', {
+                                props: {
+                                    placeholder: '回车搜索',
+                                },
+                                on: {
+                                    input: function (event) {
+                                        console.log(event)
+                                        _self.searchName = event;
+                                    },
+                                    'on-enter': () => {
+                                        _self.searchResByName(_self.searchName.toLowerCase())
+                                    },
+                                    'on-clear': () => {
+                                        _self.searchName = '';
+                                        _self.data_search = [];
+                                    }
+                                }
+                            })
+                        ]
+                    },
+                    key: 'resName',
+                    align: 'center',
+                    tooltip: true
+                },
+                {
+                    title: '状态',
+                    width: 80,
+                    key: 'resStatus',
+                    align: 'center',
+                    render: (h, params) => {
+                        const row = params.row;
+                        const color = row.resStatus === 0 ? 'error' : 'success';
+                        const text = row.resStatus === 0 ? '失效' : '有效';
+
+                        return h('Tag', {
+                            props: {
+                                color: color
+                            }
+                        }, text);
+                    },
+                    filters: [
+                        {
+                            label: '有效',
+                            value: 1
+                        },
+                        {
+                            label: '失效',
+                            value: 0
+                        }
+                    ],
+                    filterMultiple: false,
+                    filterMethod(value, row) {
+                        if (value === 1) {
+                            return row.resStatus === 1;
+                        } else if (value === 0) {
+                            return row.resStatus === 0;
+                        }
+                    }
+                },
+                {
+                    title: '操作',
+                    key: 'action',
+                    width: 130,
+                    align: 'center',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Button', {
+                                props: {
+                                    type: 'info',
+                                    size: 'small'
+                                },
+                                style: {
+                                    marginRight: '5px'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.show(params);
+                                    }
+                                }
+                            }, '详情'),
+                            h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        this.download(params);
+                                    }
+                                }
+                            }, '下载')
+                        ]);
+                    }
+                }
+            ],
             total: 0,
             page: 1,
-            name: '',
             searchName: '',
             data: [],
             data_search: [],
         }
     },
     props: ["choose"],
-    mounted() {
-        
-    },
     watch: {
         choose: {
             immediate:true,
             handler:function() {
                 // console.log(this.choose)
-                if (this.choose !== '') {
+                if (this.choose !== '' && this.choose !== 'resources') {
                     this.getRes(this.choose);
                 }
             }
@@ -271,8 +378,8 @@ export default {
             return a;
         },
         getRes(name) {
+            this.loading = true;
             this.$Loading.start();
-            this.loading= true;
             var _self = this;
             $.ajax({
                 url: '/api/resources/res/' + name,
@@ -287,19 +394,20 @@ export default {
                     _self.total = res_language.total;
                     _self.page = res_language.pageNum;
                     _self.loading = false;
+                    _self.$Loading.finish();
                 },
                 error() {
                     _self.$Loading.error();
                     _self.loading = false;
+                    _self.$Loading.error();
                 }
             });
         },
         changePage(page) {
-            this.$Loading.start();
             this.page = page;
             if (this.searchName !== '')
-                this.searchResByName(this.name);
-            this.getRes(this.name);
+                this.searchResByName(this.choose);
+            this.getRes(this.choose);
         },
         useData(searchName) {
             if (searchName === '')
@@ -437,10 +545,10 @@ export default {
                             },
                             on: {
                                 click: () => {
-                                    res.download(param)
+                                    this.download(param)
                                 }
                             }
-                        }, '复制'),
+                        }, '复制密码'),
                         h('br'),
                         h('span', {
                             style: {

@@ -1,16 +1,15 @@
 <template>
     <div class="myinfo">
         <Row type="flex" align="middle" style="margin-bottom: 20px">
-            
             <Col span="12" offset="2">
                 <Row>
-                    <Icon type="ios-contact" size="18"></Icon>
+                    <Icon title="用户名" type="ios-contact" size="18"></Icon>
                     <span style="font-size: 25px;font-weight: bold;">{{ myinfo.stuUsername }}</span><br>
-                    <Icon type="md-key" size="18"></Icon>
+                    <Icon title="学号" type="md-key" size="18"></Icon>
                     {{ myinfo.stuId }}
                 </Row>
                 <Row>
-                    <Icon type="md-stopwatch" size="18"></Icon>
+                    <Icon title="注册时间" type="md-stopwatch" size="18"></Icon>
                     {{ myinfo.stuRegistTime }}
                 </Row>
             </Col>
@@ -39,7 +38,7 @@
                     </div>
                 </div>
                 <Row>
-                    <Col span="6" offset="1">
+                    <Col :md="{span:6}" :xs="{span: 12, offset: 1}">
                         <div class="upload-img-block" style="width: 400px;height: 400px">
                             <div>
                                 <input
@@ -55,17 +54,17 @@
                             </div>
                         </div>
                     </Col>
-                    <Col span="1">
-                        <Button size="large" class="up-img-btn" @click="changeScale(2)">图片放大</Button>
-                        <Button size="large" class="up-img-btn" @click="changeScale(-2)">图片缩小</Button>
+                    <Col :md="{span:1}" :xs="{span: 24,offset:1}">
                         <Button size="large" class="up-img-btn" @click="rotateRight()">顺时旋转</Button>
                         <Button size="large" class="up-img-btn" @click="rotateLeft()">逆时旋转</Button>
                         <Button size="large" class="up-img-btn" @click="downloadImg('blob')">下载截图</Button>
+                        <Button size="large" class="up-img-btn" @click="finish('blob')">全屏预览</Button>
+                        <Button size="large" class="up-img-btn" @click="changeScale(2)">图片放大</Button>
+                        <Button size="large" class="up-img-btn" @click="changeScale(-2)">图片缩小</Button>
                         <Button size="large" class="up-img-btn" @click="clearCrop()">清除截图</Button>
                         <Button size="large" class="up-img-btn" @click="startCrop()">手动截图</Button>
-                        <Button size="large" class="up-img-btn" @click="finish('blob')">全屏预览</Button>
                     </Col>
-                    <Col span="15">
+                    <Col :md="{span:15}" :xs="{span:24}">
                         <vueCropper style="width: 90%;height: 400px;margin-left: 5%;"
                                     ref="cropper"
                                     :img="option.img"
@@ -82,7 +81,7 @@
                     </Col>
                 </Row>
                 <Row class="next-row-up"  type="flex" justify="center" align="middle">
-                    <Col span="9">
+                    <Col :md="{span:9}" :xs="{span:0}">
                         <Card style="padding: 50px;font-size: 20px;">
                             ① 点击 裁剪图片/上传 选择你要上传的图片 <br>
                             ② 控制 截屏框 选择合适头像 <br>
@@ -94,27 +93,27 @@
                             * 滚轮也可以缩放图片大小 <br>
                         </Card>
                     </Col>
-                    <Col span="1" offset="1">
+                    <Col :md="{span:1, offset:1}" :xs="{span:24}">
                         <h1>预览</h1>
                     </Col>
-                    <Col span="5" offset="4" v-if="previews.url === ''">
+                    <Col :md="{span:5, offset: 4}" :xs="{span:0}" v-if="previews.url === ''">
                         <img style="width:500px" src="@/assets/images/upload.svg"/>
                     </Col>
-                    <Col span="2">
+                    <Col :md="{span:2}" :xs="{span:0}">
                         <div :style="previewStyle2">
                             <div :style="previews.div">
                                 <img :src="previews.url" :style="previews.img">
                             </div>
                         </div>
                     </Col>
-                    <Col span="3">
+                    <Col :md="{span:3}" :xs="{span:0}">
                         <div :style="previewStyle1">
                             <div :style="previews.div">
                                 <img :src="previews.url" :style="previews.img">
                             </div>
                         </div>
                     </Col>
-                    <Col span="6">
+                    <Col :md="{span:6}" :xs="{span:18}">
                         <div class="show-preview"
                              :style="{'width': previews.w + 'px', 'height': previews.h + 'px',
                              'overflow': 'hidden','margin': '5px','border-radius': '50%'}">
@@ -131,17 +130,17 @@
         </Row>
         <Row>
             <Card>
-                <div style="border: 1px solid #dcdee2;">
+                <div style="border: 1px solid #dcdee2;text-align: center">
                     <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
                         <thead>
                         <tr class="tr-height" v-for="(my, index) in myinfo" :key="index">
-                            <th class="table-title-color" style="width: 30%;">
+                            <th class="table-title-color" style="width: 25%;">
                                 <div class="ivu-table-cell"><span class="">{{ my.title }}</span></div>
                             </th>
                             <th class="" style="width: 55%;">
                                 <div v-if="index === editInput">
-                                    <Input :type="index === 9 ? 'textarea' : 'text'"
-                                           :placeholder="index === 7 ? '格式: yyyy-MM-dd' : ''"
+                                    <Input :type="index === 6 ? 'textarea' : 'text'"
+                                           :placeholder="index === 5 ? '格式: yyyy-MM-dd' : ''"
                                            v-model="my.value" autofocus :autosize="{minRows: 2,maxRows: 5}"/>
                                 </div>
                                 <span class="" v-else> {{ my.value }}</span>
@@ -175,7 +174,6 @@
 <script>
     import {VueCropper} from 'vue-cropper'
     import $ from 'jquery'
-    // import store from '../store'
 
     export default {
         name: 'myinfo',
@@ -214,14 +212,13 @@
                 // previewStyle4: {},    // 60x60
             }
         },
-        computed: {
-            changeMyInfo() {
-                return this.$store.state.myinfo;
-            }
-        },
+        props: ["allinfo"],
         watch: {
-            changeMyInfo() {
-                this.myinfo = this.$store.state.myinfo;
+            allinfo: {
+                immediate:true,
+                handler:function() {
+                    this.myinfo = this.allinfo;
+                }
             }
         },
         methods: {
@@ -288,8 +285,8 @@
                 let formData = new FormData();
                 if (type === 'blob') {              
                     this.$refs.cropper.getCropBlob( (data) => {
-                        let name = this.$store.state.name;
-                        let stuId = this.$store.state.myinfo.stuId;
+                        let name = this.myinfo.stuUsername;
+                        let stuId = this.myinfo.stuId;
                         formData.append("file", data, name + '.png');
                         formData.append("stuId", stuId);
                         $.ajax({
@@ -444,6 +441,16 @@
     }
 </script>
 <style scoped>
+@media screen and (max-width:770px) {
+    .upload-img-block {
+        margin-bottom: 10px;
+        width: 340px!important;
+        height: 100px!important;
+    }
+    .up-img-btn {
+        width: 23%;
+    }
+}
     .upload-img-block {
         position: relative;
         float: left;
@@ -483,7 +490,7 @@
     }
     .next-row-up {
         margin-top: 50px;
-        height: 405px;
+        /* height: 405px; */
     }
     .model {
         position: fixed;

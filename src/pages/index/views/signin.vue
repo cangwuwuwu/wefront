@@ -14,14 +14,13 @@
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <FormItem>
-                        <input type="checkbox" name="remember-me" style="display:none" v-model="remember">
-                        <i-Switch @on-change="change">
+                    <!-- <FormItem>
+                        <i-Switch :value="remember" @on-change="change">
                             <Icon type="md-checkmark" slot="open"></Icon>
                             <Icon type="md-close" slot="close"></Icon>
                         </i-Switch>
                         记住密码
-                    </FormItem>
+                    </FormItem> -->
                     <FormItem>
                         <Button type="primary" :loading="loginbtnload" long @click="handleSubmit('formSignin')">登录</Button>
                     </FormItem>
@@ -51,13 +50,13 @@ export default {
                     { required: true, message: '请输入密码', trigger: 'blur' }                
                 ]
             },
-            remember: false,        
+            // remember: false,      
         }
     },
     methods: {
-        change (status) {
-            this.remember = status;
-        },
+        // change (status) {
+        //     this.remember = status;
+        // },
         handleSubmit(name) {
             let _self = this;
             this.$refs[name].validate((valid) => {
@@ -66,21 +65,36 @@ export default {
                     let formData = new FormData();
                     formData.append('stuUsername', this.formSignin.stuUsername)
                     formData.append('stuPassword', this.formSignin.stuPassword)
-                    axios.post('/api/login', formData)
+                    // formData.append('remember-me', this.remember)
+                    axios
+                    .post('/api/login', formData)
                     .then(function (res) {
-                        if (res.data.status === 200) {
-                            _self.$Message.success(res.data.message)
+                        if (res) {
+                            /**
+                             * data:
+                             * authenticated: true
+                             * authorities: (2) [{…}, {…}]
+                             * details: {remoteAddress: "127.0.0.1"}
+                             * name: "admin"
+                             * principal:
+                             * accountNonExpired: true
+                             * accountNonLocked: true
+                             * authorities: (2) [{…}, {…}]
+                             * credentialsNonExpired: true
+                             * enabled: true
+                             * username: "admin"
+                             * __proto__: Object
+                             * __proto__: Object
+                             * message: "登录成功"
+                             * status: 200
+                             */
+                            sessionStorage.setItem('wecoding_login_info',JSON.stringify(res.data));
                             setTimeout(function () {
                                 window.location = "/home"
                             }, 2000);
-                        } else if (res.data.status === 401 || res.data.status === 403) {
-                            _self.$Message.error(res.data.message);
                         }
                         _self.loginbtnload = false;
-                    }).catch(function () {
-                        _self.loginbtnload = false;
-                        _self.$Message.error('用户名或密码错误!');
-                    })
+                    });
                 } 
             })
         }

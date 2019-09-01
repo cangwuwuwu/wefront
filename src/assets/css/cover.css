@@ -25,6 +25,7 @@ a:hover {
 html,
 body {
     height: 100%;
+    width: 100%
     /* background: url('../images/cover.jpg') ; */
 }
 
@@ -84,12 +85,6 @@ body {
 }
 
 
-/*
- * Cover
- */
-.cover {
-    padding: 0 1.5rem;
-}
 .cover .btn-lg {
     padding: .75rem 1.25rem;
     font-weight: 700;

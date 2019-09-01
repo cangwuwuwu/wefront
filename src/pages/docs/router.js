@@ -3,14 +3,14 @@ import Vue from 'vue';
 
 Vue.use(Router);
 
-import Res from '@/pages/docs/views/res.vue'
 import Videos from '@/pages/docs/views/videos.vue'
 import Web from '@/pages/docs/views/web.vue'
 import Others from '@/pages/docs/views/others.vue'
-import Guide from '@/pages/docs/views/guide.vue'
-import Help from '@/pages/docs/views/help.vue'
 import Content from '@/pages/docs/views/contents.vue'
-import Docs from '@/pages/docs/views/docs.vue'
+// import Res from '@/pages/docs/views/res.vue'
+// import Guide from '@/pages/docs/views/guide.vue'
+// import Help from '@/pages/docs/views/help.vue'
+// import Docs from '@/pages/docs/views/docs.vue'
 
 export default new Router({
     mode: 'history',
@@ -18,14 +18,14 @@ export default new Router({
     routes: [
         {
             path: '/docs',
-            component: Docs,
+            component: () => import('@/pages/docs/views/docs.vue'),
             meta: {
                 title: '文档-Wecoding|便捷的校内信息交流网站'
             },
             children: [
                 {
                     path: 'guide',
-                    component: Guide,
+                    component: () => import('@/pages/docs/views/guide.vue'),
                     children: [
                         {
                             path: '',
@@ -129,7 +129,7 @@ export default new Router({
                 },
                 {
                     path: 'help',
-                    component: Help,
+                    component: () => import('@/pages/docs/views/help.vue'),
                     children: [
                         {
                             path: '',
@@ -149,7 +149,7 @@ export default new Router({
                 },
                 {
                     path: 'resources',
-                    component: Res,
+                    component: () => import('@/pages/docs/views/res.vue'),
                     children: [
                         {
                             path: '',
@@ -314,6 +314,28 @@ export default new Router({
                             },
                             meta: {
                                 title: '版本控制-Wecoding|便捷的校内信息交流网站',
+                            }
+                        },
+                        {
+                            path: 'cet',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: '四六级-Wecoding|便捷的校内信息交流网站',
+                            }
+                        },
+                        {
+                            path: 'master',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: '考研-Wecoding|便捷的校内信息交流网站',
                             }
                         },
                     ]

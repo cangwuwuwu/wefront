@@ -1,99 +1,104 @@
 <template>
     <div class="signup">
-        <h1 class="cover-head">请注册</h1>
-        <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
-            <FormItem label="学号" prop="stuId">
-                <Input v-model="formItem.stuId" placeholder="南工学号"></Input>
-            </FormItem>
-            <FormItem label="姓名" prop="stuName">
-                <Input v-model="formItem.stuName" icon="ios-person-outline" placeholder="真实姓名(非必须)"></Input>
-            </FormItem>
-            <FormItem label="用户名" prop="stuUsername">
-                <Input v-model="formItem.stuUsername"  placeholder="社区用户名/昵称">
-                <Icon type="ios-at-outline" slot="prepend"></Icon></Input>
-            </FormItem>
-            <FormItem label="密码" prop="stuPassword">
-                <Input v-model="formItem.stuPassword" type="password" placeholder="密码">
-                <Icon type="ios-lock-outline" slot="prepend"></Icon></Input>
-            </FormItem>
-            <FormItem label="确认密码" prop="stuRePassword">
-                <Input v-model="formItem.stuRePassword" icon="ios-lock-outline" type="password" placeholder="确认密码">
-                </Input>
-            </FormItem>
-             <FormItem label="邮箱" prop="stuEmail">
-                <AutoComplete
-                    style="text-align: left;"
-                    icon="ios-mail-outline"
-                    v-model="formItem.stuEmail"
-                    @on-search="emailSearch"
-                    placeholder="邮箱账号">
-                    <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
-                </AutoComplete>
-            </FormItem>
-            <Row :gutter="16">
-                <Col span="18">
-                    <FormItem label="验证码" prop="stuCode">
-                        <Input v-model="formItem.stuCode" enter-button icon="ios-barcode-outline" placeholder="请输入邮箱收到的验证码"></Input>
-                    </FormItem>
-                </Col>
-                <Col span="6">
-                    <!-- <Button type="primary">获取验证码</Button> -->
-                    <Button type="primary" @click="sendMail" :style="btnstyle" :disabled="disabled">
-                        {{ btntext }}
-                        <Poptip trigger="hover" word-wrap width="200" content="邮件发送会在20s之内发送到您的邮箱，若接收不到邮件，查看垃圾箱或向我反馈。">
-                            <Icon type="md-help-circle" size="18"></Icon>
-                        </Poptip>
-                    </Button>
-                </Col>
-            </Row>
-            <Row>
-                <Col span="12">
-                    <FormItem label="籍贯">
-                        <Cascader :data="provs" v-model="formItem.stuArea" change-on-select></Cascader>
-                    </FormItem>
-                </Col>
-                <Col span="12">
-                    <FormItem label="生日">
-                        <Row>
-                            <DatePicker type="date" placeholder="选择生日" v-model="formItem.stuBirthday"></DatePicker>
-                        </Row>
-                    </FormItem>
-                </Col>
-            </Row>
-            <Row :gutter="16">
-                <Col span="10">
-                    <FormItem label="电话" prop="stuPhone">
-                        <Input v-model="formItem.stuPhone" icon="ios-call-outline" placeholder="电话号码"></Input>
-                    </FormItem>
-                </Col>
-                <Col span="14">
-                    <FormItem label="物种">
-                        <RadioGroup v-model="formItem.stuGender" type="button" size="large">
-                            <Radio label="汉子"></Radio>
-                            <Radio label="猛男"></Radio>
-                            <Radio label="Gay"></Radio>
-                            <Radio label="嘤嘤怪"></Radio>
-                            <Radio label="妹纸"></Radio>
-                            <Radio label="女汉子"></Radio>
-                            <Radio label="大妈"></Radio>
-                            <Radio label="秘密"></Radio>
-                        </RadioGroup>
-                    </FormItem>
-                </Col>
-            </Row>
-            <FormItem label="签名/简介" prop="stuInfo">
-                <Input 
-                    v-model="formItem.stuInfo" 
-                    type="textarea" 
-                    :autosize="{minRows: 2,maxRows: 5}" 
-                    placeholder="介绍一下自己?">
-                </Input>
-            </FormItem>
-            <FormItem class="left-from-item">
-                <Button type="primary" @click="Submit('formItem')">注册</Button>
-                <Button style="margin-left: 8px" @click="Reset('formItem')">重置</Button>
-            </FormItem>
-        </Form>
+        <Row type="flex" justify="center">
+            <Col :md="{span:9}" :xs="{span:22}">
+            <h1 class="cover-head">请注册</h1>
+            <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
+                <FormItem label="学号" prop="stuId">
+                    <Input v-model="formItem.stuId" placeholder="南工学号"></Input>
+                </FormItem>
+                <FormItem label="用户名" prop="stuUsername">
+                    <Input v-model="formItem.stuUsername"  placeholder="社区用户名/昵称">
+                    <Icon type="ios-at-outline" slot="prepend"></Icon></Input>
+                </FormItem>
+                <FormItem label="密码" prop="stuPassword">
+                    <Input v-model="formItem.stuPassword" type="password" placeholder="密码">
+                    <Icon type="ios-lock-outline" slot="prepend"></Icon></Input>
+                </FormItem>
+                <FormItem label="确认密码" prop="stuRePassword">
+                    <Input v-model="formItem.stuRePassword" icon="ios-lock-outline" type="password" placeholder="确认密码">
+                    </Input>
+                </FormItem>
+                <FormItem label="邮箱" prop="stuEmail">
+                    <AutoComplete
+                        style="text-align: left;"
+                        icon="ios-mail-outline"
+                        transfer
+                        v-model="formItem.stuEmail"
+                        @on-search="emailSearch"
+                        placeholder="邮箱账号">
+                        <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
+                    </AutoComplete>
+                </FormItem>
+                <Row :gutter="16">
+                    <Col :md="{span:18}" :xs="{span: 16}">
+                        <FormItem label="验证码" prop="stuCode">
+                            <Input v-model="formItem.stuCode" enter-button icon="ios-barcode-outline" placeholder="输入邮件中的验证码"></Input>
+                        </FormItem>
+                    </Col>
+                    <Col span="6">
+                        <!-- <Button type="primary">获取验证码</Button> -->
+                        <Button type="primary" @click="sendMail" :style="btnstyle" :disabled="disabled">
+                            {{ btntext }}
+                            <Poptip trigger="hover" word-wrap width="200" content="邮件发送会在20s之内发送到您的邮箱，若接收不到邮件，查看垃圾箱或向我反馈。">
+                                <Icon type="md-help-circle" size="18"></Icon>
+                            </Poptip>
+                        </Button>
+                    </Col>
+                </Row>
+                <FormItem label="姓名" prop="stuName">
+                    <Input v-model="formItem.stuName" icon="ios-person-outline" placeholder="真实姓名(非必须)"></Input>
+                </FormItem>
+                <Row>
+                    <Col :md="{span:12}" :xs="{span:24}">
+                        <FormItem label="籍贯">
+                            <Cascader :data="provs" v-model="formItem.stuArea" change-on-select></Cascader>
+                        </FormItem>
+                    </Col>
+                    <Col :md="{span:12}" :xs="{span:24}">
+                        <FormItem label="生日">
+                            <Row>
+                                <DatePicker type="date" placeholder="选择生日" v-model="formItem.stuBirthday"></DatePicker>
+                            </Row>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row :gutter="16">
+                    <Col :md="{span:10}" :xs="{span: 24}">
+                        <FormItem label="电话" prop="stuPhone">
+                            <Input v-model="formItem.stuPhone" icon="ios-call-outline" placeholder="电话号码"></Input>
+                        </FormItem>
+                    </Col>
+                    <Col :md="{span:14}" :xs="{span: 20}">
+                        <FormItem label="物种">
+                            <RadioGroup v-model="formItem.stuGender" type="button" size="large">
+                                <Radio label="汉子"></Radio>
+                                <Radio label="猛男"></Radio>
+                                <Radio label="Gay"></Radio>
+                                <Radio label="嘤嘤怪"></Radio>
+                                <Radio label="妹纸"></Radio>
+                                <Radio label="女汉子"></Radio>
+                                <Radio label="大妈"></Radio>
+                                <Radio label="秘密"></Radio>
+                            </RadioGroup>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <FormItem label="签名/简介" prop="stuInfo">
+                    <Input 
+                        v-model="formItem.stuInfo" 
+                        type="textarea" 
+                        :autosize="{minRows: 2,maxRows: 5}" 
+                        placeholder="介绍一下自己?">
+                    </Input>
+                </FormItem>
+                <FormItem class="left-from-item">
+                    <Button type="primary" @click="Submit('formItem')">注册</Button>
+                    <Button style="margin-left: 8px" @click="Reset('formItem')">重置</Button>
+                </FormItem>
+            </Form>
+            </Col>
+        </Row>
     </div>
 </template>
 
@@ -1912,7 +1917,7 @@ export default {
                     ],
                     stuPhone: [
                         { required: false, message: '', trigger: 'blur' },
-                        { type:'string', pattern: /^((0\d{2,3}-\d{7,8})|(1[3584]\d{9}))$/, message:'电话格式错误!', trigger: 'blur'}
+                        { type:'string', pattern: /^1[3456789]\d{9}$/, message:'电话格式错误!', trigger: 'blur'}
                     ],
                     stuInfo: [
                         { required: false },
@@ -1933,7 +1938,7 @@ export default {
                 // 发送成功禁用按钮/倒计时/解禁按钮
                 if (data_mail.data.length > 11) {
                     _self.$Message.success(data_mail.data);
-                    let time = 30;
+                    let time = 60;
                     _self.disabled = true;
                     _self.btnstyle = {'cursor': 'not-allowed'};
                     let interval  = setInterval(function () {
@@ -1946,18 +1951,18 @@ export default {
                         }
                         time--;
                     }, 1000);
-                } else {
-                    _self.$Message.error(data_mail);
                 }
             }).catch(function () {
-                console.log('出错了')
+                console.log('SENDMAIL:未知错误')
             })
         },
         emailSearch (value) {
             this.emailist = !value || value.indexOf('@') >= 0 ? [] : [
                 value + '@qq.com',
                 value + '@sina.com',
-                value + '@163.com'
+                value + '@163.com',
+                value + '@gmail.com',
+                value + '@foxmail.com'
             ];
         },
         Submit (name) {
@@ -1994,14 +1999,13 @@ export default {
                     axios
                     .post('/api/signup/regist', formData)
                     .then(function (submit) {
-                        _self.$Message.success('注册成功! 正在前往登录');
-                        if (submit.data === "注册成功!") {
+                        if (submit) {
                             setTimeout(function () {
                                 window.location = "/index/signin"
                             }, 2000);
                         }
                     }).catch(function () {
-                        _self.$Message.success('出错了，注册失败!');
+                        _self.$Message.success('注册:未知错误');
                     })
                 } else {
                     this.$Message.error('请完成带红色*号的必填项!');
@@ -2030,7 +2034,7 @@ export default {
 
 <style scoped>
 .signup {
-    width: 600px;
+    width: 100%;
     margin:auto;
 }
 .left-from-item >>> .ivu-form-item-content {

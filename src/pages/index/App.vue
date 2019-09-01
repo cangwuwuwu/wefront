@@ -1,6 +1,6 @@
 <template>
   <div class="index">
-    <Tabs v-model="tags" @on-click="changeTags">
+    <Tabs v-model="tags" @on-click="changeTags" :xs="{}">
       <TabPane label="Welcome" name="/index/cover">
           <router-view name="cover"></router-view>
       </TabPane>
@@ -14,11 +14,13 @@
       </TabPane>
     </Tabs>
 
+ 
+
     <footer class="mastfoot mt-auto">
       <p class="mb-1">&copy; 2019 Wecoding</p>
       <ul class="list-inline">
         <li class="list-inline-item"><a href="https://github.com/cangwuwuwu/wecoding">源码</a></li>
-        <li class="list-inline-item"><a href="#">反馈</a></li>
+        <li class="list-inline-item"><a href="#" @click.prevent="tips">反馈</a></li>
         <li class="list-inline-item"><a href="#">支持</a></li>
         <Divider type="vertical" style="background: #2d8cf0" />
         <li class="list-inline-item"><a href="#">中文</a></li>
@@ -35,7 +37,7 @@ export default {
     name: 'index',
     data() {
         return {
-            tags: ''
+            tags: '',
         }
     },
     mounted() {
@@ -49,6 +51,12 @@ export default {
             this.tags = name;
             this.$router.push(name)
         },
+        tips () {
+            this.$Modal.info({
+                title: '反馈',
+                content: '<p>1. 点击<strong>[Learn More]</strong>进入主页</p><p>2. 再点击页脚处的<strong>[反馈bug]</strong></p>'
+            });
+        }
     },
 }
 </script>
@@ -60,9 +68,9 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
-    padding: 60px;
+    padding: 10px;
     margin: auto;
-    width: 900px
+    /* width: 900px */
 }
 
 .index >>> .ivu-tabs-nav-scroll {

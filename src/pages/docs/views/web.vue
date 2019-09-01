@@ -11,11 +11,17 @@
                 </Tooltip>
             </div>
             <card>
-                <Table stripe :loading="loading_web" no-filtered-data-text="暂无筛选结果,换一页试试"
-                            :columns="columns_web" :data="data_web"></Table>
+                <div v-if="screenWidth > 400">
+                    <Table stripe :loading="loading_web" no-filtered-data-text="暂无筛选结果,换一页试试"
+                        :columns="columns_web" :data="data_web"></Table>
+                </div>
+                <div v-else>
+                    <Table stripe :loading="loading_web" no-filtered-data-text="暂无筛选结果,换一页试试"
+                        :columns="web_small" :data="data_web"></Table>
+                </div>
             </card>
             <div style="float: right;padding-top: 15px;">
-                <Page :total="total_web" :current="page_web" @on-change="" show-elevator show-total></Page>
+                <Page :total="total_web" :current="page_web" show-elevator show-total></Page>
             </div>
         </div>
     </div>
@@ -26,6 +32,7 @@ export default {
     name: 'web',
     data() {
         return {
+            screenWidth: document.body.clientWidth,
             total_web: 0,
             page_web: 1,
             columns_web: [
@@ -78,6 +85,39 @@ export default {
                     }
                 }
             ],
+            web_small: [
+                {
+                    title: '名称',
+                    key: 'resWebName',
+                    align: 'center',
+                },
+                {
+                    title: '描述',
+                    key: 'resWebDescribe',
+                    align: 'center',
+                    tooltip: true
+                },
+                {
+                    title: '操作',
+                    key: 'action',
+                    align: 'center',
+                    render: (h, params) => {
+                        return h('div', [
+                            h('Button', {
+                                props: {
+                                    type: 'primary',
+                                    size: 'small'
+                                },
+                                on: {
+                                    click: () => {
+                                        window.open(params.row.resWebUrl)
+                                    }
+                                }
+                            }, '前往'),
+                        ]);
+                    }
+                }
+            ],
             data_web: [],
             loading_web: false,
             name: '',
@@ -103,10 +143,13 @@ export default {
         choose: {
             immediate:true,
             handler:function() {
-                if (this.choose === '') return;
+                if (this.choose === '' || this.choose === 'resources') return;
                 this.getWebs(this.choose);
             }
         }
     },
 }
 </script>
+<style scoped>
+
+</style>
