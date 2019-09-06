@@ -2,7 +2,7 @@
     <div class="docs" v-html="md"></div>
 </template>
 <script>
-    import $ from 'jquery'
+    import axios from 'axios'
     import marked from 'marked'
     import hljs from 'highlight.js'
     import java from 'highlight.js/lib/languages/java';
@@ -56,16 +56,12 @@ export default {
     methods: {
         getMdDocs(name) {
             var _self = this
-            $.ajax({
-                type: 'get',
-                url: '../../md/'+ name +'.md',
-                success(data_md) {
-                    _self.md = marked(data_md);
-                },
-                error() {
-                    _self.md = '<p>数据访问出错!  请刷新重试,  如果还是不能访问,  下方联系反馈,  谢谢</p>';
-                }
-            });
+            axios.get('../../md/'+ name +'.md')
+            .then(md => {
+                _self.md = marked(md.data);
+            }).catch(err => {
+                _self.md = '<p>数据访问出错!  请刷新重试,  如果还是不能访问,  下方联系反馈,  谢谢</p>';
+            })
         }
     },
 }

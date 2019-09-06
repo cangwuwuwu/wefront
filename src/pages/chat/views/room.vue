@@ -59,7 +59,7 @@
                                 </div>
                             </div>
                             <div class="abs br pnl-btn" id="submit" @click="sendmsg" v-text="btn"></div>
-                            <div class="pnl-support" id="copyright"><a href="/index">www.niter.work</a></div>
+                            <div class="pnl-support" id="copyright"><a href="/">www.niter.work</a></div>
                         </div>
                     </div>
                     <div class="abs right pnl-right">
@@ -154,7 +154,7 @@ export default {
         },
         initWebsocket() {
             if (window.WebSocket) {
-                this.websocket = new WebSocket("ws://localhost:8088/ws");
+                this.websocket = new WebSocket("ws://39.106.85.24:8088/ws");
                 this.websocket.onopen = this.wsonopen;
                 this.websocket.onerror = this.wsonerror;
                 this.websocket.onmessage = this.wsonmessage;
@@ -191,7 +191,10 @@ export default {
             this.left.push(list);
         },
         wsonclose(e) {
-            this.$Message.error('太长时间没有收发信息了...连接已断开😭');
+            this.$Modal.error({
+                title: '连接已断开',
+                content: '太长时间没有收发信息了...连接已断开😭'
+            });
             console.log("websocket: 退出聊天室...");
             this.btn = '重新连接'
         },

@@ -21,12 +21,17 @@
 export default {
     data() {
         return {
+            // screenWidth: document.body.clientWidth,
             name: '',
             arrowshow: true,
-            cardhight: '900px'
+            cardhight: ''
         }
     },
-    props: ["choose"],
+    props: ["choose", "screenWidth"],
+    mounted() {
+        if (this.screenWidth > 400)
+        this.cardhight = '900px';
+    },
     methods: {
         watchPic() {
             window.open('http://39.106.85.24:8999/' + this.choose + '_path.jpg')

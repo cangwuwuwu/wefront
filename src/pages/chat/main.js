@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { Message } from 'iview'
+import { Message, Modal } from 'iview'
 import router from '@/pages/chat/router'
 import 'iview/dist/styles/iview.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 require('@/assets/css/chat.css');
 
 Vue.config.productionTip = false;
-Vue.prototype.$Message = Message 
+Vue.prototype.$Message = Message;
+Vue.prototype.$Modal = Modal;
 
 router.beforeEach((to, from , next) => {
   if (to.meta.title) {
@@ -19,9 +20,10 @@ router.beforeEach((to, from , next) => {
     if (sessionStorage.getItem('wecoding_login_info')) {  
       next();
     } else {
-      next({
-        path: '/index/signin', query: {redirect: to.path}
-      })
+      // next({
+        // path: '/index/signin'
+      // })
+      window.location = '/index/signin'
     }
   }else {
     next();

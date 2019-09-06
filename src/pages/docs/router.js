@@ -251,6 +251,28 @@ export default new Router({
                             }
                         },
                         {
+                            path: 'linux',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: 'Linux-Wecoding|便捷的校内信息交流网站',
+                            }
+                        },
+                        {
+                            path: 'windows',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: 'Windows-Wecoding|便捷的校内信息交流网站',
+                            }
+                        },
+                        {
                             path: 'docker',
                             components: {
                                 'videos': Videos,

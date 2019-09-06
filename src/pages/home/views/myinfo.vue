@@ -137,15 +137,15 @@
                             <th class="table-title-color" style="width: 25%;">
                                 <div class="ivu-table-cell"><span class="">{{ my.title }}</span></div>
                             </th>
-                            <th class="" style="width: 55%;">
+                            <th class="" style="width: 65%;">
                                 <div v-if="index === editInput">
                                     <Input :type="index === 6 ? 'textarea' : 'text'"
                                            :placeholder="index === 5 ? '格式: yyyy-MM-dd' : ''"
                                            v-model="my.value" autofocus :autosize="{minRows: 2,maxRows: 5}"/>
                                 </div>
-                                <span class="" v-else> {{ my.value }}</span>
+                                <span class="" v-else>{{ my.value }}</span>
                             </th>
-                            <th class="" style="width: 15%;">
+                            <th class="" style="width: 10%;">
                                 <div>
                                     <div v-if="index === editInput" class="ivu-table-cell tb-point">
                                         <Icon type="md-checkmark-circle-outline" size="20"

@@ -21,7 +21,7 @@
       <ul class="list-inline">
         <li class="list-inline-item"><a href="https://github.com/cangwuwuwu/wecoding">源码</a></li>
         <li class="list-inline-item"><a href="#" @click.prevent="tips">反馈</a></li>
-        <li class="list-inline-item"><a href="#">支持</a></li>
+        <li class="list-inline-item"><a href="#" @click.prevent="support">支持</a></li>
         <Divider type="vertical" style="background: #2d8cf0" />
         <li class="list-inline-item"><a href="#">中文</a></li>
         <li class="list-inline-item"><a href="#">English</a></li>
@@ -51,11 +51,17 @@ export default {
             this.tags = name;
             this.$router.push(name)
         },
-        tips () {
+        tips() {
             this.$Modal.info({
                 title: '反馈',
                 content: '<p>1. 点击<strong>[Learn More]</strong>进入主页</p><p>2. 再点击页脚处的<strong>[反馈bug]</strong></p>'
             });
+        },
+        support() {
+            this.$Modal.success({
+                title: '支持我们',
+                content: '<p>(一张微信收款码)</p><p>支持一点服务器的开销</p>'
+            })
         }
     },
 }

@@ -43,7 +43,8 @@
                 </Poptip>
             </Col>
             
-            <Col :md="{span: 0}" :xs="{span:2}" style="float: right;padding-right: 20px;cursor: pointer">
+            <Col :md="{span: 0}" :xs="{span:2}" class="xs-menu-btn" 
+            :style=" headtheme === 'dark' ? 'color: rgba(255,255,255,.7)' : headtheme === 'primary' ? 'color: #fff' : ''">
                 <Icon type="md-menu" size="25" @click="openmenu"/>
             </Col>
             <!-- <Col :xs="{span: 0}" :md="{span: 3}"> -->
@@ -138,7 +139,7 @@
         <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu">
             <div class="card-shadow">
                 <ul class="ivu-menu ivu-menu-light ivu-menu-vertical" style="width: auto;">
-                    <Menu width="310">
+                    <Menu width="310" @on-select="selectMenu">
                         <div class="navigate-group catalogue">起步</div>
                         <MenuItem name="cover" to="/index/cover">返回封面</MenuItem>
                         <MenuItem name="signin" to="/index/signin">登录</MenuItem>
@@ -155,7 +156,25 @@
                         <MenuItem name="toothers">其他专业</MenuItem>
                         <div class="navigate-group catalogue">交流讨论</div>
                         <MenuItem name="room" to="/chat/room">在线聊天</MenuItem>
-                        <a href="/docs/help"><MenuItem name="help" to="/docs/help">帮助文档</MenuItem></a>
+                        <a href="/docs/help"><div class="navigate-group catalogue">帮助文档</div></a>
+                        <MenuItem name="help" to="/docs/help/update-log">更新日志</MenuItem>
+                        <div class="navigate-group catalogue">更换主题</div>
+                        <MenuItem name="light">
+                        <Icon type="ios-color-fill-outline"></Icon>
+                            亮色
+                        </MenuItem>
+                        <MenuItem name="dark">
+                            <Icon type="ios-color-fill"></Icon>
+                            暗色
+                        </MenuItem>
+                        <MenuItem name="primary">
+                            <Icon type="md-color-fill"></Icon>
+                            蓝色
+                        </MenuItem>
+                        <MenuItem name="pink">
+                            <Icon type="md-color-fill"></Icon>
+                            骚粉
+                        </MenuItem>
                         <MenuGroup title="更新中...">
                         </MenuGroup>
                     </Menu>
@@ -626,5 +645,9 @@
 }
 .catalog-menu p a {
     text-decoration: underline;
+}
+.xs-menu-btn {
+    float: right;
+    padding-right: 20px;
 }
 </style>

@@ -32,7 +32,7 @@ export default {
     name: 'web',
     data() {
         return {
-            screenWidth: document.body.clientWidth,
+            // screenWidth: document.body.clientWidth,
             total_web: 0,
             page_web: 1,
             columns_web: [
@@ -123,7 +123,7 @@ export default {
             name: '',
         }
     },
-    props: ["choose"],
+    props: ["choose", "screenWidth"],
     methods: {
         getWebs(name) {
             var _self = this;

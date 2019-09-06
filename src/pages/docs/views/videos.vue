@@ -32,7 +32,7 @@ export default {
     name: 'videos',
     data() {
         return {
-            screenWidth: document.body.clientWidth,
+            // screenWidth: document.body.clientWidth,
             loading: false,
             columns: [
                 {
@@ -345,7 +345,7 @@ export default {
             data_search: [],
         }
     },
-    props: ["choose"],
+    props: ["choose", "screenWidth"],
     watch: {
         choose: {
             immediate:true,
@@ -372,7 +372,8 @@ export default {
                     resId: list[i].resMore.resId,
                     resHeat: list[i].resMore.resHeat,
                     resStatus: list[i].resMore.resStatus,
-                    resPoint: list[i].resMore.resPoint
+                    resPoint: list[i].resMore.resPoint,
+                    resUploader: list[i].resUploader
                 });
             }
             return a;

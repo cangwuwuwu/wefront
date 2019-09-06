@@ -52,7 +52,7 @@
         </Row>
         <Row type="flex" align="middle" class="subject-row">
             <Col span="6" style="text-align: right">                
-                <div id="photo" class="subject-head" >轻松一下</div>
+                <div id="photo" class="subject-head" ><a href="https://static.hfi.me/mikutap/" target="_blank">轻松一下</a></div>
                 Mikutap 
                 <Icon type="md-radio-button-off" size="25"></Icon><br>
             </Col>
