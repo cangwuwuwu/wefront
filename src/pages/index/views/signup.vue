@@ -1957,7 +1957,7 @@ export default {
             })
         },
         emailSearch (value) {
-            this.emailist = !value || value.indexOf('@') >= 0 ? [] : [
+            this.emailist = !value || value.includes('@') ? [] : [
                 value + '@qq.com',
                 value + '@sina.com',
                 value + '@163.com',

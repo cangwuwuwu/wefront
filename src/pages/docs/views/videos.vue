@@ -389,11 +389,11 @@ export default {
                     limit: 10
                 },
                 type: 'get',
-                success(res_language) {
+                success(res) {
                     // console.log(res_language);
-                    _self.data = _self.resTableData(res_language.list);
-                    _self.total = res_language.total;
-                    _self.page = res_language.pageNum;
+                    _self.data = _self.resTableData(res.list);
+                    _self.total = res.total;
+                    _self.page = res.pageNum;
                     _self.loading = false;
                     _self.$Loading.finish();
                 },

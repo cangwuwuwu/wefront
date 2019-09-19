@@ -361,9 +361,9 @@
             if (info) {  
                 this.hasLogin = true;
                 this.username = JSON.parse(info).data.name
-                this.connectMsgWsServer(this.username)
+                // this.connectMsgWsServer(this.username)
             } else {
-                this.connectMsgWsServer('')
+                // this.connectMsgWsServer('')
             }
         },
         methods: {
@@ -391,12 +391,12 @@
             connectMsgWsServer(username) {
                 var _self = this;
                 if (username !== '') {
-                    var ws = new WebSocket('ws://39.106.85.24:15674/ws');
+                    var ws = new WebSocket('ws://119.3.59.217:15674/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
                         _self.$Message.success('消息服务器连接成功!');
                         client.subscribe('/exchange/wecoding.fanout/', function (msg) {
-                            console.log(msg);
+                            // console.log(msg);
                             let jsonMsg = JSON.parse(msg.body);
                             _self.$Notice.info({
                                 title: '收到一条' + jsonMsg.msgType + '消息',

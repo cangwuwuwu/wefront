@@ -151,7 +151,7 @@
                                 Linux
                             </MenuItem>
                             <MenuItem name="/docs/resources/nosql">
-                                <Icon custom="iconfont icon-mongodb" size="20"></Icon>
+                                <Icon custom="iconfont icon-windows" size="20"></Icon>
                                 Windows
                             </MenuItem>
                             <MenuItem name="/docs/resources/docker">
