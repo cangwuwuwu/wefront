@@ -12,7 +12,8 @@ import { Carousel, CarouselItem } from 'iview'
 import { Page, Table } from 'iview'
 import { Button, ButtonGroup } from 'iview'
 import { Tooltip, Timeline, TimelineItem } from 'iview'
-import { Steps, Step } from 'iview'
+import { Steps, Step, Spin } from 'iview'
+import { DatePicker, Upload, Circle } from 'iview'
 import 'iview/dist/styles/iview.css';
 require('../../assets/css/icons.css');
 // require('../../assets/css/cover.css');
@@ -43,6 +44,10 @@ Vue.component('TimelineItem', TimelineItem );
 Vue.component('Tooltip', Tooltip );
 Vue.component('Steps', Steps );
 Vue.component('Step', Step );
+Vue.component('Spin', Spin );
+Vue.component('DatePicker', DatePicker );
+Vue.component('Upload', Upload );
+Vue.component('iCircle', Circle );
 Vue.prototype.$Message = Message;
 Vue.prototype.$Loading = LoadingBar;
 Vue.prototype.$Modal = Modal;

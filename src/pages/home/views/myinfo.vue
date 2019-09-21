@@ -15,7 +15,7 @@
             </Col>
             <Col span="4" offset="4">
                 <div class="demo-upload-list">
-                    <img :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuImg"/>
+                    <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
                     <div class="demo-upload-list-cover">
                         <Icon title="查看大图" type="md-qr-scanner" @click.native="handleView"></Icon>
                         <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead"></Icon>
@@ -23,7 +23,7 @@
                 </div>
             </Col>
             <Modal footer-hide v-model="visible" class="handle-view-modal">
-                <img width="60" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuBigImg"
+                <img width="80" :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
                      v-if="visible" style="width: 100%;height: 100%">
             </Modal>
 
@@ -297,7 +297,7 @@
                             data: formData,
                             success(data_myhead) {
                                 _self.$emit('updateHead', data_myhead.stuImg)
-                                console.log(data_myhead.stuImg)
+                                // console.log(data_myhead.stuImg)
                                 _self.myinfo.stuImg = data_myhead.stuImg;
                                 _self.myinfo.stuBigImg = data_myhead.stuBigImg;
                                 _self.$Message.success('上传成功!')
@@ -425,7 +425,7 @@
                 // test.document.body.innerHTML = '图片生成中..'
                 if (type === 'blob') {
                     this.$refs.cropper.getCropBlob((data) => {
-                        console.log(data);
+                        // console.log(data);
                         var img = window.URL.createObjectURL(data);
                         this.model = true;
                         this.modelSrc = img

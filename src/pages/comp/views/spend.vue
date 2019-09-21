@@ -3,92 +3,290 @@
         <Row style="">
             <Col span="4">
                 <div class="financial-head">协会财务公示</div>
-                <Card v-for="item in spend" :key="item.id"> 
-                    <Timeline>
-                        <TimelineItem :color="item.type === '+' ? 'green' : 'red'" >
-                            <p class="time">{{item.time}}</p>
-                            <Row>
-                                <Col span="16" >
-                                    <p class="content">
-                                        {{item.content}} <br>
-                                        <Icon custom="iconfont icon-renminbi" size="23"></Icon>
-                                        {{item.number}}
-                                    </p>
-                                </Col>
-                                <Col span="8" >
-                                    <span :style="'font-size: 30px;font-weight: bold;color: '+ (item.type === '+' ? 'green' : 'red')">{{item.type + item.number}}</span>
-                                </Col>
-                            </Row>
-                        </TimelineItem>
-                    </Timeline>
-                </Card>
-            </Col>
-            <Col span="20" >
-                <div class="financial-head">财务上报流程</div>
-                <div style="padding: 20px">
-                    <Steps :current="0">
-                        <Step title="进行中" content="这里是该步骤的描述信息"></Step>
-                        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-                        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-                        <Step title="待进行" content="这里是该步骤的描述信息"></Step>
-                    </Steps>
+                <div @click="displayBlock(item, index)" v-for="(item,index) in spend" :key="item.id">
+                    <Card dis-hover :class="clickIndex === index ? 'card-no-right-border' : ''"> 
+                        <Timeline>
+                            <TimelineItem :color="item.type === '+' ? 'green' : 'red'" >
+                                <p class="time" >{{item.time}}</p>
+                                <Row>
+                                    <Col span="16" >
+                                        <p class="content">
+                                            {{item.describe}} <br>
+                                            <Icon custom="iconfont icon-renminbi" size="23"></Icon>
+                                            {{item.number}}
+                                        </p>
+                                    </Col>
+                                    <Col span="8" >
+                                        <span :style="'font-size: 26px;font-weight: bold;color: '+ (item.type === '+' ? '#00CD66' : '#EE4000')">{{item.type + item.number}}</span>
+                                    </Col>
+                                </Row>
+                            </TimelineItem>
+                        </Timeline>
+                    </Card>
                 </div>
+                <div style="width:1000px;height: 800px;" slot="content"></div>
+                <div style="text-align: center;margin-top: 10px;">
+                    <Page :total="total" size="small" />
+                </div>
+            </Col>
+            <Col v-show="rightBlock" span="20" style="background: #fff;">
+                <Row>
+                    <div class="financial-head">财务明细：{{ hoverSpend.describe }}</div>
+                </Row>
+                <Row>
+                    <div 
+                        title="关闭" 
+                        @click="rightBlock = false;clickIndex = -1" 
+                        style="text-align: right;cursor: pointer;">
+                        <Icon type="md-close" size="25"/>
+                    </div>
+                </Row>
+                <Row style="padding-top: 130px;">
+                    <div class="money-content">
+                        <div class="money-small-title">收支时间:</div>
+                        <div class="money-small-content">{{ hoverSpend.time }}</div>
+                        <div class="money-small-title">收支描述:</div>
+                        <div class="money-small-content">{{ hoverSpend.describe }}</div>
+                        <div class="money-small-title">收支金额:</div>
+                        <div class="money-small-content">{{ hoverSpend.type }}{{ hoverSpend.number }}(元)</div>
+                        <div class="money-small-title">上报人:</div>
+                        <div class="money-small-content">{{ hoverSpend.name }}</div>
+                        <div class="money-small-title">相关图片:</div>
+                        <div class="money-small-content">
+                            <img title="放大" class="magnify-img" v-for="(img,index) in hoverSpend.small" :key="index" 
+                            :src="'http://39.106.85.24:9000/wecoding/' + img" @click="openBigImg(index)"/>
+                        </div>
+                        <div class="money-small-title">其他补充:</div>
+                        <div style="font-size: 18px;">{{ hoverSpend.info }}</div>
+                    </div>
+                </Row>
+            </Col>
+            <Col v-show="!rightBlock" span="20">
+                <Row>
+                    <div class="financial-head">收支上报流程</div>
+                    <div style="padding: 20px">
+                        <Steps :current="current">
+                            <Step title="填写收支基本信息"></Step>
+                            <Step title="上传相关图片"></Step>
+                            <Step title="填写上报人信息"></Step>
+                            <Step title="完成收支上报"></Step>
+                        </Steps>
+                    </div>
+                </Row>
+                <Row style="padding-top: 130px;">
+                    <!-- <router-view></router-view> -->
+                    <Carousel v-model="current" arrow="never" dots="none" :height="400">
+                        <CarouselItem>
+                            <div class="demo-carousel">
+                                <div class="first step">
+                                    <div class="money-title">收支信息</div>
+                                    <Form ref="formSpend1" :model="money" label-position="top" :rules="ruleSpend">
+                                        <FormItem label="收入/支出" prop="type">
+                                            <RadioGroup v-model="money.type" type="button">
+                                                <Radio label="收入"></Radio>
+                                                <Radio label="支出"></Radio>
+                                            </RadioGroup>   
+                                        </FormItem>
+                                        <FormItem label="收支时间" prop="time">
+                                            <DatePicker 
+                                                v-model="money.time"
+                                                :editable="false"
+                                                type="datetime" 
+                                                format="yyyy-MM-dd HH:mm" 
+                                                transfer
+                                                style="width: 100%"
+                                                placeholder="选择时间和日期">
+                                            </DatePicker>
+                                        </FormItem>
+                                        <FormItem label="收支描述" prop="describe">
+                                            <Input clearable type="text" v-model="money.describe" placeholder="一句话描述"></Input>
+                                        </FormItem>
+                                        <FormItem label="补充" prop="others">
+                                            <Input clearable type="textarea" v-model="money.others" placeholder="还有任何这项收支的补充吗">
+                                            </Input>
+                                        </FormItem>
+                                    </Form>
+                                </div>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="demo-carousel">
+                                <Second/>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="demo-carousel">
+                                <div class="first step">
+                                    <div class="money-title">上报人信息</div>
+                                    <Form ref="formSpend2" label-position="top" :model="money" :rules="ruleSpend">
+                                        <FormItem label="姓名" prop="name">
+                                            <Input clearable type="text" v-model="money.name" placeholder="你的名字">
+                                                <Icon type="ios-person-outline" slot="prepend"></Icon>
+                                            </Input>
+                                        </FormItem>
+                                        <FormItem label="邮箱" prop="email">
+                                            <Input 
+                                                clearable 
+                                                type="text" 
+                                                v-model="money.email" 
+                                                placeholder="以便及时的通知你"
+                                                @keyup.enter.native="next()">
+                                                <Icon type="ios-mail-outline" slot="prepend"></Icon>
+                                            </Input>
+                                        </FormItem>
+                                    </Form>
+                                </div>
+                            </div>
+                        </CarouselItem>
+                        <CarouselItem>
+                            <div class="demo-carousel">
+                                <div class="first step">
+                                    <div v-if="resultStatus === 1" class="money-title" style="color: #EE4000;font-size: 30px;" >
+                                        <Icon type="ios-close-circle-outline" size="40"/> 意外错误
+                                    </div>
+                                    <div v-else>
+                                        <div class="money-title" style="color: #5cb85c" >
+                                            <Icon type="md-checkmark-circle-outline" size="30"/> 上报成功
+                                        </div>
+                                        <div class="step3-title">如长时间没有答复,直接QQ联系</div>
+                                        <div style="text-align: center;">
+                                            <img src="http://39.106.85.24:8999/money_qq.png"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CarouselItem>
+                    </Carousel>
+                </Row>
+                <Row type="flex" justify="center" align="middle">
+                    <ButtonGroup>
+                        <Button v-show="current !== 3" type="primary" @click="previous" :disabled="current === 0">上一步</Button>
+                        <Button v-show="current !== 3" :type="current === 2 ? 'default' : 'primary'" @click="next">
+                            {{ current === 2 ? '完成' : '下一步' }}
+                        </Button>
+                    </ButtonGroup>
+                </Row>
+                <Spin size="large" fix v-if="Listloading">
+                    <div class="loader">
+                        <svg class="circular" viewBox="25 25 50 50">
+                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5" stroke-miterlimit="10"></circle>
+                        </svg>
+                    </div>
+                    <span style="font-size: 15px;color: black">正在提交...</span>
+                </Spin>
             </Col>
         </Row>
     </div>    
 </template>
 <script>
+import Second from '@/pages/comp/views/upimg.vue'
 export default {
     name: 'spend',
+    components: {
+        Second
+    },
     data() {
         return {
             spend: [
                 {
                     id: 1,
-                    time: '2019',
+                    time: '2019-08-07 15:33',
                     type: '+',
-                    content: '会费结余',
+                    describe: '会费结余',
                     number: 300,
+                    name: 'cangwu',
+                    small: [
+                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809_60x60.png',
+                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617_60x60.png',
+                    ],
+                    big: [
+                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809.png',
+                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png',
+                    ],
+                    info: '大家好我是练习时长达到两年半的偶像练习生才徐坤大家好我是练习时长达到两年半的偶像练习生才徐坤'
                 },
                 {
                     id: 2,
-                    time: '2019',
+                    time: '2018',
                     type: '-',
-                    content: '纳新海报',
+                    describe: '纳新海报',
                     number: 50,
+                    name: 'cangwu',
+                    small: [
+                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809_60x60.png',
+                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617_60x60.png',
+                    ],
+                    big: [
+                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809.png',
+                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png',
+                    ],
                 },
                 {
                     id: 3,
-                    time: '2019',
+                    time: '2017',
                     type: '-',
-                    content: '纳新传单',
+                    describe: '纳新传单',
                     number: 100,
+                    name: 'cangwu',
+                    small: '',
+                    big: 'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png'
                 },
                 {
                     id: 4,
-                    time: '2019',
+                    time: '2016',
                     type: '-',
-                    content: '...etc',
+                    describe: '...etc',
                     number: 100,
+                    name: 'cangwu',
+                    small: '',
+                    big: 'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png'
                 },
                 {
                     id: 5,
-                    time: '2019',
+                    time: '2015',
                     type: '-',
-                    content: '...etc',
+                    describe: '...etc',
                     number: 100,
-                },
-                {
-                    id: 6,
-                    time: '2019',
-                    type: '-',
-                    content: '...etc',
-                    number: 100,
+                    name: 'cangwu',
+                    small: '',
+                    big: 'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png'
                 },
             ],
+            total: 0,
+            current: 0,
+            Listloading: false,
+            money: {
+                type: '',
+                time: '',
+                info: '',
+                name: '',
+                email: '',
+            },
+            ruleSpend: {
+                type: [
+                    { required: true, message: '收支是必选项', trigger: 'blur' }
+                ],
+                email: [
+                    { required: true, message: '邮箱不能为空', trigger: 'blur' },
+                    { type: 'email', message: '邮箱格式错误', trigger: 'blur' }
+                ],
+                time: [
+                    { required: true, message: '必须选择收支时间',pattern: /.+/, trigger: 'change' }
+                ],
+                describe: [
+                    { required: true, message: '简介不能为空', trigger: 'blur' }
+                ],
+                name: [
+                    { required: true, message: '姓名不能为空', trigger: 'blur' }
+                ],
+            },
+            resultStatus: 1,
+            hoverSpend: {},
+            rightBlock: false,
+            clickIndex: -1,
         }
     },
-    mounted() {
+    created() {
         
     },
     methods: {
@@ -100,11 +298,57 @@ export default {
                     this.spend = res.data;
                 }
             })
+        },
+        displayBlock(spend, index) {
+            this.hoverSpend = spend;
+            this.rightBlock = true;
+            this.clickIndex = index;
+        },
+        openBigImg(index) {
+            window.open('http://39.106.85.24:9000/wecoding/' + this.hoverSpend.big[index])
+        },
+        next () {
+            let _self = this;
+            if (this.current === 2) {
+                this.$refs['formSpend1'].validate((valid) => {
+                    if (valid) {
+                        this.$refs['formSpend2'].validate((valid) => {
+                            if (valid) {
+                                // this.$Message.success('Success!');
+                                this.Listloading = true;
+                                setTimeout(function () {
+                                    _self.Listloading = false;
+                                    _self.current = 3;
+                                }, 2000);
+                                this.resultStatus = 0;
+                            } else {
+                                this.$Message.error('上报人信息填写有误!');
+                                
+                            }
+                        })
+                    } else {
+                        this.$Message.error('基本信息填写有误!');
+                        this.current = 0;
+                    }
+                })
+                return;
+            }
+            this.current += 1;
+        },
+        previous () {
+            this.current -= 1;
         }
     },
 }
 </script>
 <style scoped lang="less">
+    .step3-title {
+        font-size: 17px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
     .financial-head {
         text-align: center;
         padding:20px;
@@ -125,5 +369,116 @@ export default {
     .content {
         font-size: 14px;
         padding-left: 5px;
+    }
+    .ivu-card-bordered {
+        cursor: pointer;
+    }
+    .card-no-right-border {
+        border-right: 0px;
+    }
+    .magnify-img {
+        cursor:url('http://39.106.85.24:8999/magnify.ico'),auto
+    }
+</style>
+<style>
+    .step {
+        width: 500px;
+        margin: auto;
+    }
+    .money-title {
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+    .money-small-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .money-small-content {
+        text-align: right;
+        font-size: 18px;
+    }
+    .money-content {
+        width: 500px;
+        margin: auto
+    }
+    .money-content > .money-small-title {
+        border-bottom: 1px dashed;
+    }
+    .money-small-content > img {
+        margin: 1px;
+    }
+
+    @keyframes rotate {
+        from { transform: rotate(0deg);}
+        50%  { transform: rotate(180deg);}
+        to   { transform: rotate(360deg);}
+    }
+
+    @keyframes dash {
+        0% {
+            stroke-dasharray: 1,200;
+            stroke-dashoffset: 0;
+        }
+
+        50% {
+            stroke-dasharray: 89,200;
+            stroke-dashoffset: -35;
+        }
+        100% {
+            stroke-dasharray: 89,200;
+            stroke-dashoffset: -124;
+        }
+    }
+
+    @keyframes color {
+        0%, 100% {
+            stroke: #d62d20;
+        }
+        40% {
+            stroke: #0057e7;
+        }
+
+        66% {
+            stroke: #008744;
+        }
+        80%, 90% {
+            stroke: #ffa700;
+        }
+    }
+
+    .ivu-spin-fix {
+        z-index: 11;
+    }
+
+    .circular {
+        -webkit-animation: rotate 2s linear infinite;
+        animation: rotate 2s linear infinite;
+        height: 100%;
+        -webkit-transform-origin: center center;
+        transform-origin: center center;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+
+    .path {
+        stroke-dasharray: 1,200;
+        stroke-dashoffset: 0;
+        -webkit-animation: dash 1.5s ease-in-out infinite,color 6s ease-in-out infinite;
+        animation: dash 1.5s ease-in-out infinite,color 6s ease-in-out infinite;
+        stroke-linecap: round;
+    }
+    .loader {
+        width: 40px;
+        height: 40px;
+        position: relative;
+        margin: 0 auto;
     }
 </style>
