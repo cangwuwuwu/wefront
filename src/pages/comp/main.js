@@ -2,9 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from '@/pages/comp/router'
 import '@/utils/api'
-import { Icon, Modal, Input, AutoComplete } from 'iview'
+import { Icon, Modal, Input, InputNumber, AutoComplete } from 'iview'
 import { Row, Col, Card } from 'iview'
-import { Message, LoadingBar } from 'iview'
+import { Message, LoadingBar, Notice } from 'iview'
 import { Form,FormItem  } from 'iview'
 import { Radio, RadioGroup } from 'iview'
 import { Switch, Cascader, Option } from 'iview'
@@ -24,6 +24,7 @@ Vue.component('Form', Form);
 Vue.component('FormItem', FormItem);
 Vue.component('Modal', Modal);
 Vue.component('Input', Input);
+Vue.component('InputNumber', InputNumber);
 Vue.component('Button', Button);
 Vue.component('ButtonGroup', ButtonGroup);
 Vue.component('Card', Card);
@@ -51,6 +52,7 @@ Vue.component('iCircle', Circle );
 Vue.prototype.$Message = Message;
 Vue.prototype.$Loading = LoadingBar;
 Vue.prototype.$Modal = Modal;
+Vue.prototype.$Notice = Notice;
 
 router.beforeEach((to, from , next) => {
   if (to.meta.title) {

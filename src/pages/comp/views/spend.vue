@@ -13,20 +13,22 @@
                                         <p class="content">
                                             {{item.describe}} <br>
                                             <Icon custom="iconfont icon-renminbi" size="23"></Icon>
-                                            {{item.number}}
+                                            {{ `${item.number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
                                         </p>
                                     </Col>
                                     <Col span="8" >
-                                        <span :style="'font-size: 26px;font-weight: bold;color: '+ (item.type === '+' ? '#00CD66' : '#EE4000')">{{item.type + item.number}}</span>
+                                        <span :style="'font-size: 26px;font-weight: bold;color: '+ (item.type === '+' ? '#00CD66' : '#EE4000')">
+                                            {{item.type + `${item.number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')}}</span>
                                     </Col>
                                 </Row>
                             </TimelineItem>
                         </Timeline>
+                        <div>点击查看明细</div>
                     </Card>
                 </div>
                 <div style="width:1000px;height: 800px;" slot="content"></div>
                 <div style="text-align: center;margin-top: 10px;">
-                    <Page :total="total" size="small" />
+                    <Page :total="total" :current="page" @on-change="changePage" size="small" />
                 </div>
             </Col>
             <Col v-show="rightBlock" span="20" style="background: #fff;">
@@ -41,14 +43,14 @@
                         <Icon type="md-close" size="25"/>
                     </div>
                 </Row>
-                <Row style="padding-top: 130px;">
+                <Row style="padding-top: 100px;padding-bottom: 50px;">
                     <div class="money-content">
                         <div class="money-small-title">收支时间:</div>
                         <div class="money-small-content">{{ hoverSpend.time }}</div>
                         <div class="money-small-title">收支描述:</div>
                         <div class="money-small-content">{{ hoverSpend.describe }}</div>
                         <div class="money-small-title">收支金额:</div>
-                        <div class="money-small-content">{{ hoverSpend.type }}{{ hoverSpend.number }}(元)</div>
+                        <div class="money-small-content">{{ hoverSpend.type }}{{ `${hoverSpend.number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}(元)</div>
                         <div class="money-small-title">上报人:</div>
                         <div class="money-small-content">{{ hoverSpend.name }}</div>
                         <div class="money-small-title">相关图片:</div>
@@ -57,9 +59,12 @@
                             :src="'http://39.106.85.24:9000/wecoding/' + img" @click="openBigImg(index)"/>
                         </div>
                         <div class="money-small-title">其他补充:</div>
-                        <div style="font-size: 18px;">{{ hoverSpend.info }}</div>
+                        <div style="font-size: 18px;">{{ hoverSpend.others }}</div>
                     </div>
                 </Row>
+                <!-- <Row type="flex" justify="center">
+                    <Button type="error" @click="deleteSpend(hoverSpend.id)">删除这条记录</Button>
+                </Row> -->
             </Col>
             <Col v-show="!rightBlock" span="20">
                 <Row>
@@ -81,12 +86,30 @@
                                 <div class="first step">
                                     <div class="money-title">收支信息</div>
                                     <Form ref="formSpend1" :model="money" label-position="top" :rules="ruleSpend">
-                                        <FormItem label="收入/支出" prop="type">
-                                            <RadioGroup v-model="money.type" type="button">
-                                                <Radio label="收入"></Radio>
-                                                <Radio label="支出"></Radio>
-                                            </RadioGroup>   
-                                        </FormItem>
+                                        <Row>
+                                            <Col span="12">
+                                                <FormItem label="收入/支出" prop="type">
+                                                    <RadioGroup v-model="money.type" type="button">
+                                                        <Radio label="+" >
+                                                            <span>收入</span>
+                                                        </Radio>
+                                                        <Radio label="-" >
+                                                            <span>支出</span>
+                                                        </Radio>
+                                                    </RadioGroup>   
+                                                </FormItem>
+                                            </Col>
+                                            <Col span="12">
+                                                <FormItem label="金额" prop="number">
+                                                    <InputNumber
+                                                        :max="10000"
+                                                        v-model="money.number"
+                                                        :formatter="value => `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')"
+                                                        :parser="value => value.replace(/$s?|(,*)/g, '')">
+                                                    </InputNumber>
+                                                </FormItem>
+                                            </Col>
+                                        </Row>
                                         <FormItem label="收支时间" prop="time">
                                             <DatePicker 
                                                 v-model="money.time"
@@ -111,7 +134,7 @@
                         </CarouselItem>
                         <CarouselItem>
                             <div class="demo-carousel">
-                                <Second/>
+                                <UpImg @getImg="getImgMethod"/>
                             </div>
                         </CarouselItem>
                         <CarouselItem>
@@ -179,92 +202,43 @@
     </div>    
 </template>
 <script>
-import Second from '@/pages/comp/views/upimg.vue'
+import axios from 'axios'
+import UpImg from '@/pages/comp/views/upimg.vue'
 export default {
     name: 'spend',
     components: {
-        Second
+        UpImg
     },
     data() {
         return {
-            spend: [
-                {
-                    id: 1,
-                    time: '2019-08-07 15:33',
-                    type: '+',
-                    describe: '会费结余',
-                    number: 300,
-                    name: 'cangwu',
-                    small: [
-                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809_60x60.png',
-                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617_60x60.png',
-                    ],
-                    big: [
-                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809.png',
-                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png',
-                    ],
-                    info: '大家好我是练习时长达到两年半的偶像练习生才徐坤大家好我是练习时长达到两年半的偶像练习生才徐坤'
-                },
-                {
-                    id: 2,
-                    time: '2018',
-                    type: '-',
-                    describe: '纳新海报',
-                    number: 50,
-                    name: 'cangwu',
-                    small: [
-                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809_60x60.png',
-                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617_60x60.png',
-                    ],
-                    big: [
-                        'M00/00/00/rBg7v11mqU6AGzpgAAMEEsNv8So809.png',
-                        'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png',
-                    ],
-                },
-                {
-                    id: 3,
-                    time: '2017',
-                    type: '-',
-                    describe: '纳新传单',
-                    number: 100,
-                    name: 'cangwu',
-                    small: '',
-                    big: 'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png'
-                },
-                {
-                    id: 4,
-                    time: '2016',
-                    type: '-',
-                    describe: '...etc',
-                    number: 100,
-                    name: 'cangwu',
-                    small: '',
-                    big: 'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png'
-                },
-                {
-                    id: 5,
-                    time: '2015',
-                    type: '-',
-                    describe: '...etc',
-                    number: 100,
-                    name: 'cangwu',
-                    small: '',
-                    big: 'M00/00/00/rBg7v11hK36Adb2DAAD1T_jEbUg617.png'
-                },
-            ],
+            spend: [],
             total: 0,
+            page: 1,
             current: 0,
             Listloading: false,
             money: {
                 type: '',
                 time: '',
-                info: '',
+                others: '',
                 name: '',
+                number: 0,
                 email: '',
+                small: [],
+                big: []
             },
             ruleSpend: {
                 type: [
                     { required: true, message: '收支是必选项', trigger: 'blur' }
+                ],
+                number: [
+                    { required: true, type: 'number', message: '金额不能为空', trigger: 'blur' },
+                    { validator: (rule, value, callback) => {
+                        if (value < 1) {
+                            callback(new Error('请输入正确的金额'));
+                        } else {
+                            callback();
+                        }
+                      } }
                 ],
                 email: [
                     { required: true, message: '邮箱不能为空', trigger: 'blur' },
@@ -287,15 +261,22 @@ export default {
         }
     },
     created() {
-        
+        this.getAllSpendByPage(this.page, 5);
     },
     methods: {
-        getAllSpendByPage() {
+        getAllSpendByPage(page, size) {
             axios
-            .get('/api/comp/spend')
+            .get('/api/comp/spend', {
+                params: {
+                    page: page,
+                    size: size
+                },
+            })
             .then(res => {
                 if (res) {
-                    this.spend = res.data;
+                    this.spend = res.data.list;
+                    this.totla = res.data.total;
+                    this.page = res.data.pageNum;
                 }
             })
         },
@@ -307,6 +288,13 @@ export default {
         openBigImg(index) {
             window.open('http://39.106.85.24:9000/wecoding/' + this.hoverSpend.big[index])
         },
+        getImgMethod(small, big) {
+            this.money.small = small;
+            this.money.big = big;
+        },
+        changePage() {
+            this.getAllSpendByPage(this.page, 5)
+        },
         next () {
             let _self = this;
             if (this.current === 2) {
@@ -316,14 +304,27 @@ export default {
                             if (valid) {
                                 // this.$Message.success('Success!');
                                 this.Listloading = true;
-                                setTimeout(function () {
-                                    _self.Listloading = false;
-                                    _self.current = 3;
-                                }, 2000);
+                                axios
+                                    .post('/api/comp/spend', {
+                                        type: this.money.type,
+                                        time: this.money.time,
+                                        others: this.money.others,
+                                        name: this.money.name,
+                                        number: this.money.number,
+                                        email: this.money.email,
+                                        describe: this.money.describe,
+                                        small: this.money.small.join(','),
+                                        big: this.money.big.join(',')
+                                    })
+                                    .then(res => {
+                                        if (res) {
+                                            _self.Listloading = false;
+                                            _self.current = 3;
+                                        }
+                                    })
                                 this.resultStatus = 0;
                             } else {
                                 this.$Message.error('上报人信息填写有误!');
-                                
                             }
                         })
                     } else {

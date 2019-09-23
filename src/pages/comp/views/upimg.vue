@@ -1,12 +1,12 @@
 <template>
     <div class="first step">
         <div class="money-title">上传相关图片</div>
-            <div class="demo-upload-list" v-for="item in uploadList" :key="item.uid">
+            <div class="demo-upload-list" v-for="(item, index) in uploadList" :key="index">
                 <template class="test" v-if="item.status === 'finished'">
                     <img :src="item.url">
                     <div class="demo-upload-list-cover">
                         <Icon type="ios-eye-outline" @click.native="handleView(item.response.big)"></Icon>
-                        <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                        <Icon type="ios-trash-outline" @click.native="handleRemove(item, index)"></Icon>
                     </div>
                 </template>
                 <template v-else>
@@ -23,6 +23,7 @@
             :on-success="handleSuccess"
             :format="['jpg','jpeg','png']"
             :max-size="2048"
+            :on-error="uploadError"
             :on-format-error="handleFormatError"
             :on-exceeded-size="handleMaxSize"
             :before-upload="handleBeforeUpload"
@@ -49,6 +50,8 @@ export default {
             uploadList: [],
             imgName: '',
             visible: false,
+            small: [],
+            big: [],
         }
     },
     methods: {
@@ -56,8 +59,8 @@ export default {
             this.imgName = name;
             this.visible = true;
         },
-        handleRemove (file) {
-            console.log(file)
+        handleRemove (file, index) {
+            // console.log(file)
             axios
             .delete('/api/spend/uploadimg', {
                 data: {
@@ -67,25 +70,29 @@ export default {
             })
             .then(res => {
                 if (res) {
-                    const fileList = this.$refs.upload.fileList;
-                    this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+                    this.$refs.upload.fileList.splice(index, 1);
+                    this.small.splice(index, 1);
+                    this.big.splice(index, 1)
+                    this.$emit('getImg', this.small, this.big);
                 }
             })
         },
         handleSuccess (res, file) {
-            // console.log(res)
+            this.small.push(res.small);
+            this.big.push(res.big);
+            this.$emit('getImg', this.small, this.big);
             file.url = 'http://39.106.85.24:9000/wecoding/' + res.small;
         },
         handleFormatError (file) {
             this.$Notice.warning({
                 title: '文件格式不正确',
-                desc: '文件' + file.name + '格式不正确，请上传mp4格式'
+                desc: '图片' + file.name + '格式不正确，请上传jpg/png格式'
             });
         },
         handleMaxSize (file) {
             this.$Notice.warning({
                 title: '超出文件大小范围',
-                desc: '文件' + file.name + ' 太大了, 不允许超过 500M.'
+                desc: '图片' + file.name + ' 太大了, 不允许超过 2M.'
             });
         },
         handleBeforeUpload () {
@@ -97,6 +104,12 @@ export default {
             }
             return check;
         },
+        uploadError(error, file) {
+            this.$Notice.error({
+                title: file.status,
+                desc: file.message + ' 前往登录：<a href="/index/signin">www.niter.work/index/signin</a>'
+            });
+        }
     },
     mounted () {
         this.uploadList = this.$refs.upload.fileList;

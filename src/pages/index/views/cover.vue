@@ -25,7 +25,7 @@
                                 <Row>
                                     <Col span="4">
                                         <Avatar v-if="user.stuImg === '' || user.stuImg === null" size="large" :style="{background: color[ranum()]}">{{user.stuUsername.substr(0,1)}}</Avatar>
-                                        <Avatar v-else size="large" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + user.stuImg"></Avatar>
+                                        <Avatar v-else size="large" :src="'http://39.106.85.24:9000/wecoding/' + user.stuImg"></Avatar>
                                     </Col>
                                     <Col span="16" offset="4" class-name="user-right-col">
                                         <strong><div class="my-0" v-text="user.stuUsername">Username</div></strong>

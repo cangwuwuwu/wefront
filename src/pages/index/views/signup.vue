@@ -144,6 +144,53 @@ export default {
                 stuInfo: '', 
             },
             emailist: [],
+            disabled:  false,
+            btntext: '获取验证码',
+            btnstyle: '',
+            ruleValidate: {
+                stuId: [
+                    { required: true, message: '学号不能为空!', trigger: 'blur' },
+                    { validator: IdUsedCheck, trigger: 'blur' },
+                    { type: 'number', message: '学号格式错误!', 
+                    transform(value) {
+                            return Number(value);
+                        } 
+                    }
+                ],
+                stuUsername: [
+                    { required: true, message: '用户名不能为空!', trigger: 'blur'},
+                    { max: 20, message: '用户名长度最大为32个字符', trigger: 'change' },
+                    { validator: NameUsedCheck, trigger: 'blur' }
+                ],
+                stuEmail: [
+                    { required: true, message: '邮箱不能为空!', trigger: 'blur' },
+                    { type: 'email', message: '邮箱格式错误!', trigger: 'change' }
+                ],
+                stuCode: [
+                    { required: true, message: '验证码不能为空!', trigger: 'blur' },
+                    { type: 'number', message: '验证码格式错误!', 
+                    transform(value) {
+                            return Number(value);
+                        }   
+                    }
+                ],
+                stuPassword: [
+                    { required: true, message: '密码不能为空!', trigger: 'blur' },
+                    { min: 6,max: 20, message: '密码长度在6到20之间', trigger: 'change' }
+                ],
+                stuRePassword: [
+                    { required: true, message: '确认密码不能为空!', trigger: 'blur' },
+                    { validator: validatePassCheck, trigger: 'change' }
+                ],
+                stuPhone: [
+                    { required: false, message: '', trigger: 'blur' },
+                    { type:'string', pattern: /^1[3456789]\d{9}$/, message:'电话格式错误!', trigger: 'blur'}
+                ],
+                stuInfo: [
+                    { required: false },
+                    { max: 200, message: '最多只能输入两百个字符!', trigger: 'change' }
+                ]
+            },
             provs: [
                 {
                     label: '北京市',
@@ -1876,54 +1923,7 @@ export default {
                         }
                     ]
                 }
-            ],
-            disabled:  false,
-            btntext: '获取验证码',
-            btnstyle: '',
-            ruleValidate: {
-                stuId: [
-                    { required: true, message: '学号不能为空!', trigger: 'blur' },
-                    { validator: IdUsedCheck, trigger: 'blur' },
-                    { type: 'number', message: '学号格式错误!', 
-                    transform(value) {
-                            return Number(value);
-                        } 
-                    }
-                ],
-                stuUsername: [
-                    { required: true, message: '用户名不能为空!', trigger: 'blur'},
-                    { max: 20, message: '用户名长度最大为32个字符', trigger: 'change' },
-                    { validator: NameUsedCheck, trigger: 'blur' }
-                ],
-                stuEmail: [
-                    { required: true, message: '邮箱不能为空!', trigger: 'blur' },
-                    { type: 'email', message: '邮箱格式错误!', trigger: 'change' }
-                ],
-                stuCode: [
-                    { required: true, message: '验证码不能为空!', trigger: 'blur' },
-                    { type: 'number', message: '验证码格式错误!', 
-                    transform(value) {
-                            return Number(value);
-                        }   
-                    }
-                ],
-                stuPassword: [
-                    { required: true, message: '密码不能为空!', trigger: 'blur' },
-                    { min: 6,max: 20, message: '密码长度在6到20之间', trigger: 'change' }
-                ],
-                stuRePassword: [
-                    { required: true, message: '确认密码不能为空!', trigger: 'blur' },
-                    { validator: validatePassCheck, trigger: 'change' }
-                ],
-                stuPhone: [
-                    { required: false, message: '', trigger: 'blur' },
-                    { type:'string', pattern: /^1[3456789]\d{9}$/, message:'电话格式错误!', trigger: 'blur'}
-                ],
-                stuInfo: [
-                    { required: false },
-                    { max: 200, message: '最多只能输入两百个字符!', trigger: 'change' }
-                ]
-            }
+            ]
         }
     },
     methods: {

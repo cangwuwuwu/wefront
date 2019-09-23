@@ -431,7 +431,7 @@ export default {
                     _self.total = search_res.total;
                     _self.page = search_res.pageNum;
                     _self.$Loading.finish();
-                    _self.loading= false;
+                    _self.loading = false;
                 },
                 error() {
                     _self.$Message.error('数据加载失败...');

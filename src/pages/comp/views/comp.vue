@@ -415,7 +415,7 @@ export default {
                 ],
                 stuName: [
                     { required: true, message: '姓名不能为空!', trigger: 'blur'},
-                    { max: 8, message: '谁家孩子名字这么长', trigger: 'blur'}
+                    { max: 8, message: '姓名最大8位', trigger: 'blur'}
                 ],
                 stuDept: [
                     { required: true, message: '院系和专业不能为空!'},

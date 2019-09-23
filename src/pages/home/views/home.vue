@@ -79,7 +79,7 @@
                         <template>
                             <badge :count="msgcount">
                                 <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" 
-                                :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + myinfo.stuImg"/>
+                                :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
                                 <Avatar v-else icon="ios-person"/>
                             </badge>
                         </template>
@@ -429,7 +429,7 @@
                 ];
             },
             changeHeadImg(res) {
-                console.log("home.vue 381" + res)
+                // console.log("home.vue 381" + res)
                 this.myinfo.stuImg = res;
             },
             changepassBtn(name) {
