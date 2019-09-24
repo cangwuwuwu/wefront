@@ -355,10 +355,10 @@
             }
         },
         mounted: function () {
-            this.getCurrentInfo();
             let info = sessionStorage.getItem('wecoding_login_info')
             // console.log(info)
             if (info) {  
+                this.getCurrentInfo();
                 this.hasLogin = true;
                 this.username = JSON.parse(info).data.name
                 // this.connectMsgWsServer(this.username)

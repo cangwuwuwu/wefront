@@ -7,18 +7,47 @@
                 <FormItem label="学号" prop="stuId">
                     <Input v-model="formItem.stuId" icon="ios-key-outline" placeholder="南工学号"></Input>
                 </FormItem>
-                <FormItem label="姓名" prop="stuName">
-                    <Input v-model="formItem.stuName" icon="ios-person-outline" placeholder="真实姓名"></Input>
-                </FormItem>
-                <FormItem label="性别" prop="stuGender">
-                    <RadioGroup v-model="formItem.stuGender" type="button" size="large">
-                        <Radio label="男"></Radio>
-                        <Radio label="女"></Radio>
-                    </RadioGroup>
-                </FormItem>
-                <FormItem label="院系/专业" prop="stuDept">
-                    <Cascader :data="depts" v-model="formItem.stuDept" change-on-select></Cascader>
-                </FormItem>
+                <Row>
+                    <Col :md="{span:12}" :xs="{span:24}">
+                        <FormItem label="姓名" prop="stuName">
+                            <Input v-model="formItem.stuName" icon="ios-person-outline" placeholder="真实姓名"></Input>
+                        </FormItem>
+                    </Col>
+                    <Col :md="{span:12}" :xs="{span:24}">
+                        <FormItem label="政治面貌" prop="stuStatus">
+                            <Select v-model="formItem.stuStatus">
+                                <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                            </Select>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col :md="{span:8}" :xs="{span:24}">
+                        <FormItem label="性别" prop="stuGender">
+                            <RadioGroup v-model="formItem.stuGender" type="button" size="large">
+                                <Radio label="男"></Radio>
+                                <Radio label="女"></Radio>
+                            </RadioGroup>
+                        </FormItem>
+                    </Col>
+                    <Col :md="{span:16}" :xs="{span:24}">
+                        <FormItem label="民族" prop="stuNation">
+                            <Input v-model="formItem.stuNation" placeholder="输入所属民族"></Input>
+                        </FormItem>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col :md="{span:14}" :xs="{span:24}">
+                        <FormItem label="院系/专业" prop="stuDept">
+                            <Cascader :data="depts" v-model="formItem.stuDept" change-on-select></Cascader>
+                        </FormItem>
+                    </Col>
+                    <Col :md="{span:12}" :xs="{span:24}">
+                        <FormItem label="班级" prop="stuClass">
+                            <Input v-model="formItem.stuClass" placeholder="输入所在班级"></Input>
+                        </FormItem>
+                    </Col>
+                </Row>
                 <FormItem label="邮箱" prop="stuEmail">
                     <AutoComplete
                         style="text-align: left;"
@@ -30,7 +59,7 @@
                         <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
                     </AutoComplete>
                 </FormItem>
-                <FormItem label="电话" prop="stuPhone">
+                <FormItem label="联系方式" prop="stuPhone">
                     <Input v-model="formItem.stuPhone" icon="ios-call-outline" placeholder="电话号码"></Input>
                 </FormItem>
                 <FormItem label="签名/简介" prop="stuInfo">
@@ -88,8 +117,10 @@ export default {
                 stuGender: '男',
                 stuDept: [],
                 stuEmail: '',
-                stuPhone: '',
-                stuInfo: '',
+                stuPhone: '',   // 联系方式
+                stuInfo: '',    // 简介
+                stuNation: '', // 民族
+                stuStatus: '', // 政治面貌
             },
             depts: [
                 {
@@ -414,12 +445,20 @@ export default {
                     { type:'string', pattern: /^201\d{7}$/, message:'学号格式错误!', trigger: 'blur'}
                 ],
                 stuName: [
-                    { required: true, message: '姓名不能为空!', trigger: 'blur'},
+                    { required: true, message: '姓名不能为空!', trigger: 'blur' },
                     { max: 8, message: '姓名最大8位', trigger: 'blur'}
                 ],
                 stuDept: [
                     { required: true, message: '院系和专业不能为空!'},
-                    // { validator: NameUsedCheck, trigger: 'blur' }
+                ],
+                stuStatus: [
+                    { required: true, message: '政治面貌不能为空!' }
+                ],
+                stuNation: [
+                    { required: true, message: '民族不能为空!', trigger: 'blur' }
+                ],
+                stuClass: [
+                    { required: true, message: '所在班级不能为空', trigger: 'blur' }
                 ],
                 stuEmail: [
                     { required: true, message: '邮箱不能为空!', trigger: 'blur' },
@@ -438,6 +477,29 @@ export default {
             ad1modal: false,
             advername: '',
             loading: false,
+            statusList: [
+                {
+                    value: '共青团员',
+                    label: '共青团员'
+                },
+                {
+                    value: '群众',
+                    label: '群众'
+                },
+                {
+                    value: '中共党员',
+                    label: '中共党员'
+                },
+                {
+                    value: '预备党员',
+                    label: '预备党员'
+                },
+                {
+                    value: '入党积极分子',
+                    label: '入党积极分子'
+                },
+                
+            ]
         }
     },
     methods: {
@@ -463,7 +525,9 @@ export default {
                     formData.append('stuPhone', this.formItem.stuPhone)
                     formData.append('stuEmail', this.formItem.stuEmail)
                     formData.append('stuInfo', this.formItem.stuInfo)
-                    // console.log(this.formItem.stuDept.join('/'))
+                    formData.append('stuStatus', this.formItem.stuStatus)
+                    formData.append('stuNation', this.formItem.stuNation)
+                    formData.append('stuClass', this.formItem.stuClass)
                     axios
                     .post('/api/comp', formData)
                     .then(submit => {

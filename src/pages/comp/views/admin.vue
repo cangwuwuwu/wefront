@@ -41,9 +41,21 @@
                     <Input type="text" v-model="editGender" v-if="editIndex === index" />
                     <span v-else>{{ row.stuGender }}</span>
                 </template>
+                <template slot-scope="{ row, index }" slot="nation">
+                    <Input type="text" v-model="editNation" v-if="editIndex === index" />
+                    <span v-else>{{ row.stuNation }}</span>
+                </template>
+                <template slot-scope="{ row, index }" slot="status">
+                    <Input type="text" v-model="editStatus" v-if="editIndex === index" />
+                    <span v-else>{{ row.stuStatus }}</span>
+                </template>
                 <template slot-scope="{ row, index }" slot="dept">
                     <Input type="text" v-model="editDept" v-if="editIndex === index" />
                     <span v-else>{{ row.stuDept }}</span>
+                </template>
+                <template slot-scope="{ row, index }" slot="class">
+                    <Input type="text" v-model="editClass" v-if="editIndex === index" />
+                    <span v-else>{{ row.stuClass }}</span>
                 </template>
                 <template slot-scope="{ row, index }" slot="phone">
                     <Input type="text" v-model="editPhone" v-if="editIndex === index" />
@@ -117,6 +129,9 @@ export default {
             editId: '',
             editName: '',
             editGender: '',
+            editNation: '',
+            editClass: '',
+            editStatus: '',
             editDept: '',
             editPhone: '',
             editEmail: '',
@@ -126,18 +141,15 @@ export default {
                 {
                     type: 'selection',
                     width: 60,
-                    align: 'center'
-                },
-                {
-                    title: '学号',
-                    key: 'stuId',
                     align: 'center',
-                    slot: 'id'
+                    fixed: 'left',
                 },
                 {
                     title: '姓名',
+                    width: 160,
                     slot: 'name',
                     key: 'stuName',
+                    fixed: 'left',
                     renderHeader: (h) => {
                         let _self = this;
                         return[
@@ -168,6 +180,13 @@ export default {
                     align: 'center',
                 },
                 {
+                    title: '学号',
+                    width: 150,
+                    key: 'stuId',
+                    align: 'center',
+                    slot: 'id'
+                },
+                {
                     title: '性别',
                     key: 'stuGender',
                     slot: 'gender',
@@ -189,7 +208,22 @@ export default {
                     }
                 },
                 {
+                    title: '民族',
+                    width: 150,
+                    key: 'stuNation',
+                    slot: 'nation',
+                    align: 'center',
+                },
+                {
+                    title: '政治面貌',
+                    width: 150,
+                    key: 'stuStatus',
+                    slot: 'status',
+                    align: 'center',
+                },
+                {
                     title: '院系/专业',
+                    width: 200,
                     key: 'stuDept',
                     slot: 'dept',
                     align: 'center',
@@ -249,13 +283,22 @@ export default {
                     }
                 },
                 {
+                    title: '班级',
+                    width: 150,
+                    key: 'stuClass',
+                    slot: 'class',
+                    align: 'center',
+                },
+                {
                     title: '联系方式',
+                    width: 150,
                     key: 'stuPhone',
                     slot: 'phone',
                     align: 'center',
                 },
                 {
                     title: '邮箱',
+                    width: 200,
                     key: 'stuEmail',
                     slot: 'email',
                     align: 'center',
@@ -269,8 +312,10 @@ export default {
                 },
                 {
                     title: '操作',
+                    width: 180,
                     slot: 'action',
                     align: 'center',
+                    fixed: 'right',
                 }
             ],
             data: [],
@@ -371,6 +416,9 @@ export default {
             this.editPhone = row.stuPhone;
             this.editEmail = row.stuEmail;
             this.editInfo = row.stuInfo;
+            this.editStatus = row.stuStatus;
+            this.editNation = row.stuNation;
+            this.editClass = row.stuClass;
         },
         saveBtn(row, index) {
             this.data1[index].id = row.id;
@@ -381,6 +429,9 @@ export default {
             this.data1[index].stuPhone = this.editPhone;
             this.data1[index].stuEmail = this.editEmail;
             this.data1[index].stuInfo = this.editInfo;
+            this.data1[index].stuClass = this.editClass;
+            this.data1[index].stuNation = this.editNation;
+            this.data1[index].stuStatus = this.editStatus;
             axios
             .put('/api/comp', this.data1[index])
             .then(res => {

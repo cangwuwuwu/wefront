@@ -23,7 +23,12 @@ axios.interceptors.response.use(resp => {
   } else if (err.response.status == 403) {
     Message.error(err.response.data.message);
   } else if (err.response.status == 401) {
+    console.log(1)
     Message.error(err.response.data.message);
+    sessionStorage.removeItem('wecoding_login_info');
+    setTimeout(function () {
+      window.location.href = '/index/signin';
+    }, 2000);
   } else {
     if (err.response.data.message) {
       Message.error(err.response.data.message);

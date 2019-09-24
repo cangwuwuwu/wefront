@@ -7,11 +7,11 @@
                     <Card dis-hover :class="clickIndex === index ? 'card-no-right-border' : ''"> 
                         <Timeline>
                             <TimelineItem :color="item.type === '+' ? 'green' : 'red'" >
-                                <p class="time" >{{item.time}}</p>
+                                <p class="time" >{{item.time | formatDate }}</p>
                                 <Row>
                                     <Col span="16" >
                                         <p class="content">
-                                            {{item.describe}} <br>
+                                            {{item.desc}} <br>
                                             <Icon custom="iconfont icon-renminbi" size="23"></Icon>
                                             {{ `${item.number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}
                                         </p>
@@ -28,12 +28,12 @@
                 </div>
                 <div style="width:1000px;height: 800px;" slot="content"></div>
                 <div style="text-align: center;margin-top: 10px;">
-                    <Page :total="total" :current="page" @on-change="changePage" size="small" />
+                    <Page :total="total" :current="page" :page-size="5" @on-change="changePage" size="small" />
                 </div>
             </Col>
             <Col v-show="rightBlock" span="20" style="background: #fff;">
                 <Row>
-                    <div class="financial-head">财务明细：{{ hoverSpend.describe }}</div>
+                    <div class="financial-head">财务明细：{{ hoverSpend.desc }}</div>
                 </Row>
                 <Row>
                     <div 
@@ -46,9 +46,9 @@
                 <Row style="padding-top: 100px;padding-bottom: 50px;">
                     <div class="money-content">
                         <div class="money-small-title">收支时间:</div>
-                        <div class="money-small-content">{{ hoverSpend.time }}</div>
+                        <div class="money-small-content">{{ hoverSpend.time | formatDateTime }}</div>
                         <div class="money-small-title">收支描述:</div>
-                        <div class="money-small-content">{{ hoverSpend.describe }}</div>
+                        <div class="money-small-content">{{ hoverSpend.desc }}</div>
                         <div class="money-small-title">收支金额:</div>
                         <div class="money-small-content">{{ hoverSpend.type }}{{ `${hoverSpend.number}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',') }}(元)</div>
                         <div class="money-small-title">上报人:</div>
@@ -121,8 +121,8 @@
                                                 placeholder="选择时间和日期">
                                             </DatePicker>
                                         </FormItem>
-                                        <FormItem label="收支描述" prop="describe">
-                                            <Input clearable type="text" v-model="money.describe" placeholder="一句话描述"></Input>
+                                        <FormItem label="收支描述" prop="desc">
+                                            <Input clearable type="text" v-model="money.desc" placeholder="一句话描述"></Input>
                                         </FormItem>
                                         <FormItem label="补充" prop="others">
                                             <Input clearable type="textarea" v-model="money.others" placeholder="还有任何这项收支的补充吗">
@@ -224,7 +224,8 @@ export default {
                 number: 0,
                 email: '',
                 small: [],
-                big: []
+                big: [],
+                desc: '',
             },
             ruleSpend: {
                 type: [
@@ -247,7 +248,7 @@ export default {
                 time: [
                     { required: true, message: '必须选择收支时间',pattern: /.+/, trigger: 'change' }
                 ],
-                describe: [
+                desc: [
                     { required: true, message: '简介不能为空', trigger: 'blur' }
                 ],
                 name: [
@@ -265,6 +266,7 @@ export default {
     },
     methods: {
         getAllSpendByPage(page, size) {
+            let _self = this;
             axios
             .get('/api/comp/spend', {
                 params: {
@@ -274,11 +276,22 @@ export default {
             })
             .then(res => {
                 if (res) {
-                    this.spend = res.data.list;
-                    this.totla = res.data.total;
-                    this.page = res.data.pageNum;
+                    let revlist = res.data.list.reverse();
+                    _self.spend = revlist;
+                    _self.string2list(revlist);
+                    _self.total = res.data.total;
+                    _self.page = res.data.pageNum;
                 }
             })
+        },
+        string2list(list) {
+            let small = [];
+            let big = [];
+            for (let i = 0; i < list.length; i++) {
+                if (list[i].small === '' || list[i].big === '') continue;
+                this.spend[i].small = list[i].small.split(',');
+                this.spend[i].big = list[i].big.split(',');
+            }
         },
         displayBlock(spend, index) {
             this.hoverSpend = spend;
@@ -292,8 +305,8 @@ export default {
             this.money.small = small;
             this.money.big = big;
         },
-        changePage() {
-            this.getAllSpendByPage(this.page, 5)
+        changePage(page) {
+            this.getAllSpendByPage(page, 5)
         },
         next () {
             let _self = this;
@@ -312,7 +325,7 @@ export default {
                                         name: this.money.name,
                                         number: this.money.number,
                                         email: this.money.email,
-                                        describe: this.money.describe,
+                                        desc: this.money.desc,
                                         small: this.money.small.join(','),
                                         big: this.money.big.join(',')
                                     })

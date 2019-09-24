@@ -7,14 +7,16 @@ import { Row, Col, Card } from 'iview'
 import { Message, LoadingBar, Notice } from 'iview'
 import { Form,FormItem  } from 'iview'
 import { Radio, RadioGroup } from 'iview'
-import { Switch, Cascader, Option } from 'iview'
+import { Switch, Cascader } from 'iview'
 import { Carousel, CarouselItem } from 'iview'
 import { Page, Table } from 'iview'
 import { Button, ButtonGroup } from 'iview'
 import { Tooltip, Timeline, TimelineItem } from 'iview'
 import { Steps, Step, Spin } from 'iview'
 import { DatePicker, Upload, Circle } from 'iview'
+import { Select, Option } from 'iview'
 import 'iview/dist/styles/iview.css';
+import '@/utils/filter_utils'
 require('../../assets/css/icons.css');
 // require('../../assets/css/cover.css');
 
@@ -35,6 +37,7 @@ Vue.component('RadioGroup', RadioGroup);
 Vue.component('iSwitch', Switch );
 Vue.component('Cascader', Cascader);
 Vue.component('AutoComplete', AutoComplete );
+Vue.component('Select', Select );
 Vue.component('Option', Option );
 Vue.component('Carousel', Carousel );
 Vue.component('CarouselItem', CarouselItem );

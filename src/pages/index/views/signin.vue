@@ -68,30 +68,13 @@ export default {
                     // formData.append('remember-me', this.remember)
                     axios
                     .post('/api/login', formData)
-                    .then(function (res) {
+                    .then(res => {
                         if (res) {
-                            /**
-                             * data:
-                             * authenticated: true
-                             * authorities: (2) [{…}, {…}]
-                             * details: {remoteAddress: "127.0.0.1"}
-                             * name: "admin"
-                             * principal:
-                             * accountNonExpired: true
-                             * accountNonLocked: true
-                             * authorities: (2) [{…}, {…}]
-                             * credentialsNonExpired: true
-                             * enabled: true
-                             * username: "admin"
-                             * __proto__: Object
-                             * __proto__: Object
-                             * message: "登录成功"
-                             * status: 200
-                             */
                             sessionStorage.setItem('wecoding_login_info',JSON.stringify(res.data));
                             setTimeout(function () {
                                 window.location = "/home"
-                            }, 2000);
+                                // this.$router.go(-1);
+                            }, 1500);
                         }
                         _self.loginbtnload = false;
                     });
