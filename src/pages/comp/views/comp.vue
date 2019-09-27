@@ -37,7 +37,7 @@
                     </Col>
                 </Row>
                 <Row>
-                    <Col :md="{span:14}" :xs="{span:24}">
+                    <Col :md="{span:12}" :xs="{span:24}">
                         <FormItem label="院系/专业" prop="stuDept">
                             <Cascader :data="depts" v-model="formItem.stuDept" change-on-select></Cascader>
                         </FormItem>

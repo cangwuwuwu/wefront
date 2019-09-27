@@ -263,6 +263,10 @@ export default {
     },
     created() {
         this.getAllSpendByPage(this.page, 5);
+        let info = sessionStorage.getItem('wecoding_login_info')
+        const jsonInfo = JSON.parse(info);
+        this.money.name = jsonInfo.stuName;
+        this.money.email = jsonInfo.stuEmail;
     },
     methods: {
         getAllSpendByPage(page, size) {

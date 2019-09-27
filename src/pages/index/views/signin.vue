@@ -3,14 +3,15 @@
         <Row type="flex" align="middle" style="height: 500px">
             <Col span="24">
                 <Form ref="formSignin" :model="formSignin" :rules="ruleSignin">
-                    <FormItem prop="stuUsername">
+                    <FormItem prop="stuId">
                         <h1 class="cover-head">请登录</h1>
-                        <Input type="text" v-model="formSignin.stuUsername" placeholder="Username">
+                        <Input type="text" v-model="formSignin.stuId" placeholder="请输入学号">
                             <Icon type="ios-person-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
                     <FormItem prop="stuPassword">
-                        <Input type="password" v-model="formSignin.stuPassword" placeholder="Password" @keyup.enter.native="handleSubmit('formSignin')">
+                        <Input type="password" v-model="formSignin.stuPassword" placeholder="默认密码123456" 
+                        @keyup.enter.native="handleSubmit('formSignin')">
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
@@ -38,16 +39,16 @@ export default {
     data() {
         return {
             formSignin: {
-                stuUsername: '',
+                stuId: '',
                 stuPassword: '',
             },
             loginbtnload: false,
             ruleSignin: {
-                stuUsername: [
-                    { required: true, message: '请输入用户名', trigger: 'blur' }
+                stuId: [
+                    { required: true, message: '学号不能为空', trigger: 'blur' }
                 ],
                 stuPassword: [
-                    { required: true, message: '请输入密码', trigger: 'blur' }                
+                    { required: true, message: '密码不能为空', trigger: 'blur' } 
                 ]
             },
             // remember: false,      
@@ -63,14 +64,15 @@ export default {
                 if (valid) {
                     this.loginbtnload = true;
                     let formData = new FormData();
-                    formData.append('stuUsername', this.formSignin.stuUsername)
+                    formData.append('stuId', this.formSignin.stuId)
                     formData.append('stuPassword', this.formSignin.stuPassword)
                     // formData.append('remember-me', this.remember)
                     axios
                     .post('/api/login', formData)
                     .then(res => {
                         if (res) {
-                            sessionStorage.setItem('wecoding_login_info',JSON.stringify(res.data));
+                            // console.log(res.data)
+                            sessionStorage.setItem('wecoding_login_info',JSON.stringify(res.data.data.principal));
                             setTimeout(function () {
                                 window.location = "/home"
                                 // this.$router.go(-1);

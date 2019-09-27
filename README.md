@@ -15,7 +15,6 @@
 | ----- | ----- | ---- |
 |Vue	|前端框架	|https://vuejs.org/|
 |iView| 基于 Vue 的 UI 组件库| https://www.iviewui.com/ |
-|JQuery| JavaScript框架|https://jquery.com/|
 |Bootstrap|开源工具包|https://www.bootcss.com/|
 |Thymeleaf|模板引擎|https://www.thymeleaf.org/|
 | Marked | 在线转码md文件的JS库 | https://github.com/markedjs/marked |
@@ -41,6 +40,9 @@
 
 
 #### 更新日志
+##### `2019/9/23`
+* 剔除了所有jquery ajax,使用axios替代
+* 会员信息录入合并为注册页面
 ##### `2019/9/23`
 * 完成财务公示模块
 ##### `2019/9/6`

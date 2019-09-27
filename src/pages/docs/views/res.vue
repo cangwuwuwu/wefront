@@ -397,7 +397,6 @@ export default {
     },
     mounted: function() {
         this.choose = this.$route.path
-        if (this.choose === '/docs/resources') return;
         this.$router.push(this.choose)
     },
     methods: {
@@ -422,7 +421,7 @@ export default {
                     formData.append('resPassword', this.upRes.resPassword)
                     formData.append('resUploader', this.upRes.resUploader)
                     axios
-                    .post('/api/resources', formData)
+                    .post('/api/res', formData)
                     .then(res => {
                         // console.log(res)
                         if (res) {

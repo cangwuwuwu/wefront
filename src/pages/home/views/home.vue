@@ -16,31 +16,35 @@
                     资源分享
                 </MenuItem>
                 <Submenu name="talk-chat">
-                <template slot="title">
-                    <Icon type="ios-stats"></Icon>
-                    交流讨论
-                </template>
-                <MenuGroup title="现在开始">
-                    <MenuItem to="/chat/forum" name="forum">
-                        <Icon type="md-chatboxes"></Icon>
-                        论坛
-                    </MenuItem>
-                    <MenuItem to="/chat/room" name="chatroom">
-                        <Icon type="ios-chatbubbles"></Icon>
-                        聊天室
-                    </MenuItem>
-                </MenuGroup>
-            </Submenu>
+                    <template slot="title">
+                        <Icon type="ios-stats"></Icon>
+                        交流讨论
+                    </template>
+                    <MenuGroup title="现在开始">
+                        <MenuItem to="/chat/forum" name="forum">
+                            <Icon type="md-chatboxes"></Icon>
+                            论坛
+                        </MenuItem>
+                        <MenuItem to="/chat/room" name="chatroom">
+                            <Icon type="ios-chatbubbles"></Icon>
+                            聊天室
+                        </MenuItem>
+                    </MenuGroup>
+                </Submenu>
+                <MenuItem to="/comp/spend" name="spend">
+                    <Icon type="logo-usd" size="16"></Icon>
+                    财务公示
+                </MenuItem>
                 <MenuItem to="/docs/help" name="help">
                     <Icon type="md-help-circle" size="16"></Icon>
                     帮助
                 </MenuItem>
-                <Poptip trigger="hover" title="相信我!  点进去你就出不来了 " content="戴上耳机，好好放松一下吧！">
+                <!-- <Poptip trigger="hover" title="相信我!  点进去你就出不来了 " content="戴上耳机，好好放松一下吧！">
                     <MenuItem to="https://static.hfi.me/mikutap/" target="_blank" name="relax">
                         <Icon type="md-musical-note"></Icon>
                         轻松一下
                     </MenuItem>
-                </Poptip>
+                </Poptip> -->
             </Col>
             
             <Col :md="{span: 0}" :xs="{span:2}" class="xs-menu-btn" 
@@ -89,7 +93,7 @@
                         <DropdownMenu slot="list">
                             <DropdownItem name="#">
                                 <Icon type="md-at" size="17"></Icon>
-                                <span id="username"> {{ myinfo.stuUsername }}</span>
+                                <span id="username"> {{ myinfo.stuName }}</span>
                             </DropdownItem>
                             <DropdownItem name="me" divided>
                                 <Icon type="ios-person" size="17"></Icon>
@@ -158,6 +162,7 @@
                         <MenuItem name="room" to="/chat/room">在线聊天</MenuItem>
                         <a href="/docs/help"><div class="navigate-group catalogue">帮助文档</div></a>
                         <MenuItem name="help" to="/docs/help/update-log">更新日志</MenuItem>
+                        <a href="/comp/spend"><div class="navigate-group catalogue">财务公示</div></a>
                         <div class="navigate-group catalogue">更换主题</div>
                         <MenuItem name="light">
                         <Icon type="ios-color-fill-outline"></Icon>
@@ -197,17 +202,39 @@
             </p>
             <Form ref="formChPass" :model="formChPass" :rules="ruleChPass" >
                 <FormItem prop="username">
-                    <Input type="text" v-model="username" disabled placeholder="用户名">
+                    <Input type="text" v-model="formChPass.id" disabled placeholder="用户名">
                         <Icon type="ios-person-outline" slot="prepend"></Icon>
                     </Input>
                 </FormItem> 
-                <FormItem prop="password">
-                    <Input :type="passwdtype" icon="md-eye" @on-click="displayPassText" v-model="formChPass.password" placeholder="旧密码">
-                        <Icon type="ios-lock-outline" slot="prepend"></Icon>
-                    </Input>
+                <FormItem prop="stuEmail">
+                    <AutoComplete
+                        style="text-align: left;"
+                        icon="ios-mail-outline"
+                        transfer
+                        v-model="formChPass.stuEmail"
+                        @on-search="emailSearch"
+                        placeholder="邮箱账号">
+                        <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
+                    </AutoComplete>
                 </FormItem>
-                <FormItem prop="newpassword">
-                    <Input :type="newpasswdtype" icon="md-eye" @on-click="displayNewPassText" v-model="formChPass.newpassword" placeholder="新密码"
+                <Row :gutter="16">
+                    <Col :md="{span:18}" :xs="{span: 14}">
+                        <FormItem prop="stuCode">
+                            <Input v-model="formChPass.stuCode" enter-button icon="ios-barcode-outline" placeholder="输入邮件收到的验证码"></Input>
+                        </FormItem>
+                    </Col>
+                    <Col :md="{span:6}" :xs="{span: 10}">
+                        <!-- <Button type="primary">获取验证码</Button> -->
+                        <Button type="primary" @click="sendMail" :style="btnstyle" :disabled="disabled">
+                            {{ btntext }}
+                            <Poptip trigger="hover" word-wrap width="200" content="邮件发送会在20s之内发送到您的邮箱，若接收不到邮件，查看垃圾箱或向我反馈。">
+                                <Icon type="md-help-circle" size="18"></Icon>
+                            </Poptip>
+                        </Button>
+                    </Col>
+                </Row>
+                <FormItem prop="password">
+                    <Input :type="passwdtype" icon="md-eye" @on-click="displayPassText" v-model="formChPass.password" placeholder="新密码"
                     @keyup.enter.native="changepassBtn('formChPass')">
                         <Icon type="ios-lock-outline" slot="prepend"></Icon>
                     </Input>
@@ -290,21 +317,21 @@
 
         <Footer :hometheme="headtheme"></Footer>
 
-<Col :xs="{span: 0}" :md="{span: 1}">
-    <BackTop title="返回顶部" :height="100" :right="250" :bottom="250">
-        <div class="top"><Icon type="ios-arrow-up" /></div>
-    </BackTop>
-    <div title="收藏本站" class="ivu-back-top ivu-back-top-show" style="right: 250px; bottom: 200px;" @click="add2Favourite">
-        <div class="top">
-            <Icon type="md-star" size="25"/>
-        </div>
-    </div>
-</Col>
+        <Col :xs="{span: 0}" :md="{span: 1}">
+            <BackTop title="返回顶部" :height="100" :right="250" :bottom="250">
+                <div class="top"><Icon type="ios-arrow-up" /></div>
+            </BackTop>
+            <div title="收藏本站" class="ivu-back-top ivu-back-top-show" style="right: 250px; bottom: 200px;" @click="add2Favourite">
+                <div class="top">
+                    <Icon type="md-star" size="25"/>
+                </div>
+            </div>
+        </Col>
     </div>
 </template>
 
 <script>
-    import $ from 'jquery'
+    import axios from 'axios'
     import Stomp from 'stompjs'
     import {formatDate} from '@/assets/js/date.js'
     import Footer from '@/pages/docs/views/footers.vue'
@@ -320,12 +347,9 @@
             return {
                 headtheme: 'light',
                 catalog: false,
-                myinfo: {
-                    stuImg: ''
-                },
+                myinfo: {},
                 msg: '',
                 more: '加载更多',
-                username: '',
                 passwdtype: 'password',
                 newpasswdtype: 'password',
                 msgcount: 0,
@@ -339,18 +363,32 @@
                 changepassloading: false,
 
                 formChPass: {
+                    id: '',
                     password: '',
-                    newpassword: ''
+                    stuEmail: '',
+                    stuCode: '',
                 },
+                emailist: [],
+                disabled:  false,
+                btntext: '获取验证码',
+                btnstyle: '',
                 ruleChPass: {
                     password: [
-                        { required: true, message: '请输入您的旧密码。', trigger: 'blur' },
+                        { required: true, message: '请输入您的新密码', trigger: 'blur' },
                         { min: 6, max: 20, message: '密码长度在6到20之间。', trigger: 'blur' }
                     ],
-                    newpassword: [
-                        { required: true, message: '请输入要更改的密码。', trigger: 'blur' },
-                        { min: 6, max: 20, message: '密码长度在6到20之间。', trigger: 'blur'}
-                    ]
+                    stuEmail: [
+                        { required: true, message: '邮箱不能为空!', trigger: 'blur' },
+                        { type: 'email', message: '邮箱格式错误!', trigger: 'change' }
+                    ],
+                    stuCode: [
+                        { required: true, message: '验证码不能为空!', trigger: 'blur' },
+                        { type: 'number', message: '验证码格式错误!', 
+                        transform(value) {
+                                return Number(value);
+                            }   
+                        }
+                    ],
                 }
             }
         },
@@ -360,37 +398,56 @@
             if (info) {  
                 this.getCurrentInfo();
                 this.hasLogin = true;
-                this.username = JSON.parse(info).data.name
-                // this.connectMsgWsServer(this.username)
+                const id = JSON.parse(info).username;
+                this.formChPass.id = id
+                this.checkFirstLogin(id).then(res => {
+                    if (res.data === 1) {
+                        this.$Modal.confirm({
+                            title: '首次登录',
+                            content: '<p>您是第一次登录这里，更改密码使账号更安全</p>',
+                            okText: '更改密码',
+                            cancelText: '下次一定',
+                            onOk: () => {
+                                this.changepassmd = true;
+                            }
+                        });
+                    }
+                })
+                // this.connectMsgWsServer(this.id)
             } else {
                 // this.connectMsgWsServer('')
             }
         },
         methods: {
+            // 获取当前账号信息
             getCurrentInfo() {
                 let _self = this;
-                $.ajax({
-                    url: '/api/stu/current',
-                    type: 'get',
-                    processData: false,
-                    contentType : false,
-                    success(data_myinfo) {
-                        var myinfo = _self.changeinfo2list(data_myinfo);
-                        myinfo.stuImg = data_myinfo.stuImg;
-                        myinfo.stuBigImg = data_myinfo.stuBigImg;
-                        myinfo.stuId = data_myinfo.stuId;
-                        myinfo.stuUsername = data_myinfo.stuUsername;
-                        myinfo.stuRegistTime = formatDate(new Date(data_myinfo.stuRegistTime), 'yyyy-MM-dd hh:mm');
+                axios
+                .get('/api/stu/current')
+                .then(res => {
+                    if (res) {
+                        let myinfo = _self.changeinfo2list(res.data);
+                        myinfo.stuImg = res.data.stuImg;
+                        myinfo.stuBigImg = res.data.stuBigImg;
+                        myinfo.stuId = res.data.stuId;
+                        myinfo.stuName = res.data.stuName;
+                        myinfo.id = res.data.id;
                         _self.myinfo = myinfo;
-                    },
-                    error() {
-                        _self.$Message.error('获取个人信息失败...')
                     }
                 })
             },
-            connectMsgWsServer(username) {
+            checkFirstLogin(id) {
+                let _self = this;
+                return axios
+                .get('/api/account', {
+                    params: {
+                        stuId: id
+                    }
+                })
+            },
+            connectMsgWsServer(id) {
                 var _self = this;
-                if (username !== '') {
+                if (id !== '') {
                     var ws = new WebSocket('ws://119.3.59.217:15674/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
@@ -419,67 +476,50 @@
             },
             changeinfo2list(myinfo) {
                 return [
-                    {title: '姓名', value: myinfo.stuName},
                     {title: '性别', value: myinfo.stuGender},
                     {title: '邮箱', value: myinfo.stuEmail},
+                    {title: '院系', value: myinfo.stuDept},
+                    {title: '班级', value: myinfo.stuClass},
+                    {title: '政治面貌', value: myinfo.stuStatus},
                     {title: '籍贯', value: myinfo.stuArea},
+                    {title: '民族', value: myinfo.stuNation},
                     {title: '电话', value: myinfo.stuPhone},
                     {title: '生日', value: formatDate(new Date(myinfo.stuBirthday), 'yyyy-MM-dd')},
                     {title: '个人简介', value: myinfo.stuInfo}
                 ];
             },
             changeHeadImg(res) {
-                // console.log("home.vue 381" + res)
                 this.myinfo.stuImg = res;
             },
+            // 修改密码请求
             changepassBtn(name) {
                 let _self = this;
-                this.changepassloading = true;
                 this.$refs[name].validate((valid) => {
                     if (valid) {
-                        $.ajax({
-                            url: '/api/stu/account',
-                            type: 'put',
-                            data: {
-                                stuUsername: _self.username,
-                                stuPassword: _self.formChPass.password,
-                                newPassword: _self.formChPass.newpassword
-                            },
-                            success(data_result) {
-                                if (data_result === 1) {
-                                    _self.$Message.success('密码修改成功!');
-                                    _self.changepassloading = false;
-                                    _self.changepassmd = false;
-                                    _self.formChPass.password = '';
-                                    _self.formChPass.newpassword = '';
-                                    window.location = 'logout' 
-                                } else if (data_result === -1) {
-                                    _self.changepassloading = false;
-                                    _self.$Message.error('密码修改失败,请检查原密码是否输入正确!');
-                                    _self.passwdtype = 'text'
-                                } else {
-                                    _self.changepassloading = false;
-                                    _self.$Message.error('出错了,密码修改失败...');
-                                    _self.passwdtype = 'text'
-                                }
-                            },
-                            error() {
-                                _self.$Message.error('密码修改失败...');
-                                _self.changepassloading = false;
+                        this.changepassloading = true;
+                        let formData = new FormData();
+                        formData.append('stuId', this.formChPass.id);
+                        formData.append('stuPassword', this.formChPass.password);
+                        formData.append('stuCode', this.formChPass.stuCode);
+                        formData.append('stuEmail', this.formChPass.stuEmail);
+                        axios
+                        .put('/api/account', formData)
+                        .then(res => {
+                            if (res) {
+                                _self.$Message.success('密码修改成功!');
+                                _self.changepassmd = false;
+                                _self.formChPass.password = '';
+                                setTimeout(function () {
+                                    _self.go('logout');
+                                }, 1500);
                             }
+                            _self.changepassloading = false;
                         })
-                        
-                    } else {
-                        this.$Message.error('Fail!');
-                        this.changepassloading = false;
                     }
                 })
             },
             displayPassText() {
                 this.passwdtype === 'password' ? this.passwdtype = 'text' : this.passwdtype ='password'
-            },
-            displayNewPassText() {
-                this.newpasswdtype === 'password' ? this.newpasswdtype = 'text' : this.newpasswdtype ='password'
             },
             go(link) {
                 let _self = this;
@@ -493,20 +533,15 @@
                 } else if (link === 'changepasswd') {
                     this.changepassmd = true;
                 } else if (link === 'logout') {
-                    $.ajax({
-                        url: '/api/logout',
-                        type: 'get',
-                        success(logout) {
-                            console.log(logout)
-                            if (logout.status === 200) {
-                                _self.$Message.success(logout.message)
-                                setTimeout(function () {
-                                    sessionStorage.removeItem('wecoding_login_info');
-                                    window.location = "/index/signin"
-                                }, 1500);
-                            } else {
-                                _self.$Message.error('未知错误')
-                            }
+                    // 登出账号
+                    axios
+                    .get('/api/logout')
+                    .then(res => {
+                        if (res) {
+                            setTimeout(function () {
+                                sessionStorage.removeItem('wecoding_login_info');
+                                window.location = "/index/signin"
+                            }, 1500);
                         }
                     })
                 } else {
@@ -522,13 +557,12 @@
             show2hismsg() {
                 this.spinShowHis = true;
                 let _self = this;
-                $.ajax({
-                    url: '/api/mymsg',
-                    type: 'get',
-                    success(data_history_msg) {
-                        console.log(data_history_msg);
-                        _self.allhismsglist = data_history_msg.reverse();
-                        _self.hismsglist = data_history_msg.slice(0, 2);
+                axios
+                .get('/api/mymsg')
+                .then(res => {
+                    if (res) {
+                        _self.allhismsglist = res.data.reverse();
+                        _self.hismsglist = res.data.slice(0, 2);
                         if (_self.hismsglist.length === _self.allhismsglist.length) {
                             _self.more = '到底啦~';
                         }
@@ -568,6 +602,41 @@
             openmenu() {
                 // this.divheight === '200px' ? this.divheight = '0px' : this.divheight = '200px'
                 this.catalog = true;
+            },
+            sendMail() {
+                let _self = this;
+                let params = new URLSearchParams();
+                params.append('email', this.formChPass.stuEmail)
+                axios
+                .post('/api/sendmail/sign', params)
+                .then(res => {
+                    // 发送成功禁用按钮/倒计时/解禁按钮
+                    if (res) {
+                        _self.$Message.success('发送成功，验证码五分钟内有效');
+                        let time = 60;
+                        _self.disabled = true;
+                        _self.btnstyle = {'cursor': 'not-allowed'};
+                        let interval  = setInterval(function () {
+                            _self.btntext =  '已发送(' + time + 's)';
+                            if (time === 0) {
+                                _self.disabled = false;
+                                _self.btntext = '获取验证码';
+                                _self.btnstyle = '';
+                                clearInterval(interval);
+                            }
+                            time--;
+                        }, 1000);
+                    }
+                })
+            },
+            emailSearch (value) {
+                this.emailist = !value || value.includes('@') ? [] : [
+                    value + '@qq.com',
+                    value + '@sina.com',
+                    value + '@163.com',
+                    value + '@gmail.com',
+                    value + '@foxmail.com'
+                ];
             },
             success(info) {
                 this.$Message.success({

@@ -128,14 +128,11 @@ export default {
         getWebs(name) {
             var _self = this;
             axios
-            .get('/api/resources/web/'+ name)
-            .then(function(res) {
-                // console.log(res)
-                _self.data_web = res.data;
-                _self.$Loading.finish();
-            })
-            .catch(function(error) {
-                _self.$Loading.error();
+            .get('/api/res/web/'+ name)
+            .then(res => {
+                if (res) {
+                    _self.data_web = res.data;
+                }
             })
         },
     },

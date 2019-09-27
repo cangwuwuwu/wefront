@@ -27,7 +27,7 @@
     </div>
 </template>
 <script>
-import $ from 'jquery'
+import axios from 'axios'
 export default {
     name: 'videos',
     data() {
@@ -380,29 +380,22 @@ export default {
         },
         getRes(name) {
             this.loading = true;
-            this.$Loading.start();
             var _self = this;
-            $.ajax({
-                url: '/api/resources/res/' + name,
-                data: {
+            axios
+            .get('/api/res/video/' + name, {
+                params: {
                     page: this.page,
                     limit: 10
-                },
-                type: 'get',
-                success(res) {
-                    // console.log(res_language);
-                    _self.data = _self.resTableData(res.list);
-                    _self.total = res.total;
-                    _self.page = res.pageNum;
-                    _self.loading = false;
-                    _self.$Loading.finish();
-                },
-                error() {
-                    _self.$Loading.error();
-                    _self.loading = false;
-                    _self.$Loading.error();
                 }
-            });
+            })
+            .then(res => {
+                if (res) {
+                    _self.data = _self.resTableData(res.data.list);
+                    _self.total = res.data.total;
+                    _self.page = res.data.pageNum;
+                    _self.loading = false;
+                }
+            })
         },
         changePage(page) {
             this.page = page;
@@ -416,27 +409,21 @@ export default {
             return this.data_search;
         },
         searchResByName(name) {
-            this.$Loading.start();
             this.loading= true;
             var _self = this;
-            $.ajax({
-                url: '/api/resources/search',
-                type: 'get',
-                data: {
-                    page: _self.page,
+            axios
+            .get('/api/res/search', {
+                params: {
+                    page: this.page,
                     resName: name
-                },
-                success(search_res) {
-                    _self.data_search = _self.resTableData(search_res.list);
-                    _self.total = search_res.total;
-                    _self.page = search_res.pageNum;
-                    _self.$Loading.finish();
+                }
+            })
+            .then(res => {
+                if (res) {
+                    _self.data_search = _self.resTableData(res.data.list);
+                    _self.total = res.data.total;
+                    _self.page = res.data.pageNum;
                     _self.loading = false;
-                },
-                error() {
-                    _self.$Message.error('数据加载失败...');
-                    _self.$Loading.error();
-                    _self.loading= false;
                 }
             })
         },
@@ -627,14 +614,13 @@ export default {
             })
         },
         countplus(params) {
-            $.ajax({
-                url: '/api/resources/count',
-                type: 'post',
-                data: {
-                    resId: params.row.resId
-                },
-                success(count_result) {
-                    params.row.resHeat += count_result;
+            let formData = new FormData();
+            formData.append('resId', params.row.resId)
+            axios
+            .post('/api/res/count', formData)
+            .then(res => {
+                if (res) {
+                    params.row.resHeat += 1;
                 }
             })
         },

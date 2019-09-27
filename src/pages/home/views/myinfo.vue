@@ -4,13 +4,9 @@
             <Col span="12" offset="2">
                 <Row>
                     <Icon title="用户名" type="ios-contact" size="18"></Icon>
-                    <span style="font-size: 25px;font-weight: bold;">{{ myinfo.stuUsername }}</span><br>
+                    <span style="font-size: 25px;font-weight: bold;">{{ myinfo.stuName }}</span><br>
                     <Icon title="学号" type="md-key" size="18"></Icon>
                     {{ myinfo.stuId }}
-                </Row>
-                <Row>
-                    <Icon title="注册时间" type="md-stopwatch" size="18"></Icon>
-                    {{ myinfo.stuRegistTime }}
                 </Row>
             </Col>
             <Col span="4" offset="4">
@@ -173,7 +169,7 @@
 </template>
 <script>
     import {VueCropper} from 'vue-cropper'
-    import $ from 'jquery'
+    import axios from 'axios'
 
     export default {
         name: 'myinfo',
@@ -244,30 +240,26 @@
                     return;
                 }
                 let _self = this;
-                $.ajax({
-                    url: '/api/stu',
-                    type: 'put',
-                    // contentType:"application/json",
-                    data: {
-                        stuId: this.myinfo.stuId,
-                        stuName: this.myinfo[0].value,
-                        stuGender: this.myinfo[1].value,
-                        stuEmail: this.myinfo[2].value,
-                        stuArea: this.myinfo[3].value,
-                        stuPhone: this.myinfo[4].value,
-                        stuBirthday: this.myinfo[5].value,
-                        stuInfo: this.myinfo[6].value,
-                    },
-                    success(update_info) {
+                axios
+                .put('/api/stu', {
+                    id: this.myinfo.id,
+                    stuId: this.myinfo.stuId,
+                    stuName: this.myinfo.stuName,
+                    stuGender: this.myinfo[0].value,
+                    stuEmail: this.myinfo[1].value,
+                    stuDept: this.myinfo[2].value,
+                    stuClass: this.myinfo[3].value,
+                    stuStatus: this.myinfo[4].value,
+                    stuArea: this.myinfo[5].value,
+                    stuNation: this.myinfo[6].value,
+                    stuPhone: this.myinfo[7].value,
+                    stuBirthday: this.myinfo[8].value,
+                    stuInfo: this.myinfo[9].value,
+                })
+                .then(res => {
+                    if (res) {
+                        _self.$Message.success('修改成功!');
                         _self.editInput = -1;
-                        if (update_info === 1)
-                            _self.$Message.success('更新成功!');
-                        else
-                            _self.$Message.error('出错了,请稍后再试');
-                    },
-                    error() {
-                        _self.$Message.error('x_x好像哪里出错了...');
-                        _self.cancelInfo(index)
                     }
                 })
             },
@@ -280,35 +272,25 @@
                 this.visibleUpload = true
             },
             finishUp(type) {
-                this.head_loading = true;
                 let _self = this;
-                let formData = new FormData();
                 if (type === 'blob') {              
-                    this.$refs.cropper.getCropBlob( (data) => {
-                        let name = this.myinfo.stuUsername;
-                        let stuId = this.myinfo.stuId;
+                    this.$refs.cropper.getCropBlob((data) => {
+                        this.head_loading = true;
+                        let name = this.myinfo.stuName;
+                        let id = this.myinfo.id;
+                        let formData = new FormData();
                         formData.append("file", data, name + '.png');
-                        formData.append("stuId", stuId);
-                        $.ajax({
-                            url: '/api/stu/uploadheadimg',
-                            type: 'post',
-                            processData: false,
-                            contentType : false,
-                            data: formData,
-                            success(data_myhead) {
-                                _self.$emit('updateHead', data_myhead.stuImg)
-                                // console.log(data_myhead.stuImg)
-                                _self.myinfo.stuImg = data_myhead.stuImg;
-                                _self.myinfo.stuBigImg = data_myhead.stuBigImg;
-                                _self.$Message.success('上传成功!')
-                                _self.head_loading = false;
-                                _self.visibleUpload = false
-                            },
-                            error() {
-                                _self.$Message.error('发生了一点小意外,头像上传失败了')
-                                _self.head_loading = false;
-                                _self.visibleUpload = false
-                            }
+                        formData.append("id", id);
+                        axios
+                        .post('/api/upload/head', formData)
+                        .then(res => {
+                            _self.$emit('updateHead', res.data.stuImg)
+                            // console.log(data_myhead.stuImg)
+                            _self.myinfo.stuImg = res.data.stuImg;
+                            _self.myinfo.stuBigImg = res.data.stuBigImg;
+                            _self.$Message.success('上传成功!')
+                            _self.head_loading = false;
+                            _self.visibleUpload = false
                         })
                     })
                 }

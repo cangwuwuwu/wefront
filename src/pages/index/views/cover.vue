@@ -14,7 +14,7 @@
                     <Badge :count="length" class-name="demo-badge-alone"></Badge>
                 </Col>
                 <Col :md="{span: 5}" :xs="{span: 12, offset: 4}">
-                    <Input search placeholder="Search Username / ID" v-model="keywords" style="width: 100%" />
+                    <Input search clearable placeholder="Search Username / ID" v-model="keywords" style="width: 100%" />
                 </Col>
             </Row>
             <Row :gutter="16" type="flex" align="middle" justify="center" style="margin:auto">
@@ -24,11 +24,11 @@
                             <Card style="height:116px">
                                 <Row>
                                     <Col span="4">
-                                        <Avatar v-if="user.stuImg === '' || user.stuImg === null" size="large" :style="{background: color[ranum()]}">{{user.stuUsername.substr(0,1)}}</Avatar>
+                                        <Avatar v-if="user.stuImg === '' || user.stuImg === null" size="large" :style="{background: color[ranum()]}">{{user.stuName.substr(0,1)}}</Avatar>
                                         <Avatar v-else size="large" :src="'http://39.106.85.24:9000/wecoding/' + user.stuImg"></Avatar>
                                     </Col>
                                     <Col span="16" offset="4" class-name="user-right-col">
-                                        <strong><div class="my-0" v-text="user.stuUsername">Username</div></strong>
+                                        <strong><div class="my-0" v-text="user.stuName">Username</div></strong>
                                         <small class="text-muted" v-text="user.stuId">ID</small>
                                     </Col>
                                 </Row>
@@ -56,95 +56,109 @@
             </col>
         </Row>
 
-        <Modal footer-hide width="1000" v-model="seehisinfo">
+        <Modal footer-hide width="1000" v-model="seehisinfo" class-name="vertical-center-modal">
             <Row style="padding: 20px;font-size: 14px;" type="flex" align="middle">
                 <Col :md="{span:3}" :xs="{span:5}">
                     <div>头像:  </div>
                 </Col>
                 <Col :md="{span:5}" :xs="{span:6}" >
                     <div class="head-area">
-                        <Avatar v-if="chooseUser.stuImg === '' || chooseUser.stuImg === null" size="large" class="anonymity-head">{{chooseUser.stuUsername.substr(0,1)}}</Avatar>
-                        <img v-else style="height: 100%;border-radius: 50%;" alt=" ta的头像" :src="'http://39.106.85.24:9000/wecoding/M00/00/00/' + chooseUser.stuImg"/>
+                        <Avatar 
+                            v-if="chooseUser.stuImg === '' || chooseUser.stuImg === null" 
+                            size="large" class="anonymity-head">{{chooseUser.stuName.substr(0,1)}}</Avatar>
+                        <img v-else style="height: 100%;border-radius: 50%;" alt=" ta的头像" :src="'http://39.106.85.24:9000/wecoding/' + chooseUser.stuImg"/>
                     </div>
                 </Col>
             </Row>
-            <Row style="padding: 20px;font-size: 14px;">
-                <Col :md="{span:3}" :xs="{span:7}">
-                    <div>ID学号:  </div>
-                </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
-                    {{ chooseUser.stuId }}
-                </Col>
-            </Row>
-            <Row style="padding: 20px;font-size: 14px;">
-                <Col :md="{span:3}" :xs="{span:7}">
-                    <div>昵称:  </div>
-                </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
-                    {{ chooseUser.stuUsername }}
-                </Col>
-            </Row>
-            <Row style="padding: 20px;font-size: 14px;">
+            <Row class="person-info-row">
                 <Col :md="{span:3}" :xs="{span:7}">
                     <div>真实姓名:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
+                <Col :md="{span:11}" :xs="{span:10}">
                     {{ chooseUser.stuName }}
                 </Col>
+                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                    <div>民族:  </div>
+                </Col>
+                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">
+                    {{ chooseUser.stuNation }}
+                </Col>
             </Row>
-            <Row style="padding: 20px;font-size: 14px;">
+            <Row class="person-info-row">
+                <Col :md="{span:3}" :xs="{span:7}">
+                    <div>ID学号:  </div>
+                </Col>
+                <Col :md="{span:11}" :xs="{span:17}">
+                    {{ chooseUser.stuId }}
+                </Col>
+                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                    <div>政治面貌:  </div>
+                </Col>
+                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">
+                    {{ chooseUser.stuStatus }}
+                </Col>
+            </Row>
+            <Row class="person-info-row">
                 <Col :md="{span:3}" :xs="{span:7}">
                     <div>性别:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
+                <Col :md="{span:11}" :xs="{span:10}">
                     {{ chooseUser.stuGender }}
                 </Col>
-            </Row>
-            <Row style="padding: 20px;font-size: 14px;">
-                <Col :md="{span:3}" :xs="{span:7}">
-                    <div>邮箱地址:  </div>
-                </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
-                    {{ chooseUser.stuEmail }}
-                </Col>
-            </Row>
-            <Row style="padding: 20px;font-size: 14px;">
-                <Col :md="{span:3}" :xs="{span:7}">
+                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
                     <div>籍贯:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
+                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">
                     {{ chooseUser.stuArea }}
                 </Col>
             </Row>
-            <Row style="padding: 20px;font-size: 14px;">
+            <Row class="person-info-row">
                 <Col :md="{span:3}" :xs="{span:7}">
                     <div>联系方式:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
+                <Col :md="{span:11}" :xs="{span:10}">
                     {{ chooseUser.stuPhone }}
                 </Col>
+                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                    <div>邮箱地址:  </div>
+                </Col>
+                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">
+                    {{ chooseUser.stuEmail }}
+                </Col>
             </Row>
-            <Row style="padding: 20px;font-size: 14px;">
+            <Row class="person-info-row">
                 <Col :md="{span:3}" :xs="{span:7}">
                     <div>生日:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
+                <Col :md="{span:11}" :xs="{span:10}">
                     {{ chooseUser.stuBirthday | formatDate }}
                 </Col>
+                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                    <div>院系:  </div>
+                </Col>
+                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">
+                    {{ chooseUser.stuDept }}
+                </Col>
             </Row>
-            <Row style="padding: 20px;font-size: 14px;">
+            <Row class="person-info-row">
                 <Col :md="{span:3}" :xs="{span:7}">
                     <div>注册日期:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:10}">
+                <Col :md="{span:11}" :xs="{span:10}">
                     {{ chooseUser.stuRegistTime | formatDateTime }}
                 </Col>
+                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                    <div>班级:  </div>
+                </Col>
+                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">
+                    {{ chooseUser.stuClass }}
+                </Col>
             </Row>
-            <Row style="padding: 20px;font-size: 14px;">
+            <Row class="person-info-row">
                 <Col :md="{span:3}" :xs="{span:7}">
                     <div>个人简介:  </div>
                 </Col>
-                <Col :md="{span:12}" :xs="{span:12}">
+                <Col :md="{span:21}" :xs="{span:17}">
                     {{ chooseUser.stuInfo }}
                 </Col>
             </Row>
@@ -153,8 +167,8 @@
 </template>
 
 <script>
-    import axios from 'axios'
-    import '@/utils/filter_utils'
+import axios from 'axios'
+import '@/utils/filter_utils'
 export default {
     name: 'cover',
     components: {},
@@ -178,10 +192,9 @@ export default {
     methods: {
         getFiveMethod() {
             // 加载右侧五位学生列表
-            this.$Loading.start();
             let _self = this;
             axios
-                .get('/api/signup/getFive')
+                .get('/api/stu/getPart')
                 .then(res => {
                 // console.log(res)
                 if (res) {
@@ -189,7 +202,6 @@ export default {
                     _self.fivestus = res.data.randomList;
                     _self.length = res.data.len;
                     _self.loading1 = false;
-                    _self.$Loading.finish();
                 }
             })
         },
@@ -207,22 +219,34 @@ export default {
             }
             return this.allstus.filter(user => {
                 var id = String(user.stuId);
-                var name = user.stuUsername.toLowerCase();
+                var name = user.stuName.toLowerCase();
                 if (id.includes(keywords) || name.includes(keywords.toLowerCase())) {
                     return user;
                 }
             });
         },
         displays(user) {
-            this.seehisinfo = true
-            this.chooseUser = user
+            let info = sessionStorage.getItem('wecoding_login_info')
+            if (info) {    
+                this.seehisinfo = true
+                this.chooseUser = user
+            } else {
+                this.$Message.warning('登录后才可以查看！')
+            }
         }
     }
     
 }
 </script>
 <style scoped>
-
+@media screen and (max-width: 700px) {
+    .person-info-col {
+        padding-top: 20px;
+    }
+    .person-info-row {
+        padding: 10px!important;
+    }
+}
 @keyframes rotate {
     from { transform: rotate(0deg);}
     50%  { transform: rotate(180deg);}
@@ -324,5 +348,22 @@ export default {
     font-size: 50px;
     text-align: center;
     padding-top: 20px;
+}
+.person-info-row {
+    padding: 20px;
+    font-size: 14px;
+}
+
+
+</style>
+<style lang="less" scoped>
+.vertical-center-modal{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .ivu-modal{
+        top: 0;
+    }
 }
 </style>

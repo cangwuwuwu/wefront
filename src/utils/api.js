@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { Message } from 'iview'
+import { Message, LoadingBar } from 'iview'
 axios.interceptors.request.use(config => {
+  LoadingBar.start();
   return config;
 }, err => {
   Message.error({message: '请求超时!'});
@@ -15,6 +16,7 @@ axios.interceptors.response.use(resp => {
   if (resp.data.message) {
       Message.success(resp.data.message);
   }
+  LoadingBar.finish();
   return resp;
   }, err => {
   console.log(err.response)
@@ -23,12 +25,13 @@ axios.interceptors.response.use(resp => {
   } else if (err.response.status == 403) {
     Message.error(err.response.data.message);
   } else if (err.response.status == 401) {
-    console.log(1)
     Message.error(err.response.data.message);
-    sessionStorage.removeItem('wecoding_login_info');
-    setTimeout(function () {
-      window.location.href = '/index/signin';
-    }, 2000);
+    if (err.response.data.message !== '用户名或密码错误') {
+      sessionStorage.removeItem('wecoding_login_info');
+      setTimeout(function () {
+        window.location.href = '/index/signin';
+      }, 2000);
+    }
   } else {
     if (err.response.data.message) {
       Message.error(err.response.data.message);
@@ -36,4 +39,5 @@ axios.interceptors.response.use(resp => {
       Message.error('未知错误!');
     }
   }
+  LoadingBar.error();
 })

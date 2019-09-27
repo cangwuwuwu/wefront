@@ -29,7 +29,7 @@
             :before-upload="handleBeforeUpload"
             multiple
             type="drag"
-            action="/api/comp/spend/uploadimg"
+            action="/api/upload/spend"
             style="display: inline-block;width:95px;">
             <div style="width: 95px;height:95px;line-height: 95px;">
                 <Icon type="ios-camera" size="40"></Icon>
@@ -62,7 +62,7 @@ export default {
         handleRemove (file, index) {
             // console.log(file)
             axios
-            .delete('/api/comp/spend/uploadimg', {
+            .delete('/api/upload/spend', {
                 data: {
                     big: file.response.big,
                     small: file.response.small

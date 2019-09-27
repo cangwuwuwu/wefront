@@ -73,7 +73,7 @@
     </footer>
 </template>
 <script>
-import $ from 'jquery'
+import axios from 'axios'
 export default {
     name: 'footers',
     data() {
@@ -91,21 +91,18 @@ export default {
                 return;
             this.loading = true;
             let _self = this;
-            $.ajax({
-                type: 'post',
-                url: '/api/sendmail/feedback',
-                data: {type: this.bugtype, content: this.bugcontent},
-                success(data_feedback) {
-                    _self.$Message.success(data_feedback);
+            axios
+            .post('/api/sendmail/feedback', {
+                type: this.bugtype,
+                content: this.bugcontent
+            })
+            .then(res => {
+                if (res) {
+                    _self.$Message.success('反馈成功，感谢支持');
                     _self.loading = false;
                     _self.bug = false;
-                },
-                error() {
-                    _self.$Message.error('糟糕! 反馈好像发送失败了...:(');
-                    _self.loading = false;
-                    _self.bug = false;
-                },
-            });
+                }
+            })
         },
     }
 }

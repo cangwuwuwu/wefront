@@ -56,7 +56,8 @@ export default {
     methods: {
         getMdDocs(name) {
             var _self = this
-            axios.get('../../md/'+ name +'.md')
+            axios
+            .get('../../md/'+ name +'.md')
             .then(md => {
                 _self.md = marked(md.data);
             }).catch(err => {
