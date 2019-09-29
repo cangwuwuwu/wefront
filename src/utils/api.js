@@ -1,15 +1,16 @@
 import axios from 'axios'
+import router from '@/pages/index/router'
 import { Message, LoadingBar } from 'iview'
 axios.interceptors.request.use(config => {
   LoadingBar.start();
   return config;
 }, err => {
-  Message.error({message: '请求超时!'});
+  Message.error('请求超时!');
   // return Promise.resolve(err);
-})
+});
 axios.interceptors.response.use(resp => {
-  console.log(resp)
-  if (resp.data.status === 401 || resp.data.status == 403) {
+  // console.log(resp);
+  if (resp.data.status === 401 || resp.data.status === 403) {
       Message.error(resp.data.message);
       return;
   }
@@ -19,17 +20,20 @@ axios.interceptors.response.use(resp => {
   LoadingBar.finish();
   return resp;
   }, err => {
-  console.log(err.response)
-  if (err.response.status == 504 || err.response.status == 404) {
+  // console.log(err.response);
+  if (err.response.status === 504 || err.response.status === 404) {
     Message.error('服务器被吃了⊙﹏⊙∥');
-  } else if (err.response.status == 403) {
+  } else if (err.response.status === 403) {
     Message.error(err.response.data.message);
-  } else if (err.response.status == 401) {
+  } else if (err.response.status === 401) {
     Message.error(err.response.data.message);
     if (err.response.data.message !== '用户名或密码错误') {
       sessionStorage.removeItem('wecoding_login_info');
       setTimeout(function () {
-        window.location.href = '/index/signin';
+        router.push({
+          path: '/index/signin',
+          query: {redirect: location.pathname}
+        })
       }, 2000);
     }
   } else {
@@ -40,4 +44,4 @@ axios.interceptors.response.use(resp => {
     }
   }
   LoadingBar.error();
-})
+});

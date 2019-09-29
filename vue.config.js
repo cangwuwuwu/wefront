@@ -17,30 +17,15 @@ module.exports = {
     },
     lintOnSave: false,
     pages: {
-        cover: {
+        index: {
             entry: 'src/pages/index/main.js',
             template: 'public/index.html',
             filename: 'index.html'
-        },
-        home: {
-            entry: 'src/pages/home/main.js',
-            template: 'public/home.html',
-            filename: 'home.html'
-        },
-        docs: {
-            entry: 'src/pages/docs/main.js',
-            template: 'public/docs.html',
-            filename: 'docs.html'
         },
         chat: {
             entry: 'src/pages/chat/main.js',
             template: 'public/chat.html',
             filename: 'chat.html'
-        },
-        comp: {
-            entry: 'src/pages/comp/main.js',
-            template: 'public/comp.html',
-            filename: 'comp.html'
         }
     },
     chainWebpack: config => {
