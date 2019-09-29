@@ -2,96 +2,96 @@
     <div class="comp">
         <Row type="flex" justify="center">
             <Col :md="{span:9}" :xs="{span:22}">
-            <div class="cover-head">录入会员信息</div>
-            <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
-                <FormItem label="学号" prop="stuId">
-                    <Input v-model="formItem.stuId" icon="ios-key-outline" placeholder="南工学号"></Input>
-                </FormItem>
-                <Row>
-                    <Col :md="{span:12}" :xs="{span:24}">
-                        <FormItem label="姓名" prop="stuName">
-                            <Input v-model="formItem.stuName" icon="ios-person-outline" placeholder="真实姓名"></Input>
-                        </FormItem>
-                    </Col>
-                    <Col :md="{span:12}" :xs="{span:24}">
-                        <FormItem label="政治面貌" prop="stuStatus">
-                            <Select v-model="formItem.stuStatus">
-                                <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                            </Select>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col :md="{span:8}" :xs="{span:24}">
-                        <FormItem label="性别" prop="stuGender">
-                            <RadioGroup v-model="formItem.stuGender" type="button" size="large">
-                                <Radio label="男"></Radio>
-                                <Radio label="女"></Radio>
-                            </RadioGroup>
-                        </FormItem>
-                    </Col>
-                    <Col :md="{span:16}" :xs="{span:24}">
-                        <FormItem label="民族" prop="stuNation">
-                            <Input v-model="formItem.stuNation" placeholder="输入所属民族"></Input>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col :md="{span:12}" :xs="{span:24}">
-                        <FormItem label="院系/专业" prop="stuDept">
-                            <Cascader :data="depts" v-model="formItem.stuDept" change-on-select></Cascader>
-                        </FormItem>
-                    </Col>
-                    <Col :md="{span:12}" :xs="{span:24}">
-                        <FormItem label="班级" prop="stuClass">
-                            <Input v-model="formItem.stuClass" placeholder="输入所在班级"></Input>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <FormItem label="邮箱" prop="stuEmail">
-                    <AutoComplete
-                        style="text-align: left;"
-                        icon="ios-mail-outline"
-                        transfer
-                        v-model="formItem.stuEmail"
-                        @on-search="emailSearch"
-                        placeholder="邮箱账号">
-                        <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
-                    </AutoComplete>
-                </FormItem>
-                <FormItem label="联系方式" prop="stuPhone">
-                    <Input v-model="formItem.stuPhone" icon="ios-call-outline" placeholder="电话号码"></Input>
-                </FormItem>
-                <FormItem label="签名/简介" prop="stuInfo">
-                    <Input 
-                        v-model="formItem.stuInfo" 
-                        type="textarea" 
-                        :autosize="{minRows: 2,maxRows: 5}" 
-                        placeholder="自我介绍/喜欢搞机还是喜欢编程？水平如何？/未来有什么目标？">
-                    </Input>
-                </FormItem>
-                <FormItem class="left-from-item">
-                    <Button type="primary" :loading="loading" @click="Submit('formItem')">提交</Button>
-                    <Button style="margin-left: 8px" @click="Reset('formItem')">重置</Button>
-                </FormItem>
-            </Form>
-            <Carousel 
-                autoplay 
-                v-model="advertise" 
-                loop 
-                :autoplay-speed="5000"
-                :radius-dot="true">
-                <CarouselItem>
-                    <div class="demo-carousel">
-                        <img style="width: 100%" src="http://39.106.85.24:8999/advertise1.png"  @click="showAdver('advertise1')"/>
-                    </div>
-                </CarouselItem>
-                <CarouselItem>
-                    <div class="demo-carousel" @click="gotohome">
-                        <img style="width: 100%" src="http://39.106.85.24:8999/adver.png" />
-                    </div>
-                </CarouselItem>
-            </Carousel>
+                <div class="cover-head">录入会员信息</div>
+                <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
+                    <FormItem label="学号" prop="stuId">
+                        <Input v-model="formItem.stuId" icon="ios-key-outline" placeholder="南工学号"></Input>
+                    </FormItem>
+                    <Row>
+                        <Col :md="{span:12}" :xs="{span:24}">
+                            <FormItem label="姓名" prop="stuName">
+                                <Input v-model="formItem.stuName" icon="ios-person-outline" placeholder="真实姓名"></Input>
+                            </FormItem>
+                        </Col>
+                        <Col :md="{span:12}" :xs="{span:24}">
+                            <FormItem label="政治面貌" prop="stuStatus">
+                                <Select v-model="formItem.stuStatus">
+                                    <Option v-for="item in statusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                </Select>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col :md="{span:8}" :xs="{span:24}">
+                            <FormItem label="性别" prop="stuGender">
+                                <RadioGroup v-model="formItem.stuGender" type="button" size="large">
+                                    <Radio label="男"></Radio>
+                                    <Radio label="女"></Radio>
+                                </RadioGroup>
+                            </FormItem>
+                        </Col>
+                        <Col :md="{span:16}" :xs="{span:24}">
+                            <FormItem label="民族" prop="stuNation">
+                                <Input v-model="formItem.stuNation" placeholder="输入所属民族"></Input>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col :md="{span:12}" :xs="{span:24}">
+                            <FormItem label="院系/专业" prop="stuDept">
+                                <Cascader :data="depts" v-model="formItem.stuDept" change-on-select></Cascader>
+                            </FormItem>
+                        </Col>
+                        <Col :md="{span:12}" :xs="{span:24}">
+                            <FormItem label="班级" prop="stuClass">
+                                <Input v-model="formItem.stuClass" placeholder="输入所在班级"></Input>
+                            </FormItem>
+                        </Col>
+                    </Row>
+                    <FormItem label="邮箱" prop="stuEmail">
+                        <AutoComplete
+                            style="text-align: left;"
+                            icon="ios-mail-outline"
+                            transfer
+                            v-model="formItem.stuEmail"
+                            @on-search="emailSearch"
+                            placeholder="邮箱账号">
+                            <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
+                        </AutoComplete>
+                    </FormItem>
+                    <FormItem label="联系方式" prop="stuPhone">
+                        <Input v-model="formItem.stuPhone" icon="ios-call-outline" placeholder="电话号码"></Input>
+                    </FormItem>
+                    <FormItem label="签名/简介" prop="stuInfo">
+                        <Input 
+                            v-model="formItem.stuInfo" 
+                            type="textarea" 
+                            :autosize="{minRows: 2,maxRows: 5}" 
+                            placeholder="自我介绍/喜欢搞机还是喜欢编程？水平如何？/未来有什么目标？">
+                        </Input>
+                    </FormItem>
+                    <FormItem class="left-from-item">
+                        <Button type="primary" :loading="loading" @click="Submit('formItem')">提交</Button>
+                        <Button style="margin-left: 8px" @click="Reset('formItem')">重置</Button>
+                    </FormItem>
+                </Form>
+                <Carousel 
+                    autoplay 
+                    v-model="advertise" 
+                    loop 
+                    :autoplay-speed="5000"
+                    :radius-dot="true">
+                    <CarouselItem>
+                        <div class="demo-carousel">
+                            <img style="width: 100%" src="http://39.106.85.24:8999/advertise1.png"  @click="showAdver('advertise1')"/>
+                        </div>
+                    </CarouselItem>
+                    <CarouselItem>
+                        <div class="demo-carousel" @click="gotohome">
+                            <img style="width: 100%" src="http://39.106.85.24:8999/adver.png" />
+                        </div>
+                    </CarouselItem>
+                </Carousel>
             </Col>
         </Row>
         <Modal 
@@ -501,6 +501,14 @@ export default {
                 
             ]
         }
+    },
+    created() {
+        this.$Modal.warning({
+            title: '温馨提示',
+            content: '<p>计算机协会会员信息录入页面已更换为</p>' + 
+            '<p><a href="/index/signup">http://www.niter.work/index/signup</a></p>'
+            + '<p>点击链接跳转前往</p>',
+        });
     },
     methods: {
         emailSearch (value) {

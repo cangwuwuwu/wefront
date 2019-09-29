@@ -112,7 +112,7 @@ export default {
     },
     mounted() {
         this.initWebsocket();
-        this.name = JSON.parse(sessionStorage.getItem('wecoding_login_info')).data.name;
+        this.name = JSON.parse(sessionStorage.getItem('wecoding_login_info')).username;
     },
     watch: {
         // left数组改变时 说明收到新消息

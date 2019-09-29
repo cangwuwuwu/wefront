@@ -1,7 +1,7 @@
 <template>
-    <div class="comp">
-        <Row  type="flex" justify="center" align="middle" style="height: 700px">
-            <Col :md="{span:9}" :xs="{span:22}">
+    <div class="signup">
+        <Row type="flex" justify="center" align="middle" style="height: 800px">
+            <Col :md="{span:8}" :xs="{span:22}">
                 <div class="cover-head">录入会员信息</div>
                 <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
                     <FormItem label="学号" prop="stuId">
@@ -545,10 +545,6 @@ export default {
 </script>
 
 <style scoped>
-.signup {
-    width: 100%;
-    margin:auto;
-}
 .left-from-item >>> .ivu-form-item-content {
     margin-left: 0!important;
 }

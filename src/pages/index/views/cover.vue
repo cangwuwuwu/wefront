@@ -18,7 +18,7 @@
                 </Col>
             </Row>
             <Row :gutter="16" type="flex" align="middle" justify="center" style="margin:auto">
-                <Col :md="{span: 14}">
+                <Col :md="{span: 14}" :xs="{span: 24}">
                     <Col :md="{span: 6}" :xs="{span: 12}" v-for="user in search(keywords)" :key="user.stuId" class-name="user-list-col">
                         <div @click="displays(user)">
                             <Card style="height:116px">

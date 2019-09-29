@@ -1,13 +1,22 @@
 <template>
-    <div class="spend">
-        <Row style="">
-            <Col span="4">
+        <div class="spend">
+            <Row>
+                <div class="head card-shadow" style="margin-bottom: 16px;">
+                    <Menu mode="horizontal" @on-select="back2home">
+                        <MenuItem name="/home" class="wecoding-logo" style="color: #2d8cf0">
+                            <span>返回主页</span>
+                        </MenuItem>
+                    </Menu>
+                </div>
+            </Row>
+        <Row>
+            <Col :md="{span:4}" :xs="{span:24}">
                 <div class="financial-head">协会财务公示</div>
                 <div @click="displayBlock(item, index)" v-for="(item,index) in spend" :key="item.id">
                     <Card dis-hover :class="clickIndex === index ? 'card-no-right-border' : ''"> 
                         <Timeline>
                             <TimelineItem :color="item.type === '+' ? 'green' : 'red'" >
-                                <p class="time" >{{item.time | formatDate }}</p>
+                                <p class="time" >{{ item.time | formatDate }}</p>
                                 <Row>
                                     <Col span="16" >
                                         <p class="content">
@@ -31,7 +40,7 @@
                     <Page :total="total" :current="page" :page-size="5" @on-change="changePage" size="small" />
                 </div>
             </Col>
-            <Col v-show="rightBlock" span="20" style="background: #fff;">
+            <Col v-show="rightBlock" :md="{span:20}" :xs="{span:24}" style="background: #fff;">
                 <Row>
                     <div class="financial-head">财务明细：{{ hoverSpend.desc }}</div>
                 </Row>
@@ -43,7 +52,7 @@
                         <Icon type="md-close" size="25"/>
                     </div>
                 </Row>
-                <Row style="padding-top: 100px;padding-bottom: 50px;">
+                <Row  class="row-money-top" style="">
                     <div class="money-content">
                         <div class="money-small-title">收支时间:</div>
                         <div class="money-small-content">{{ hoverSpend.time | formatDateTime }}</div>
@@ -66,19 +75,19 @@
                     <Button type="error" @click="deleteSpend(hoverSpend.id)">删除这条记录</Button>
                 </Row> -->
             </Col>
-            <Col v-show="!rightBlock" span="20">
+            <Col v-show="!rightBlock" :md="{span:20}" :xs="{span:24}">
                 <Row>
                     <div class="financial-head">收支上报流程</div>
                     <div style="padding: 20px">
                         <Steps :current="current">
-                            <Step title="填写收支基本信息"></Step>
-                            <Step title="上传相关图片"></Step>
-                            <Step title="填写上报人信息"></Step>
-                            <Step title="完成收支上报"></Step>
+                            <Step title="收支信息"></Step>
+                            <Step title="相关图片"></Step>
+                            <Step title="上报人信息"></Step>
+                            <Step title="完成上报"></Step>
                         </Steps>
                     </div>
                 </Row>
-                <Row style="padding-top: 130px;">
+                <Row class="row-top">
                     <!-- <router-view></router-view> -->
                     <Carousel v-model="current" arrow="never" dots="none" :height="400">
                         <CarouselItem>
@@ -312,6 +321,9 @@ export default {
         changePage(page) {
             this.getAllSpendByPage(page, 5)
         },
+        back2home(name) {
+            window.location = name;
+        },
         next () {
             let _self = this;
             if (this.current === 2) {
@@ -360,6 +372,30 @@ export default {
 }
 </script>
 <style scoped lang="less">
+@media screen and (max-width: 770px) {
+    .step {
+        width: 100%;
+        margin: auto;
+    }
+    .row-top {
+        padding-top: 0!important;
+    }
+    .money-content {
+        width: 100%;
+        margin: auto
+    }
+    .row-money-top {
+        padding-top: 20px!important;
+        padding-bottom: 20px!important;
+    }
+}
+    .row-money-top {
+        padding-top: 100px;
+        padding-bottom: 50px;
+    }
+    .row-top {
+        padding-top: 130px;
+    }
     .step3-title {
         font-size: 17px;
         font-weight: bold;
