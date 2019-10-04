@@ -6,14 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         displaystatus: false,
-        lang: 'zh',
+        token: {},
     },
     mutations: {
         isDisplayMenu(state, status) {
             state.displaystatus = status;
         },
-        changeWebLang(state, lang) {
-            state.lang = lang;
+        setToken(state, token) {
+            state.token = token;
         }
     }
 })

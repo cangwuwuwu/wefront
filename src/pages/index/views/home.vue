@@ -111,6 +111,10 @@
                                     <Icon type="md-power" size="17"></Icon>
                                     退出登录
                                 </DropdownItem>
+                                <DropdownItem v-if="hasAdminRole" name="admin" divided>
+                                    <Icon type="md-pie" size="17"></Icon>
+                                    进入后台
+                                </DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </div>
@@ -364,6 +368,7 @@
                 hismsglist: [],
                 allhismsglist: [],
                 hasLogin: false,
+                hasAdminRole: false,
                 spinShowHis: false,
                 personinfo: false,
                 changepassmd: false,
@@ -400,12 +405,12 @@
             }
         },
         mounted: function () {
-            let info = sessionStorage.getItem('wecoding_login_info');
+            const info = sessionStorage.getItem('wecoding_login_info');
+            const jsonInfo = JSON.parse(info);
             // console.log(info)
+            this.getCurrentInfo();
             if (info) {
-                this.getCurrentInfo();
-                this.hasLogin = true;
-                const id = JSON.parse(info).username;
+                const id = jsonInfo.username;
                 this.formChPass.id = id;
                 this.checkFirstLogin(id).then(res => {
                     if (res.data === 1) {
@@ -420,6 +425,10 @@
                         });
                     }
                 })
+                const auth = jsonInfo.authorities;
+                if (auth.length === 2) {
+                    this.hasAdminRole = true;
+                }
                 // this.connectMsgWsServer(this.id)
             } else {
                 // this.connectMsgWsServer('')
@@ -432,7 +441,8 @@
                 axios
                     .get('/api/stu/current')
                     .then(res => {
-                        if (res) {
+                        if (res && res.data.id !== null) {
+                            _self.hasLogin = true;
                             let myinfo = _self.changeinfo2list(res.data);
                             myinfo.stuImg = res.data.stuImg;
                             myinfo.stuBigImg = res.data.stuBigImg;

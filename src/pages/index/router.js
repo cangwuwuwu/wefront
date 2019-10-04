@@ -429,14 +429,62 @@ export default new Router({
                     meta: {
                         title: '在线账簿-NIT计算机协会',
                     }
+                }
+            ]
+        },
+        {
+            path: '/admin',
+            component: () => import('@/pages/index/views/admin.vue'),
+            children: [
+                {
+                    path: 'member',
+                    component: () => import('@/pages/index/components/admin/member.vue'),
+                    meta: {
+                        title: '成员管理-NIT计算机协会',
+                    }
                 },
                 {
-                    path: 'admin',
-                    component: () => import('@/pages/index/views/admin.vue'),
+                    path: 'account',
+                    component: () => import('@/pages/index/components/admin/account.vue'),
                     meta: {
-                        title: '在线账簿-NIT计算机协会',
+                        title: '账号管理-NIT计算机协会',
                     }
-                }
+                },
+                {
+                    path: 'finance',
+                    component: () => import('@/pages/index/components/admin/finance.vue'),
+                    meta: {
+                        title: '财务管理-NIT计算机协会',
+                    }
+                },
+                {
+                    path: 'overview',
+                    component: () => import('@/pages/index/components/admin/overview.vue'),
+                    meta: {
+                        title: '协会概览-NIT计算机协会',
+                    }
+                },
+                {
+                    path: 'resource',
+                    component: () => import('@/pages/index/components/admin/resource.vue'),
+                    meta: {
+                        title: '资源管理-NIT计算机协会',
+                    }
+                },
+                {
+                    path: 'guide',
+                    component: () => import('@/pages/index/components/admin/guide.vue'),
+                    meta: {
+                        title: '指南管理-NIT计算机协会',
+                    }
+                },
+                {
+                    path: 'notice',
+                    component: () => import('@/pages/index/components/admin/notice.vue'),
+                    meta: {
+                        title: '发送通知-NIT计算机协会',
+                    }
+                },
             ]
         },
         {

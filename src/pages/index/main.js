@@ -19,13 +19,13 @@ router.beforeEach((to, from, next) => {
         document.title = to.meta.title
     }
     if (to.matched.some(record => record.meta.requireLogin)) {
-        // 判断当前用户的登录信息wecoding_login_info是否存在
+        // 判断当前用户的token是否存在
         if (sessionStorage.getItem('wecoding_login_info')) {
             next();
         } else {
             next({
                 path: '/index/signin',
-                query: {redirect: location.pathname}
+                query: {redirect: location.hostname}
             });
         }
     } else {

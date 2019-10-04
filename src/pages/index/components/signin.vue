@@ -15,13 +15,13 @@
                             <Icon type="ios-lock-outline" slot="prepend"></Icon>
                         </Input>
                     </FormItem>
-                    <!-- <FormItem>
+                    <FormItem>
                         <i-Switch :value="remember" @on-change="change">
                             <Icon type="md-checkmark" slot="open"></Icon>
                             <Icon type="md-close" slot="close"></Icon>
                         </i-Switch>
-                        记住密码
-                    </FormItem> -->
+                        记住我
+                    </FormItem>
                     <FormItem>
                         <Button type="primary" :loading="loginbtnload" long @click="handleSubmit('formSignin')">{{ $t('index.login') }}
                         </Button>
@@ -53,13 +53,13 @@
                         {required: true, message: '密码不能为空', trigger: 'blur'}
                     ]
                 },
-                // remember: false,
+                remember: false,
             }
         },
         methods: {
-            // change (status) {
-            //     this.remember = status;
-            // },
+            change (status) {
+                this.remember = status;
+            },
             handleSubmit(name) {
                 let _self = this;
                 this.$refs[name].validate((valid) => {
@@ -68,13 +68,14 @@
                         let formData = new FormData();
                         formData.append('stuId', this.formSignin.stuId);
                         formData.append('stuPassword', this.formSignin.stuPassword);
-                        // formData.append('remember-me', this.remember)
+                        formData.append('remember-me', this.remember)
                         axios
                             .post('/api/login', formData)
                             .then(res => {
                                 if (res) {
-                                    // console.log(res.data)
+                                    console.log(res.data.data.principal)
                                     sessionStorage.setItem('wecoding_login_info', JSON.stringify(res.data.data.principal));
+                                    // this.$store.commit('setToken', res.data.data.principal);
                                     setTimeout(function () {
                                         if (_self.$route.query.redirect === location.hostname) {
                                             _self.$router.go(-1);

@@ -32,7 +32,7 @@ axios.interceptors.response.use(resp => {
       setTimeout(function () {
         router.push({
           path: '/index/signin',
-          query: {redirect: location.pathname}
+          query: {redirect: location.hostname}
         })
       }, 2000);
     }
