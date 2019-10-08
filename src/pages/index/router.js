@@ -420,7 +420,7 @@ export default new Router({
             path: '/comp',
             component: () => import('@/pages/index/views/comp.vue'),
             meta: {
-                title: '会员录入-NIT计算机协会'
+                title: '会员录入-NIT计算机协会官网|Wecoding'
             },
             children: [
                 {
@@ -431,6 +431,13 @@ export default new Router({
                     }
                 }
             ]
+        },
+        {
+            path: '/queryele',
+            component: () => import('@/pages/index/views/query.vue'),
+            meta: {
+                title: '电费提醒-NIT计算机协会官网|Wecoding'
+            }
         },
         {
             path: '/admin',

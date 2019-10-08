@@ -4,7 +4,10 @@ a:focus,
 a:hover {
     color: #fff;
 }
-
+.md-link,
+.md-link:hover {
+    color: #2d8cf0;
+}
 /* Custom default button */
 .btn-secondary,
 .btn-secondary:hover,
@@ -397,12 +400,12 @@ h3:hover {
     padding: 0 !important;
     height: 520px;
 }
-
-.ivu-upload {
-    width: 400px;
-    height: 400px;
+@media screen and (max-width: 770px) {
+    .handle-view-modal .ivu-modal-body {
+        padding: 0 !important;
+        height: 360px;
+    }
 }
-
 .wecoding-logo {
     position: absolute;
     /* left: 70px; */

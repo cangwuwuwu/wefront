@@ -3,23 +3,29 @@
         <Row type="flex" align="middle" style="margin-bottom: 20px">
             <Col span="12" offset="2">
                 <Row>
-                    <Icon title="用户名" type="ios-contact" size="18"></Icon>
+                    <!-- <Icon title="用户名" type="ios-contact" size="18"></Icon> -->
+                    姓名：
                     <span style="font-size: 25px;font-weight: bold;">{{ myinfo.stuName }}</span><br>
-                    <Icon title="学号" type="md-key" size="18"></Icon>
-                    {{ myinfo.stuId }}
+                    <!-- <Icon title="学号" type="md-key" size="18"></Icon> -->
+                    学号：
+                    {{ myinfo.stuId }}<br>
+                    <!-- <Icon title="注册日期" type="md-time" size="18"></Icon> -->
+                    注册日期：
+                     {{ myinfo.stuRegistTime }}
                 </Row>
             </Col>
             <Col span="4" offset="4">
                 <div class="demo-upload-list">
-                    <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
+                    <div v-if="myinfo.stuImg === null">点此上传</div>
+                    <img v-if="myinfo.stuImg !== null" :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
                     <div class="demo-upload-list-cover">
-                        <Icon title="查看大图" type="md-qr-scanner" @click.native="handleView"></Icon>
+                        <Icon title="查看大图" type="md-qr-scanner" v-if="myinfo.stuImg !== null" @click.native="handleView"></Icon>
                         <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead"></Icon>
                     </div>
                 </div>
             </Col>
             <Modal footer-hide v-model="visible" class="handle-view-modal">
-                <img width="80" :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
+                <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
                      v-if="visible" style="width: 100%;height: 100%">
             </Modal>
 
@@ -511,5 +517,4 @@
         background-size: 20px 20px;
         background-image: linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee 100%), linear-gradient(45deg, #eee 25%, white 25%, white 75%, #eee 75%, #eee 100%);
     }
-
 </style>

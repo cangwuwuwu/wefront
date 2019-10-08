@@ -35,6 +35,10 @@
                         <Icon type="logo-usd" size="16"></Icon>
                         财务公示
                     </MenuItem>
+                    <MenuItem to="/queryele" name="query">
+                        <Icon type="ios-notifications" size="16"></Icon>
+                        电量通知
+                    </MenuItem>
                     <MenuItem to="/docs/help" name="help">
                         <Icon type="md-help-circle" size="16"></Icon>
                         帮助
@@ -167,6 +171,7 @@
                         <div @click="go('/docs/help')" class="navigate-group catalogue">帮助文档</div>
                         <MenuItem name="help" to="/docs/help/update-log">更新日志</MenuItem>
                         <div @click="go('/comp/spend')" class="navigate-group catalogue">财务公示</div>
+                        <div @click="go('/queryele')" class="navigate-group catalogue">电量通知</div>
                         <div class="navigate-group catalogue">更换主题</div>
                         <MenuItem name="light">
                             <Icon type="ios-color-fill-outline"></Icon>
@@ -325,7 +330,7 @@
 
         <Footer :hometheme="headtheme"></Footer>
 
-        <Col :xs="{span: 0}" :md="{span: 1}">
+        <!-- <Col :xs="{span: 0}" :md="{span: 1}">
             <BackTop title="返回顶部" :height="100" :right="250" :bottom="250">
                 <div class="top">
                     <Icon type="ios-arrow-up"/>
@@ -337,7 +342,7 @@
                     <Icon type="md-star" size="25"/>
                 </div>
             </div>
-        </Col>
+        </Col> -->
     </div>
 </template>
 
@@ -448,6 +453,7 @@
                             myinfo.stuBigImg = res.data.stuBigImg;
                             myinfo.stuId = res.data.stuId;
                             myinfo.stuName = res.data.stuName;
+                            myinfo.stuRegistTime = formatDate(new Date(res.data.stuRegistTime), 'yyyy-MM-dd');
                             myinfo.id = res.data.id;
                             _self.myinfo = myinfo;
                         }

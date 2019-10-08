@@ -332,7 +332,7 @@
                 this.getAllSpendByPage(page, 5)
             },
             back2home() {
-                this.$router.go(-1);
+                this.$router.push('/home');
             },
             next() {
                 let _self = this;
