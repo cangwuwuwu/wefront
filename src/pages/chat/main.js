@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
-import { Message, Modal } from 'iview'
+import { Message, Modal } from 'view-design'
 import router from '@/pages/chat/router'
-import 'iview/dist/styles/iview.css';
+import 'view-design/dist/styles/iview.css';
 import 'bootstrap/dist/css/bootstrap.min.css'
 require('@/assets/css/chat.css');
 

@@ -63,7 +63,11 @@
             </col>
         </Row>
 
-        <Modal footer-hide width="1000" v-model="seehisinfo" class-name="vertical-center-modal">
+        <Modal 
+            footer-hide 
+            width="1000" 
+            v-model="seehisinfo" 
+            class-name="vertical-center-modal">
             <Row style="padding: 20px;font-size: 14px;" type="flex" align="middle">
                 <Col :md="{span:3}" :xs="{span:5}">
                     <div>头像:</div>
@@ -236,7 +240,7 @@
                 });
             },
             displays(user) {
-                let info = sessionStorage.getItem('wecoding_login_info');
+                let info = localStorage.getItem('wecoding_login_info');
                 if (info) {
                     this.seehisinfo = true;
                     this.chooseUser = user

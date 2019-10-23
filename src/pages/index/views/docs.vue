@@ -34,5 +34,15 @@
     footer, .footer a div {
         color: #f8f9f8 !important;
     }
+    .footer {
+        width: 100%;
+        position: relative;
+        bottom: 0;
+        padding: 45px 0 45px 0;
+        background: #212121;
+        z-index: 10;
+        font-size: 12px;
+        text-align: center;
+    }
 
 </style>

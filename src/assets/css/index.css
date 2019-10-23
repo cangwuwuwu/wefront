@@ -556,3 +556,7 @@ h3:hover {
         stroke: #ffa700;
     }
 }
+.listItem .ivu-list-item-meta-title:hover {
+    color: #2d8cf0;
+    cursor: pointer;
+}

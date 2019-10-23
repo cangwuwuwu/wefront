@@ -3,13 +3,10 @@
         <Row type="flex" align="middle" style="margin-bottom: 20px">
             <Col span="12" offset="2">
                 <Row>
-                    <!-- <Icon title="用户名" type="ios-contact" size="18"></Icon> -->
                     姓名：
                     <span style="font-size: 25px;font-weight: bold;">{{ myinfo.stuName }}</span><br>
-                    <!-- <Icon title="学号" type="md-key" size="18"></Icon> -->
                     学号：
                     {{ myinfo.stuId }}<br>
-                    <!-- <Icon title="注册日期" type="md-time" size="18"></Icon> -->
                     注册日期：
                      {{ myinfo.stuRegistTime }}
                 </Row>
@@ -134,21 +131,21 @@
         <Row>
             <Card>
                 <div style="border: 1px solid #dcdee2;text-align: center">
-                    <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+                    <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;" >
                         <thead>
                         <tr class="tr-height" v-for="(my, index) in myinfo" :key="index">
                             <th class="table-title-color" style="width: 25%;">
-                                <div class="ivu-table-cell"><span class="">{{ my.title }}</span></div>
+                                <div class="ivu-table-cell"><span>{{ my.title }}</span></div>
                             </th>
-                            <th class="" style="width: 65%;">
+                            <th style="width: 65%;">
                                 <div v-if="index === editInput">
-                                    <Input :type="index === 6 ? 'textarea' : 'text'"
-                                           :placeholder="index === 5 ? '格式: yyyy-MM-dd' : ''"
+                                    <Input :type="index === 9 ? 'textarea' : 'text'"
+                                           :placeholder="index === 8 ? '格式: yyyy-MM-dd' : ''"
                                            v-model="my.value" autofocus :autosize="{minRows: 2,maxRows: 5}"/>
                                 </div>
-                                <span class="" v-else>{{ my.value }}</span>
+                                <span v-else>{{ my.value }}</span>
                             </th>
-                            <th class="" style="width: 10%;">
+                            <th style="width: 10%;">
                                 <div>
                                     <div v-if="index === editInput" class="ivu-table-cell tb-point">
                                         <Icon type="md-checkmark-circle-outline" size="20"
@@ -231,7 +228,10 @@
             },
             // 修改个人信息按钮-显示input框
             modifyInfo(index, value) {
-                // if (index < 2 || index === 8) return;
+                if (index === 1) {
+                    this.$Message.error('要更改邮箱请联系管理员！');
+                    return ;
+                }
                 this.modifyData = value;
                 this.editInput = index;
             },

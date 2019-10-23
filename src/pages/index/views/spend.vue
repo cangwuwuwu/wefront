@@ -46,9 +46,9 @@
                 </Row>
                 <Row>
                     <div
-                            title="关闭"
-                            @click="rightBlock = false;clickIndex = -1"
-                            style="text-align: right;cursor: pointer;">
+                        title="关闭"
+                        @click="rightBlock = false;clickIndex = -1"
+                        style="text-align: right;cursor: pointer;">
                         <Icon type="md-close" size="25"/>
                     </div>
                 </Row>
@@ -284,10 +284,9 @@
         },
         created() {
             this.getAllSpendByPage(this.page, 5);
-            let info = sessionStorage.getItem('wecoding_login_info');
-            const jsonInfo = JSON.parse(info);
-            this.money.name = jsonInfo.stuName;
-            this.money.email = jsonInfo.stuEmail;
+            let info = this.$store.state.token;
+            this.money.name = info.stuName;
+            this.money.email = info.stuEmail;
         },
         methods: {
             getAllSpendByPage(page, size) {
@@ -409,7 +408,7 @@
     }
 
     .row-top {
-        padding-top: 130px;
+        padding-bottom: 20px;
     }
 
     .step3-title {

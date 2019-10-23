@@ -1,7 +1,7 @@
 <template>
     <div class="signup">
-        <Row type="flex" justify="center" align="middle" style="height: 800px">
-            <Col :md="{span:8}" :xs="{span:22}">
+        <Row type="flex" justify="center" align="middle" style="height: 700px">
+            <Col :md="{span:10}" :xs="{span:22}">
                 <div class="cover-head">{{ $t('index.signupHead') }}</div>
                 <Form ref="formItem" :model="formItem" :rules="ruleValidate" :label-width="80">
                     <FormItem :label="$t('index.stuId')" prop="stuId">
@@ -477,7 +477,19 @@
                     },
                     {
                         label: '瑶湖学院',
-                        value: '瑶湖学院'
+                        value: '瑶湖学院',
+                        children: [
+                            {
+                                dept: '瑶湖学院',
+                                value: '土木工程',
+                                label: '土木工程'
+                            },
+                            {
+                                dept: '瑶湖学院',
+                                value: '水利水电工程',
+                                label: '水利水电工程'
+                            }
+                        ]
                     },
                     {
                         label: '士官学院',

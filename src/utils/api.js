@@ -2,7 +2,7 @@ import axios from 'axios'
 import router from '@/pages/index/router'
 import { Message, LoadingBar } from 'iview'
 axios.interceptors.request.use(config => {
-  LoadingBar.start();
+  // LoadingBar.start();
   return config;
 }, err => {
   Message.error('请求超时!');
@@ -17,7 +17,7 @@ axios.interceptors.response.use(resp => {
   if (resp.data.message) {
       Message.success(resp.data.message);
   }
-  LoadingBar.finish();
+  // LoadingBar.finish();
   return resp;
   }, err => {
   // console.log(err.response);
@@ -28,7 +28,7 @@ axios.interceptors.response.use(resp => {
   } else if (err.response.status === 401) {
     Message.error(err.response.data.message);
     if (err.response.data.message !== '用户名或密码错误') {
-      sessionStorage.removeItem('wecoding_login_info');
+      localStorage.removeItem('wecoding_login_info');
       setTimeout(function () {
         router.push({
           path: '/index/signin',
@@ -43,5 +43,5 @@ axios.interceptors.response.use(resp => {
       Message.error('未知错误!');
     }
   }
-  LoadingBar.error();
+  // LoadingBar.error();
 });

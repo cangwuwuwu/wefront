@@ -142,7 +142,7 @@
         },
         created() {
             this.breadName = this.real_choose();
-            const info = sessionStorage.getItem('wecoding_login_info');
+            const info = localStorage.getItem('wecoding_login_info');
             this.name = JSON.parse(info).stuName;
         },
         computed: {

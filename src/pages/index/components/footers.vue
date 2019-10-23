@@ -66,7 +66,7 @@
                 </Radio>
                 <Radio label="advice">
                     <Icon type="ios-information-circle" size="15"></Icon>
-                    <span>纰漏/指正/建议</span>
+                    <span>指正/建议</span>
                 </Radio>
             </RadioGroup>
             <div>反馈内容</div>
@@ -157,16 +157,7 @@
         font-size: 24px;
     }
 
-    .footer {
-        width: 100%;
-        position: relative;
-        bottom: 0;
-        padding: 45px 0 45px 0;
-        background: #212121;
-        z-index: 10;
-        font-size: 12px;
-        text-align: center;
-    }
+
 
     footer p {
         line-height: 30px;

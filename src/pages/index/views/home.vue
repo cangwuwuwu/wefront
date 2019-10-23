@@ -31,6 +31,10 @@
                             </MenuItem>
                         </MenuGroup>
                     </Submenu> -->
+                    <MenuItem to="/course/list" name="list">
+                        <Icon type="md-list" size="16"></Icon>
+                        计协课程
+                    </MenuItem>
                     <MenuItem to="/comp/spend" name="spend">
                         <Icon type="logo-usd" size="16"></Icon>
                         财务公示
@@ -153,25 +157,22 @@
                 <ul class="ivu-menu ivu-menu-light ivu-menu-vertical" style="width: auto;">
                     <Menu width="310" @on-select="selectMenu">
                         <div class="navigate-group catalogue">起步</div>
-                        <MenuItem name="cover" to="/index/cover">返回封面</MenuItem>
-                        <MenuItem name="signin" to="/index/signin">登录</MenuItem>
-                        <MenuItem name="signup" to="/index/signup">注册</MenuItem>
+                        <MenuItem name="cover" to="/index/cover">封面/登录/注册</MenuItem>
                         <div @click="go('/docs/guide')" class="navigate-group catalogue">校园指南</div>
                         <MenuItem name="college-website" to="/docs/guide/college-website">学校信息</MenuItem>
                         <MenuItem name="wel-new" to="/docs/guide/wel-new">新生专区</MenuItem>
                         <MenuItem name="score" to="/docs/guide/score">其他指南</MenuItem>
                         <div @click="go('/docs/resources')" class="navigate-group catalogue">资源分享</div>
-                        <MenuItem name="java" to="/docs/resources/java">Java/Kotlin</MenuItem>
-                        <MenuItem name="web" to="/docs/resources/vue">Web前端</MenuItem>
-                        <MenuItem name="python" to="/docs/resources/python">其他语言</MenuItem>
+                        <MenuItem name="java" to="/docs/resources/java">编程语言</MenuItem>
                         <MenuItem name="tocet">四六级</MenuItem>
                         <MenuItem name="toothers">其他专业</MenuItem>
                         <!-- <div class="navigate-group catalogue">交流讨论</div>
                         <MenuItem name="room" to="/chat/room">在线聊天</MenuItem> -->
+                        <div @click="go('/comp/spend')" class="navigate-group catalogue">财务公示</div>
+                        <div @click="go('/course/list')" class="navigate-group catalogue">计协课程</div>
+                        <div @click="go('/queryele')" class="navigate-group catalogue">电量通知</div>
                         <div @click="go('/docs/help')" class="navigate-group catalogue">帮助文档</div>
                         <MenuItem name="help" to="/docs/help/update-log">更新日志</MenuItem>
-                        <div @click="go('/comp/spend')" class="navigate-group catalogue">财务公示</div>
-                        <div @click="go('/queryele')" class="navigate-group catalogue">电量通知</div>
                         <div class="navigate-group catalogue">更换主题</div>
                         <MenuItem name="light">
                             <Icon type="ios-color-fill-outline"></Icon>
@@ -216,24 +217,28 @@
                     </Input>
                 </FormItem>
                 <FormItem prop="stuEmail">
-                    <AutoComplete
+                    <Input type="text" v-model="formChPass.stuEmail" disabled placeholder="邮箱账号">
+                        <Icon type="ios-mail-outline" slot="prepend"></Icon>
+                    </Input>
+                    <!-- <AutoComplete
                             style="text-align: left;"
                             icon="ios-mail-outline"
                             transfer
+                            disabled
                             v-model="formChPass.stuEmail"
                             @on-search="emailSearch"
                             placeholder="邮箱账号">
                         <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
-                    </AutoComplete>
+                    </AutoComplete> -->
                 </FormItem>
                 <Row :gutter="16">
-                    <Col :md="{span:18}" :xs="{span: 14}">
+                    <Col :md="{span:17}" :xs="{span: 14}">
                         <FormItem prop="stuCode">
                             <Input v-model="formChPass.stuCode" enter-button icon="ios-barcode-outline"
                                    placeholder="输入邮件收到的验证码"></Input>
                         </FormItem>
                     </Col>
-                    <Col :md="{span:6}" :xs="{span: 10}">
+                    <Col :md="{span:7}" :xs="{span: 10}">
                         <!-- <Button type="primary">获取验证码</Button> -->
                         <Button type="primary" @click="sendMail" :style="btnstyle" :disabled="disabled">
                             {{ btntext }}
@@ -330,19 +335,13 @@
 
         <Footer :hometheme="headtheme"></Footer>
 
-        <!-- <Col :xs="{span: 0}" :md="{span: 1}">
-            <BackTop title="返回顶部" :height="100" :right="250" :bottom="250">
+        <Col :xs="{span: 0}" :md="{span: 1}">
+            <BackTop title="返回顶部" :height="100">
                 <div class="top">
                     <Icon type="ios-arrow-up"/>
                 </div>
             </BackTop>
-            <div title="收藏本站" class="ivu-back-top ivu-back-top-show" style="right: 250px; bottom: 200px;"
-                 @click="add2Favourite">
-                <div class="top">
-                    <Icon type="md-star" size="25"/>
-                </div>
-            </div>
-        </Col> -->
+        </Col>
     </div>
 </template>
 
@@ -393,10 +392,6 @@
                         {required: true, message: '请输入您的新密码', trigger: 'blur'},
                         {min: 6, max: 20, message: '密码长度在6到20之间。', trigger: 'blur'}
                     ],
-                    stuEmail: [
-                        {required: true, message: '邮箱不能为空!', trigger: 'blur'},
-                        {type: 'email', message: '邮箱格式错误!', trigger: 'change'}
-                    ],
                     stuCode: [
                         {required: true, message: '验证码不能为空!', trigger: 'blur'},
                         {
@@ -409,27 +404,23 @@
                 }
             }
         },
-        mounted: function () {
-            const info = sessionStorage.getItem('wecoding_login_info');
+        mounted () {
+            const info = localStorage.getItem('wecoding_login_info');
             const jsonInfo = JSON.parse(info);
             // console.log(info)
-            this.getCurrentInfo();
             if (info) {
+                this.hasLogin = true;
+                this.myinfo.stuName = jsonInfo.stuName;
+                this.myinfo.stuImg = jsonInfo.stuImg;
+
                 const id = jsonInfo.username;
+                const email = jsonInfo.stuEmail;
                 this.formChPass.id = id;
-                this.checkFirstLogin(id).then(res => {
-                    if (res.data === 1) {
-                        this.$Modal.confirm({
-                            title: '首次登录',
-                            content: '<p>您是第一次登录这里，更改密码使账号更安全</p>',
-                            okText: '更改密码',
-                            cancelText: '下次一定',
-                            onOk: () => {
-                                this.changepassmd = true;
-                            }
-                        });
-                    }
-                })
+                this.formChPass.stuEmail = email;
+
+                if (this.$store.state.passStatus === 0) {
+                    this.checkFirstLogin(id);
+                }
                 const auth = jsonInfo.authorities;
                 if (auth.length === 2) {
                     this.hasAdminRole = true;
@@ -446,7 +437,7 @@
                 axios
                     .get('/api/stu/current')
                     .then(res => {
-                        if (res && res.data.id !== null) {
+                        if (res) {
                             _self.hasLogin = true;
                             let myinfo = _self.changeinfo2list(res.data);
                             myinfo.stuImg = res.data.stuImg;
@@ -460,11 +451,26 @@
                     })
             },
             checkFirstLogin(id) {
-                return axios
+                let _self = this;
+                axios
                     .get('/api/account', {
                         params: {
                             stuId: id
                         }
+                    })
+                    .then(res => {
+                        if (res.data === 1) {
+                            _self.$Modal.confirm({
+                                title: '首次登录',
+                                content: '<p>您是第一次登录这里，更改密码使账号更安全</p>',
+                                okText: '更改密码',
+                                cancelText: '下次一定',
+                                onOk: () => {
+                                    _self.changepassmd = true;
+                                }
+                            });
+                        }
+                        _self.$store.commit('setPassStatus', 1);
                     })
             },
             connectMsgWsServer(id) {
@@ -547,9 +553,11 @@
                 let _self = this;
                 if (link === 'me') {
                     this.personinfo = true;
+                    this.getCurrentInfo();
                     this.msgcount = 0;
                 } else if (link === 'msg') {
                     this.personinfo = true;
+                    this.getCurrentInfo();
                     this.msgcount = 0;
                     this.show2hismsg();
                 } else if (link === 'changepasswd') {
@@ -561,7 +569,7 @@
                         .then(res => {
                             if (res) {
                                 setTimeout(function () {
-                                    sessionStorage.removeItem('wecoding_login_info');
+                                    localStorage.removeItem('wecoding_login_info');
                                     // _self.$router.push('/index/signin');
                                     _self.$router.replace({
                                         path: '/refresh',
@@ -606,22 +614,6 @@
                     if (this.hismsglist.length === this.allhismsglist.length) {
                         this.more = '到底啦~';
                         break;
-                    }
-                }
-            },
-            add2Favourite() {
-                let url = window.location.href;
-                let title = document.title;
-                try {
-                    window.external.addFavorite(url, title);
-                } catch (e) {
-                    try {
-                        window.sidebar.addPanel(title, url, "");
-                    } catch (e) {
-                        this.$Modal.error({
-                            title: '错误',
-                            content: '<p>抱歉，您所使用的浏览器无法完成此操作。</p><p>请使用 “Ctrl+D” 手动添加到收藏夹</p>'
-                        });
                     }
                 }
             },

@@ -26,7 +26,7 @@ export const index = {
     stuClass: '班级',
     inputClass: '请输入所属班级',
     inputNation: '请输入所属民族',
-    stuDept: '院系/专业',
+    stuDept: '院系专业',
     email: '你的邮箱账号',
     stuEmail: '邮箱',
     phone: '你的联系方式',

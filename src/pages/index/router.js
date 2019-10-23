@@ -23,7 +23,7 @@ export default new Router({
             path: '/index',
             component: () => import('@/pages/index/views/index.vue'),
             meta: {
-                title: '用户-Wecoding|便捷的校内信息交流网站'
+                title: '用户-NIT计算机协会官网|Wecoding'
             },
             children: [
                 {
@@ -34,7 +34,7 @@ export default new Router({
                         'signup': Signup
                     },
                     meta: {
-                        title: '欢迎-Wecoding|便捷的校内信息交流网站'
+                        title: '欢迎-NIT计算机协会官网|Wecoding'
                     }
                 },
                 {
@@ -45,7 +45,7 @@ export default new Router({
                         'signup': Signup
                     },
                     meta: {
-                        title: '登录-Wecoding|便捷的校内信息交流网站'
+                        title: '登录-NIT计算机协会官网|Wecoding'
                     }
                 },
                 {
@@ -56,7 +56,7 @@ export default new Router({
                         'signup': Signup
                     },
                     meta: {
-                        title: '注册-Wecoding|便捷的校内信息交流网站'
+                        title: '注册-NIT计算机协会官网|Wecoding'
                     }
                 }
             ]
@@ -65,14 +65,14 @@ export default new Router({
             path: '/home',
             component: () => import('@/pages/index/views/home.vue'),
             meta: {
-                title: '主页-Wecoding|便捷的校内信息交流网站'
+                title: '主页-NIT计算机协会官网|Wecoding'
             }
         },
         {
             path: '/docs',
             component: () => import('@/pages/index/views/docs.vue'),
             meta: {
-                title: '文档-Wecoding|便捷的校内信息交流网站'
+                title: '文档-NIT计算机协会官网|Wecoding'
             },
             children: [
                 {
@@ -83,98 +83,98 @@ export default new Router({
                             path: '',
                             component: Content,
                             meta: {
-                                title: '校园指南-Wecoding|便捷的校内信息交流网站',
+                                title: '校园指南-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'college-website',
                             component: Content,
                             meta: {
-                                title: '学校官网-Wecoding|便捷的校内信息交流网站',
+                                title: '学校官网-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'college-address',
                             component: Content,
                             meta: {
-                                title: '学校地址-Wecoding|便捷的校内信息交流网站',
+                                title: '学校地址-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'cet',
                             component: Content,
                             meta: {
-                                title: '四六级-Wecoding|便捷的校内信息交流网站',
+                                title: '四六级-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'dormitory',
                             component: Content,
                             meta: {
-                                title: '宿舍环境-Wecoding|便捷的校内信息交流网站',
+                                title: '宿舍环境-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'edu-email',
                             component: Content,
                             meta: {
-                                title: '教育邮箱-Wecoding|便捷的校内信息交流网站',
+                                title: '教育邮箱-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'electric',
                             component: Content,
                             meta: {
-                                title: '电费缴纳-Wecoding|便捷的校内信息交流网站',
+                                title: '电费缴纳-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'map',
                             component: Content,
                             meta: {
-                                title: '学校地图-Wecoding|便捷的校内信息交流网站',
+                                title: '学校地图-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'military-training',
                             component: Content,
                             meta: {
-                                title: '军训安排-Wecoding|便捷的校内信息交流网站',
+                                title: '军训安排-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'repair',
                             component: Content,
                             meta: {
-                                title: '社区报修-Wecoding|便捷的校内信息交流网站',
+                                title: '社区报修-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'score',
                             component: Content,
                             meta: {
-                                title: '成绩查询-Wecoding|便捷的校内信息交流网站',
+                                title: '成绩查询-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'start-test',
                             component: Content,
                             meta: {
-                                title: '开学考试-Wecoding|便捷的校内信息交流网站',
+                                title: '开学考试-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'wel-new',
                             component: Content,
                             meta: {
-                                title: '自助迎新-Wecoding|便捷的校内信息交流网站',
+                                title: '自助迎新-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'wifi',
                             component: Content,
                             meta: {
-                                title: '宽带配置-Wecoding|便捷的校内信息交流网站',
+                                title: '宽带配置-NIT计算机协会官网|Wecoding',
                             }
                         },
                     ]
@@ -187,14 +187,14 @@ export default new Router({
                             path: '',
                             component: Content,
                             meta: {
-                                title: '帮助-Wecoding|便捷的校内信息交流网站',
+                                title: '帮助-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
                             path: 'update-log',
                             component: Content,
                             meta: {
-                                title: '更新日志-Wecoding|便捷的校内信息交流网站',
+                                title: '更新日志-NIT计算机协会官网|Wecoding',
                             } 
                         }
                     ]
@@ -211,7 +211,7 @@ export default new Router({
                                 // 'others': Others
                             },
                             meta: {
-                                title: '资源分享-Wecoding|便捷的校内信息交流网站',
+                                title: '资源分享-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -222,7 +222,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Java/Kotlin-Wecoding|便捷的校内信息交流网站',
+                                title: 'Java/Kotlin-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -233,7 +233,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Web前端-Wecoding|便捷的校内信息交流网站',
+                                title: 'Web前端-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -244,7 +244,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Python-Wecoding|便捷的校内信息交流网站',
+                                title: 'Python-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -255,7 +255,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'C/C#/C++-Wecoding|便捷的校内信息交流网站',
+                                title: 'C/C#/C++-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -266,7 +266,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Php-Wecoding|便捷的校内信息交流网站',
+                                title: 'Php-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -277,7 +277,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Golang-Wecoding|便捷的校内信息交流网站',
+                                title: 'Golang-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -288,7 +288,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Android-Wecoding|便捷的校内信息交流网站',
+                                title: 'Android-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -299,7 +299,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Wechat小程序-Wecoding|便捷的校内信息交流网站',
+                                title: 'Wechat小程序-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -310,7 +310,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Linux-Wecoding|便捷的校内信息交流网站',
+                                title: 'Linux-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -321,7 +321,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Windows-Wecoding|便捷的校内信息交流网站',
+                                title: 'Windows-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -332,7 +332,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'Docker-Wecoding|便捷的校内信息交流网站',
+                                title: 'Docker-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -343,7 +343,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'SQL-Wecoding|便捷的校内信息交流网站',
+                                title: 'SQL-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -354,7 +354,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: 'NoSQL-Wecoding|便捷的校内信息交流网站',
+                                title: 'NoSQL-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -365,7 +365,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: '开发工具-Wecoding|便捷的校内信息交流网站',
+                                title: '开发工具-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -376,7 +376,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: '管理工具-Wecoding|便捷的校内信息交流网站',
+                                title: '管理工具-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -387,7 +387,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: '版本控制-Wecoding|便捷的校内信息交流网站',
+                                title: '版本控制-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -398,7 +398,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: '四六级-Wecoding|便捷的校内信息交流网站',
+                                title: '四六级-NIT计算机协会官网|Wecoding',
                             }
                         },
                         {
@@ -409,7 +409,7 @@ export default new Router({
                                 'others': Others
                             },
                             meta: {
-                                title: '考研-Wecoding|便捷的校内信息交流网站',
+                                title: '考研-NIT计算机协会官网|Wecoding',
                             }
                         },
                     ]
@@ -427,7 +427,30 @@ export default new Router({
                     path: 'spend',
                     component: () => import('@/pages/index/views/spend.vue'),
                     meta: {
-                        title: '在线账簿-NIT计算机协会',
+                        title: '在线账簿-NIT计算机协会官网|Wecoding',
+                    }
+                }
+            ]
+        },
+        {
+            path: '/course',
+            component: () => import('@/pages/index/views/course'),
+            meta: {
+                title: '课程-NIT计算机协会官网|Wecoding'
+            },
+            children: [
+                {
+                    path: 'list',
+                    component: () => import('@/pages/index/components/course/list.vue'),
+                    meta: {
+                        title: '课程列表-NIT计算机协会官网|Wecoding'
+                    }
+                },
+                {
+                    path: 'detail',
+                    component: () => import('@/pages/index/components/course/detail.vue'),
+                    meta: {
+                        title: '课程详情-NIT计算机协会官网|Wecoding'
                     }
                 }
             ]
@@ -447,49 +470,49 @@ export default new Router({
                     path: 'member',
                     component: () => import('@/pages/index/components/admin/member.vue'),
                     meta: {
-                        title: '成员管理-NIT计算机协会',
+                        title: '成员管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'account',
                     component: () => import('@/pages/index/components/admin/account.vue'),
                     meta: {
-                        title: '账号管理-NIT计算机协会',
+                        title: '账号管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'finance',
                     component: () => import('@/pages/index/components/admin/finance.vue'),
                     meta: {
-                        title: '财务管理-NIT计算机协会',
+                        title: '财务管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'overview',
                     component: () => import('@/pages/index/components/admin/overview.vue'),
                     meta: {
-                        title: '协会概览-NIT计算机协会',
+                        title: '协会概览-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'resource',
                     component: () => import('@/pages/index/components/admin/resource.vue'),
                     meta: {
-                        title: '资源管理-NIT计算机协会',
+                        title: '资源管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'guide',
                     component: () => import('@/pages/index/components/admin/guide.vue'),
                     meta: {
-                        title: '指南管理-NIT计算机协会',
+                        title: '指南管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'notice',
                     component: () => import('@/pages/index/components/admin/notice.vue'),
                     meta: {
-                        title: '发送通知-NIT计算机协会',
+                        title: '发送通知-NIT计算机协会官网|Wecoding',
                     }
                 },
             ]

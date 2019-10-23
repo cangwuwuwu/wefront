@@ -5,7 +5,7 @@
                 <img src="@/assets/images/features_overview.svg" class="subject-img"/>
             </Col>
             <Col span="6" offset="3">
-                <div id="guide" class="subject-head"><a href="/docs/guide">校园指南</a></div>
+                <div id="guide" class="subject-head"><router-link to="/docs/guide">校园指南</router-link></div>
                 <Row>
                     <Col :md="{span:19}">
                         <Icon type="md-radio-button-off" size="25"/>
@@ -20,7 +20,7 @@
         </Row>
         <Row type="flex" align="middle" class="subject-row">
             <Col span="6" style="text-align: right">
-                <div id="resource" class="subject-head"><a href="/docs/resources">资源分享</a></div>
+                <div id="resource" class="subject-head"><router-link to="/docs/resources">资源分享</router-link></div>
                 学习视频
                 <Icon type="md-radio-button-off" size="25"></Icon>
                 <br>
@@ -40,9 +40,9 @@
         </Row>
         <Row type="flex" align="middle" class="subject-row">
             <Col span="15">
-                <img src="@/assets/images/conversation.svg" class="subject-img"/>
+                <img src="@/assets/images/mail.svg" style="width: 80%" class="subject-img"/>
             </Col>
-            <Col span="6" offset="3">
+            <!-- <Col span="6" offset="3">
                 <div id="conversation" class="subject-head">交流讨论</div>
                 <Row>
                     <Col span="19">
@@ -50,6 +50,15 @@
                         交流论坛 <br>
                         <Icon type="md-radio-button-off" size="25"/>
                         <a href="/chat/room">在线聊天</a> <br>
+                    </Col>
+                </Row>
+            </Col> -->
+            <Col span="6" offset="3">
+                <div id="elenotice" class="subject-head"><router-link to="/queryele">电量提醒</router-link></div>
+                <Row>
+                    <Col span="19">
+                        <Icon type="md-radio-button-off" size="25"/>
+                        开通后，宿舍电量不足时会自动收到邮件提醒 <br>
                     </Col>
                 </Row>
             </Col>

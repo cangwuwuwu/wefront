@@ -73,8 +73,8 @@
                             .post('/api/login', formData)
                             .then(res => {
                                 if (res) {
-                                    console.log(res.data.data.principal)
-                                    sessionStorage.setItem('wecoding_login_info', JSON.stringify(res.data.data.principal));
+                                    // console.log(res.data.data.principal)
+                                    localStorage.setItem('wecoding_login_info', JSON.stringify(res.data.data.principal));
                                     // this.$store.commit('setToken', res.data.data.principal);
                                     setTimeout(function () {
                                         if (_self.$route.query.redirect === location.hostname) {

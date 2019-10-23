@@ -12,10 +12,10 @@
                 </Menu>
             </div>
         </Row>
-        <Row type="flex" justify="center" align="middle" style="height: 600px">
+        <Row type="flex" justify="center" align="middle" style="margin-bottom: 20px;">
             <Col :md="{span:8}" :xs="{span: 22}">
                 <div class="query-head">电量不足提醒系统</div>
-                <div class="query-head-div" style="margin: 15px 0 10px 0;">订阅成功后，我们将在每天12点帮您查询电量余额，若电量余额小于20，便会以邮件的方式通知您。</div>
+                <div class="query-head-div" style="margin: 15px 0 10px 0;">订阅成功后，我们将在每天12点帮您查询电量余额，若电量余额不足，便会以邮件的方式通知您。</div>
                 <div class="query-head-div" style="color: darkred">1. 若信息填入有误，您将不会收到邮件通知。</div>
                 <div class="query-head-div" style="color: darkred">2. 若停电后发现未收到邮件提醒信息，请下方取消订阅后重新开通。</div>
                 <div class="query-head-div" style="color: darkred;margin: 0 0 10px;">3. 若提示信息重复录入，则您的室友可能已经开通了订阅。</div>
@@ -59,10 +59,7 @@
                         <Button type="primary" size="large" @click="submitBuildRoom('formEle')">订阅提醒</Button>
                     </FormItem>
                 </Form>
-            </Col>
-        </Row>
-        <Row type="flex" justify="center" align="middle" class="cancleRow">
-            <Col :md="{span:8}" :xs="{span: 22}">
+
                 <div class="query-head">关闭通知</div>
                 <div class="query-head-div" style="margin: 15px 0 10px 0;">关闭后您依然可以重新订阅</div>
                 <Row>
@@ -73,6 +70,36 @@
                     <Button type="primary" size="large" @click="stopEleNotice">取消订阅</Button>
                 </Row>
             </Col>
+            <Col :md="{span:1, offset:1}" :xs="{span: 22}">
+                <div class="qr-code">
+                    <Icon type="ios-finger-print" size="35" />
+                </div>
+                <Poptip trigger="hover" placement="right">
+                    <div slot="title">
+                       <img src="http://39.106.85.24:8999/asqun.jpg" alt="">
+                    </div>
+                    <div slot="content" style="text-align: center">
+                       扫码加入计算机协会
+                    </div>
+                    <div class="qr-code">
+                        <Icon custom="iconfont icon-erweima" size="35" />
+                    </div>
+                </Poptip>
+                <!-- <Poptip trigger="hover" placement="right">
+                    <div slot="title">
+                       <img src="http://39.106.85.24:8999/asqun.jpg" alt="">
+                    </div>
+                    <div slot="content" style="text-align: center">
+                       云端工作室公众号
+                    </div> -->
+                    <div class="qr-code">
+                        <Icon custom="iconfont icon-weixingongzhonghao" size="28" />
+                    </div>
+                <!-- </Poptip> -->
+            </Col>
+            <!-- <Col :md="{span:1, offset:1}">
+                    
+            </Col> -->
         </Row>
     </div>
 </template>
@@ -227,6 +254,11 @@ export default {
     .cancleRow {
         height: 600px!important;
     }
+    .qr-code {
+        display: inline-block;
+        margin: 10px 0 20px 60px;
+        vertical-align:middle
+    }
 }
 .query-head {
     margin-top: 10px;
@@ -240,5 +272,23 @@ export default {
 }
 .cancleRow {
     height: 400px;
+}
+.qr-code {
+    width: 40px;
+    height: 40px;
+    border: 1px solid @light-gray-color;
+    border-radius: 50%;
+    z-index: 10;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    margin-bottom: 3px;
+    text-align: center;
+    padding-top: 2px;
+    transition: .5s;
+    opacity: .4;
+}
+.qr-code:hover {
+    transform:rotate(180deg);
+    opacity: 1;
+    color: @primary-color;
 }
 </style>
