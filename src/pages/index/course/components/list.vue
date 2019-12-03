@@ -104,6 +104,7 @@
             width="1200" 
             v-model="seeCourseInfo" 
             class-name="vertical-center-modal" 
+            :z-index="899"
             :mask-closable="false">
             <Row>
                 <Col :md="{span: 18}">
@@ -292,7 +293,10 @@ export default {
                     if (res) {
                         course.apply++;
                         _self.applyList.push(myinfo);
-                        _self.$Message.success('报名成功，请准时参加活动！')
+                        _self.$Message['success']({
+                            background: true,
+                            content: '报名成功，请准时参加活动！'
+                        });
                     }
                 })
         },

@@ -107,9 +107,13 @@
                                     <Icon type="ios-person" size="17"></Icon>
                                     个人中心
                                 </DropdownItem>
-                                <DropdownItem name="msg">
+                                <!-- <DropdownItem name="msg">
                                     <Icon type="ios-notifications" size="17"></Icon>
                                     消息中心
+                                </DropdownItem> -->
+                                <DropdownItem name="pay">
+                                    <Icon custom="iconfont icon-renminbi" size="17"></Icon>
+                                    会费交纳
                                 </DropdownItem>
                                 <DropdownItem name="changepasswd">
                                     <Icon type="md-settings" size="17"></Icon>
@@ -350,8 +354,8 @@
     import Stomp from 'stompjs'
     import {formatDate} from '@/assets/js/date.js'
     import Footer from '@/pages/index/components/footers.vue'
-    import MyInfo from '@/pages/index/components/myinfo.vue'
-    import Subject from '@/pages/index/components/subject.vue'
+    import MyInfo from '@/pages/index/home/components/myinfo.vue'
+    import Subject from '@/pages/index/home/components/subject.vue'
 
     export default {
         name: 'home',
@@ -406,9 +410,8 @@
         },
         mounted () {
             const info = localStorage.getItem('wecoding_login_info');
-            const jsonInfo = JSON.parse(info);
-            // console.log(info)
-            if (info) {
+            let jsonInfo = JSON.parse(info)
+            if (jsonInfo) {
                 this.hasLogin = true;
                 this.myinfo.stuName = jsonInfo.stuName;
                 this.myinfo.stuImg = jsonInfo.stuImg;
@@ -550,7 +553,6 @@
                 this.passwdtype === 'password' ? this.passwdtype = 'text' : this.passwdtype = 'password'
             },
             go(link) {
-                let _self = this;
                 if (link === 'me') {
                     this.personinfo = true;
                     this.getCurrentInfo();
@@ -564,7 +566,14 @@
                     this.changepassmd = true;
                 } else if (link === 'logout') {
                     // 登出账号
-                    axios
+                    this.logout();
+                } else {
+                    this.$router.push(link)
+                }
+            },
+            logout() {
+                let _self = this;
+                axios
                         .get('/api/logout')
                         .then(res => {
                             if (res) {
@@ -580,9 +589,6 @@
                                 }, 1500);
                             }
                         })
-                } else {
-                    this.$router.push(link)
-                }
             },
             selectMenu(name) {
                 if (name === 'light' || name === 'dark' ||

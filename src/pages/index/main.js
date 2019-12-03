@@ -9,6 +9,7 @@ import '@/utils/filter_utils'
 
 require('@/assets/css/index.css');
 require('@/assets/css/icons.css');
+require('@/assets/css/home.css')
 import 'view-design/dist/styles/iview.css';
 
 Vue.config.productionTip = false;

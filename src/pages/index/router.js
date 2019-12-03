@@ -3,13 +3,13 @@ import Vue from 'vue';
 
 Vue.use(Router);
 
-import Signin from '@/pages/index/components/signin'
-import Signup from '@/pages/index/components/signup'
-import Cover from '@/pages/index/components/cover'
-import Videos from '@/pages/index/components/videos'
-import Web from '@/pages/index/components/web'
-import Others from '@/pages/index/components/others'
-import Content from '@/pages/index/components/contents'
+import Signin from '@/pages/index/index/components/signin'
+import Signup from '@/pages/index/index/components/signup'
+import Cover from '@/pages/index/index/components/cover'
+import Videos from '@/pages/index/resource/components/videos'
+import Web from '@/pages/index/resource/components/web'
+import Others from '@/pages/index/resource/components/others'
+import Content from '@/pages/index/resource/components/contents'
 
 export default new Router({
     mode: 'history',
@@ -21,7 +21,7 @@ export default new Router({
         }, 
         {
             path: '/index',
-            component: () => import('@/pages/index/views/index.vue'),
+            component: () => import('@/pages/index/index/views/index.vue'),
             meta: {
                 title: '用户-NIT计算机协会官网|Wecoding'
             },
@@ -63,21 +63,21 @@ export default new Router({
         },
         {
             path: '/home',
-            component: () => import('@/pages/index/views/home.vue'),
+            component: () => import('@/pages/index/home/views/new.vue'),
             meta: {
                 title: '主页-NIT计算机协会官网|Wecoding'
             }
         },
         {
             path: '/docs',
-            component: () => import('@/pages/index/views/docs.vue'),
+            component: () => import('@/pages/index/resource/views/docs.vue'),
             meta: {
                 title: '文档-NIT计算机协会官网|Wecoding'
             },
             children: [
                 {
                     path: 'guide',
-                    component: () => import('@/pages/index/views/guide.vue'),
+                    component: () => import('@/pages/index/resource/views/guide.vue'),
                     children: [
                         {
                             path: '',
@@ -181,7 +181,7 @@ export default new Router({
                 },
                 {
                     path: 'help',
-                    component: () => import('@/pages/index/views/help.vue'),
+                    component: () => import('@/pages/index/resource/views/help.vue'),
                     children: [
                         {
                             path: '',
@@ -201,7 +201,7 @@ export default new Router({
                 },
                 {
                     path: 'resources',
-                    component: () => import('@/pages/index/views/res.vue'),
+                    component: () => import('@/pages/index/resource/views/res.vue'),
                     children: [
                         {
                             path: '',
@@ -418,14 +418,14 @@ export default new Router({
         },
         {
             path: '/comp',
-            component: () => import('@/pages/index/views/comp.vue'),
+            component: () => import('@/pages/index/spend/views/comp.vue'),
             meta: {
                 title: '会员录入-NIT计算机协会官网|Wecoding'
             },
             children: [
                 {
                     path: 'spend',
-                    component: () => import('@/pages/index/views/spend.vue'),
+                    component: () => import('@/pages/index/spend/views/spend.vue'),
                     meta: {
                         title: '在线账簿-NIT计算机协会官网|Wecoding',
                     }
@@ -434,21 +434,21 @@ export default new Router({
         },
         {
             path: '/course',
-            component: () => import('@/pages/index/views/course'),
+            component: () => import('@/pages/index/course/views/course.vue'),
             meta: {
                 title: '课程-NIT计算机协会官网|Wecoding'
             },
             children: [
                 {
                     path: 'list',
-                    component: () => import('@/pages/index/components/course/list.vue'),
+                    component: () => import('@/pages/index/course/components/list.vue'),
                     meta: {
                         title: '课程列表-NIT计算机协会官网|Wecoding'
                     }
                 },
                 {
                     path: 'detail',
-                    component: () => import('@/pages/index/components/course/detail.vue'),
+                    component: () => import('@/pages/index/course/components/detail.vue'),
                     meta: {
                         title: '课程详情-NIT计算机协会官网|Wecoding'
                     }
@@ -462,60 +462,75 @@ export default new Router({
                 title: '电费提醒-NIT计算机协会官网|Wecoding'
             }
         },
+        // {
+        //     path: '/queryele',
+        //     component: () => import('@/pages/index/views/maintain.vue'),
+        //     meta: {
+        //         title: '页面维护中-NIT计算机协会官网|Wecoding'
+        //     }
+        // },
         {
             path: '/admin',
-            component: () => import('@/pages/index/views/admin.vue'),
+            component: () => import('@/pages/index/admin/views/admin.vue'),
             children: [
                 {
                     path: 'member',
-                    component: () => import('@/pages/index/components/admin/member.vue'),
+                    component: () => import('@/pages/index/admin/components/member.vue'),
                     meta: {
                         title: '成员管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'account',
-                    component: () => import('@/pages/index/components/admin/account.vue'),
+                    component: () => import('@/pages/index/admin/components/account.vue'),
                     meta: {
                         title: '账号管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'finance',
-                    component: () => import('@/pages/index/components/admin/finance.vue'),
+                    component: () => import('@/pages/index/admin/components/finance.vue'),
                     meta: {
                         title: '财务管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'overview',
-                    component: () => import('@/pages/index/components/admin/overview.vue'),
+                    component: () => import('@/pages/index/admin/components/overview.vue'),
                     meta: {
                         title: '协会概览-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'resource',
-                    component: () => import('@/pages/index/components/admin/resource.vue'),
+                    component: () => import('@/pages/index/admin/components/resource.vue'),
                     meta: {
                         title: '资源管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'guide',
-                    component: () => import('@/pages/index/components/admin/guide.vue'),
+                    component: () => import('@/pages/index/admin/components/guide.vue'),
                     meta: {
                         title: '指南管理-NIT计算机协会官网|Wecoding',
                     }
                 },
                 {
                     path: 'notice',
-                    component: () => import('@/pages/index/components/admin/notice.vue'),
+                    component: () => import('@/pages/index/admin/components/notice.vue'),
                     meta: {
                         title: '发送通知-NIT计算机协会官网|Wecoding',
                     }
                 },
             ]
+        },
+        {
+            path: '/pay',
+            component: () => import('@/pages/index/views/pay.vue'),
+            meta: {
+                title: '会费交纳-NIT计算机协会官网|Wecoding'
+            },
+            requireLogin: true
         },
         {
             path: '/refresh',

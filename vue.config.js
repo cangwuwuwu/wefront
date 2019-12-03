@@ -8,7 +8,7 @@ module.exports = {
         port: 8081, // 端口
         proxy: {     // 跨域代理
             '/api': {
-                target: 'https://localhost:8443',
+                target: 'http://localhost:8080',
                 pathRewrite: {
                     '^/api': ''
                 }

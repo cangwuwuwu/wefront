@@ -219,13 +219,6 @@
                         align: 'center',
                     },
                     {
-                        title: '政治面貌',
-                        width: 150,
-                        key: 'stuStatus',
-                        slot: 'status',
-                        align: 'center',
-                    },
-                    {
                         title: '院系/专业',
                         width: 200,
                         key: 'stuDept',
@@ -390,7 +383,7 @@
                     // console.log(this.data)
                     this.$refs.table.exportCsv({
                         filename: '所有会员数据',
-                        columns: this.columns.filter((col, index) => index > 0 && index < 8),
+                        columns: this.columns.filter((col, index) => index > 0 && index < 10),
                         data: this.data
                     });
                 } else if (type === 2) {

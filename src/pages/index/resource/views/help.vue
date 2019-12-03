@@ -27,8 +27,11 @@
                         <Menu width="310" :active-name="choose" @on-select="path2Docs">
                             <div class="navigate-group catalogue">引导</div>
                             <MenuGroup title="功能介绍">
-                                <!-- <MenuItem name="/docs/help/bootstrap1">bootstrap1</MenuItem>
-                                <MenuItem name="/docs/help/bootstrap2">bootstrap2</MenuItem> -->
+                                <MenuItem name="/docs/help/bootstrap1">查看其它同学信息</MenuItem>
+                                <MenuItem name="/docs/help/bootstrap2">上传头像</MenuItem>
+                                <MenuItem name="/docs/help/bootstrap2">上传资源</MenuItem>
+                                <MenuItem name="/docs/help/bootstrap2">登录/注册账号</MenuItem>
+                                <MenuItem name="/docs/help/bootstrap2">会费交纳</MenuItem>
                             </MenuGroup>
                             <MenuGroup title="开发文档">
                                 <!-- <MenuItem name="/docs/help/document1">document1</MenuItem> -->

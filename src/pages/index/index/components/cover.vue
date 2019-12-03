@@ -245,7 +245,10 @@
                     this.seehisinfo = true;
                     this.chooseUser = user
                 } else {
-                    this.$Message.warning('登录后才可以查看！')
+                    this.$Message['warning']({
+                        background: true,
+                        content: '登录后才可以查看!'
+                    });
                 }
             }
         }
@@ -287,36 +290,6 @@
 
     .cover >>> .ivu-spin-fix {
         z-index: 11;
-    }
-
-    .cover >>> .circular {
-        -webkit-animation: rotate 2s linear infinite;
-        animation: rotate 2s linear infinite;
-        height: 100%;
-        -webkit-transform-origin: center center;
-        transform-origin: center center;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        margin: auto;
-    }
-
-    .cover >>> .path {
-        stroke-dasharray: 1, 200;
-        stroke-dashoffset: 0;
-        -webkit-animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-        animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-        stroke-linecap: round;
-    }
-
-    .cover >>> .loader {
-        width: 30px;
-        height: 30px;
-        position: relative;
-        margin: 0 auto;
     }
 
     .head-area {

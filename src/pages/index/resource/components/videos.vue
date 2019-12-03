@@ -197,7 +197,11 @@
                                 props: {
                                     value: params.row.resPoint,
                                     allowHalf: true,
-                                    disabled: true,
+                                },
+                                on: {
+                                    'on-change': (value) => {
+                                        this.Rate(value, params);
+                                    }
                                 }
                             })
                         }
@@ -343,6 +347,7 @@
                 searchName: '',
                 data: [],
                 data_search: [],
+                userId: 0,
             }
         },
         props: ["choose", "screenWidth"],
@@ -354,6 +359,13 @@
                         this.getRes(this.choose);
                     }
                 }
+            }
+        },
+        created() {
+            const info = localStorage.getItem('wecoding_login_info');
+            let jsonInfo = JSON.parse(info)
+            if (jsonInfo) {
+                this.userId = jsonInfo.username;
             }
         },
         methods: {
@@ -657,6 +669,30 @@
                 document.execCommand("Copy");
                 oInput.style.display = 'none';
                 document.body.removeChild(oInput);
+            },
+            Rate(value, params) {
+                let formData = new FormData();
+                if (this.userId === 0) {
+                    this.$Message['error']({
+                        background: true,
+                        content: '未登录!'
+                    })
+                    return false;
+                }
+                formData.append('resId', params.row.resId);
+                formData.append('stuId', this.userId);
+                formData.append('rate', value);
+                axios
+                    .post('/api/res/rate', formData)
+                    .then(res => {
+                        if (res) {
+                            this.$Message['success']({
+                                background: true,
+                                content: '评分成功!'
+                            })
+                        }
+                    })
+                params.row.resPoint = Math.round(((value + params.row.resPoint) / 2) * 100) / 100;
             }
         },
     }

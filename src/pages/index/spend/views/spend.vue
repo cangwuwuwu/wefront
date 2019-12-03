@@ -221,7 +221,7 @@
 </template>
 <script>
     import axios from 'axios'
-    import UpImg from '@/pages/index/components/upimg.vue'
+    import UpImg from '@/pages/index/spend/components/upimg.vue'
 
     export default {
         name: 'spend',
