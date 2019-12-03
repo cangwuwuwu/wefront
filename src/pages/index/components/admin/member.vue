@@ -2,7 +2,7 @@
     <div class="admin" v-if="screenWidth > 500">
         <Row style="margin-bottom: 10px;">
             <Col span="8">
-                <div style="font-size: 30px;font-weight: bold;">会员信息管理系统</div>
+                <div style="font-size: 25px;font-weight: bold;">会员信息管理系统</div>
             </Col>
             <Col span="8">
                 <AutoComplete
@@ -10,7 +10,7 @@
                         :data="globalSearchData"
                         transfer
                         clearable
-                        placeholder="全局搜索(试用)"
+                        placeholder="全局搜索"
                         icon="ios-search"
                         size="large"
                         @on-change="searchByKeywords"
@@ -355,7 +355,7 @@
                 let _self = this;
                 if (this.keywords === '') return;
                 axios
-                    .get('/api/comp/search', {
+                    .get('/api/admin/comp/stu/name', {
                         params: {
                             keywords: this.keywords
                         }
@@ -369,7 +369,7 @@
             },
             async getAllStuInfo() {
                 this.loading = true;
-                var res = await axios.get('/api/comp/all');
+                var res = await axios.get('/api/admin/comp/stu/all');
                 return res.data;
             },
             getStuInfo() {
@@ -436,7 +436,7 @@
                 this.data1[index].stuNation = this.editNation;
                 this.data1[index].stuStatus = this.editStatus;
                 axios
-                    .put('/api/comp', this.data1[index])
+                    .put('/api/admin/comp/stu/', this.data1[index])
                     .then(res => {
                         if (res) {
                             this.$Message.success('修改成功');
@@ -451,7 +451,7 @@
                     content: '删除后无法恢复，确定要删除吗？',
                     onOk: () => {
                         axios
-                            .delete('/api/comp', {
+                            .delete('/api/admin/comp/stu', {
                                 data: row
                             })
                             .then(res => {

@@ -83,14 +83,31 @@
                         <Icon type="md-contact"></Icon>
                         <span>账号管理</span>
                     </MenuItem>
-                    <MenuItem name="finance">
-                        <Icon type="logo-usd"></Icon>
-                        <span>财务管理</span>
-                    </MenuItem>
-                    <MenuItem name="resource">
-                        <Icon type="ios-paper"></Icon>
-                        <span>资源管理</span>
-                    </MenuItem>
+                    <Submenu name="4">
+                        <template slot="title">
+                            <Icon type="logo-usd"></Icon>
+                            财务管理
+                        </template>
+                        <MenuItem name="finance">会费收支</MenuItem>
+                        <MenuItem name="finance-dues">会费缴纳</MenuItem>
+                    </Submenu>
+<!--                    <MenuItem name="finance">-->
+<!--                        <Icon type="logo-usd"></Icon>-->
+<!--                        <span>财务管理</span>-->
+<!--                    </MenuItem>-->
+<!--                    <MenuItem name="resource">-->
+<!--                        <Icon type="ios-paper"></Icon>-->
+<!--                        <span>资源管理</span>-->
+<!--                    </MenuItem>-->
+                    <Submenu name="5">
+                        <template slot="title">
+                            <Icon type="ios-paper"></Icon>
+                            资源管理
+                        </template>
+                        <MenuItem name="resource-webdesk">网盘资源</MenuItem>
+                        <MenuItem name="resource-web">在线资源</MenuItem>
+                        <MenuItem name="resource-audit">资源审核</MenuItem>
+                    </Submenu>
                     <MenuItem name="guide">
                         <Icon type="ios-navigate"></Icon>
                         <span>指南管理</span>

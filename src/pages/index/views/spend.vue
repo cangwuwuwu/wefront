@@ -341,7 +341,6 @@
                         if (valid) {
                             this.$refs['formSpend2'].validate((valid) => {
                                 if (valid) {
-                                    // this.$Message.success('Success!');
                                     this.Listloading = true;
                                     axios
                                         .post('/api/comp/spend', {

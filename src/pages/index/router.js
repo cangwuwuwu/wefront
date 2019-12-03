@@ -461,9 +461,17 @@ export default new Router({
                     path: 'finance',
                     component: () => import('@/pages/index/components/admin/finance.vue'),
                     meta: {
-                        title: '财务管理-NIT计算机协会',
+                        title: '财务概览-NIT计算机协会',
                     }
                 },
+                {
+                    path: 'finance-dues',
+                    component: () => import('@/pages/index/components/admin/finance-dues.vue'),
+                    meta: {
+                        title: '会费缴纳-NIT计算机协会',
+                    }
+                },
+
                 {
                     path: 'overview',
                     component: () => import('@/pages/index/components/admin/overview.vue'),
@@ -472,10 +480,24 @@ export default new Router({
                     }
                 },
                 {
-                    path: 'resource',
+                    path: 'resource-webdesk',
                     component: () => import('@/pages/index/components/admin/resource.vue'),
                     meta: {
-                        title: '资源管理-NIT计算机协会',
+                        title: '网盘资源管理-NIT计算机协会',
+                    }
+                },
+                {
+                    path: 'resource-web',
+                    component: () => import('@/pages/index/components/admin/resource-web.vue'),
+                    meta: {
+                        title: '在线资源管理-NIT计算机协会',
+                    }
+                },
+                {
+                    path: 'resource-audit',
+                    component: () => import('@/pages/index/components/admin/resource-audit.vue'),
+                    meta: {
+                        title: '资源审核管理-NIT计算机协会',
                     }
                 },
                 {

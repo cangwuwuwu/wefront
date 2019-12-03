@@ -3,13 +3,13 @@ import App from './App.vue'
 import router from '@/pages/index/router'
 import store from './store'
 import '@/utils/api'
-import iView from 'iview'
+import iView from 'view-design'
 import i18n from './i18n'
 import '@/utils/filter_utils'
 
 require('@/assets/css/index.css');
 require('@/assets/css/icons.css');
-import 'iview/dist/styles/iview.css';
+import 'view-design/dist/styles/iview.css';
 
 Vue.config.productionTip = false;
 Vue.use(iView);
