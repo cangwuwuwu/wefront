@@ -8,6 +8,7 @@ export default new Vuex.Store({
         displaystatus: false,
         token: {},
         passStatus: 0,
+        userInfo: {},
     },
     mutations: {
         isDisplayMenu(state, status) {
@@ -18,6 +19,9 @@ export default new Vuex.Store({
         },
         setPassStatus(state, status) {
             state.passStatus = status;
+        },
+        setUserInfo(state, myinfo) {
+            state.userInfo = myinfo;
         }
     }
 })

@@ -1,4 +1,5 @@
 <template>
+<!-- 旧版本主页，暂时废弃 -->
     <div :class="'home ' + headtheme">
         <Col style="border-bottom: 1px solid #dcdee2">
             <Menu mode="horizontal" :theme="headtheme"

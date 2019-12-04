@@ -10,6 +10,7 @@ import Videos from '@/pages/index/resource/components/videos'
 import Web from '@/pages/index/resource/components/web'
 import Others from '@/pages/index/resource/components/others'
 import Content from '@/pages/index/resource/components/contents'
+import Info from '@/pages/index/person/components/info'
 
 export default new Router({
     mode: 'history',
@@ -67,6 +68,55 @@ export default new Router({
             meta: {
                 title: '主页-NIT计算机协会官网|Wecoding'
             }
+        },
+        // {
+        //     path: '/home',
+        //     component: () => import('@/pages/index/home/views/home.vue'),
+        //     meta: {
+        //         title: '主页-NIT计算机协会官网|Wecoding'
+        //     }
+        // },
+        {
+            path: '/person',
+            component: () => import('@/pages/index/person/views/person.vue'),
+            meta: {
+                title: '个人中心-NIT计算机协会官网|Wecoding'
+            },
+            children: [
+                {
+                    path: '',
+                    redirect: '/person/info'
+                },
+                {
+                    path: 'info',
+                    component: Info,
+                    meta: {
+                        title: '用户信息-NIT计算机协会官网|Wecoding',
+                    }
+                },
+                {
+                    path: 'account',
+                    component: Info,
+                    meta: {
+                        title: '修改密码-NIT计算机协会官网|Wecoding',
+                    }
+                },
+                {
+                    path: 'msg',
+                    component: Info,
+                    meta: {
+                        title: '消息中心-NIT计算机协会官网|Wecoding',
+                    }
+                },
+                {
+                    path: 'pay',
+                    component: Info,
+                    meta: {
+                        title: '交纳会费-NIT计算机协会官网|Wecoding',
+                    }
+                },
+                
+            ]
         },
         {
             path: '/docs',

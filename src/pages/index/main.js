@@ -6,6 +6,7 @@ import '@/utils/api'
 import iView from 'view-design'
 import i18n from './i18n'
 import '@/utils/filter_utils'
+import Ripple from 'vue-ripple-directive'
 
 require('@/assets/css/index.css');
 require('@/assets/css/icons.css');
@@ -14,6 +15,9 @@ import 'view-design/dist/styles/iview.css';
 
 Vue.config.productionTip = false;
 Vue.use(iView);
+
+Ripple.color = 'rgba(255, 255, 255, 0.25)';
+Vue.directive('ripple', Ripple);
 
 router.beforeEach((to, from, next) => {
     let token = localStorage.getItem('wecoding_login_info');

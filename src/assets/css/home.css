@@ -16,6 +16,7 @@ a {
     list-style: none;
     float: left;
     padding: 0 50px;
+    cursor: pointer;
 }
 
 .compus-login a,
@@ -23,6 +24,17 @@ a {
     color: #fff;
 }
 
+
+.cs-bg-head {
+    font-family: Arial;font-size: 70px;font-weight: 1000;
+}
+
+.nit-head {
+    font-size: 20px;
+    margin: 25px 0;
+    font-family: Arial;
+    letter-spacing:5px;
+}
 .compus-round {
     content: "";
     width: 110%;
@@ -48,11 +60,15 @@ a {
     color: #fff;
 }
 
+.mirrorRotateVertical {
+    transform: rotateX(180deg);   /* 垂直镜像翻转 */
+    margin: 35px 0;opacity: .2
+}
+
 .compus-squareness {
-    margin-top: 10px;
     width: 100px;
     height: 20px;
-    background-color: white;
+    background-color: #fff;
 }
 
 .compus-title-oralce {
@@ -60,7 +76,6 @@ a {
     width: 90px;
     height: 90px;
     border-radius: 100%;
-    border: solid white 1px;
     text-align: center;
 }
 
@@ -69,9 +84,10 @@ a {
 }
 
 
-
 .compus {
-    background: url('../images/home/headCover.jpg') no-repeat center 0;height: 1000px;width: 100%;
+    background: url(../images/home/headCover.jpg) no-repeat center 0;
+    height: 1000px;
+    width: 100%;
 }
 
 .compus-content{
@@ -81,6 +97,15 @@ a {
 .bold-letter{
     font-size: 24px;
 }
+.compus-content1LeftOracl{
+     height: 21px;
+     width: 21px;
+     background-color: #E6BD0D;
+     border-radius: 100%;
+    position: relative;
+    top: 23px;
+    left: -40px;
+ }
 .compus-little-squa-1{
     margin: 0 auto;
     background-color: #E9BF15;
@@ -109,16 +134,19 @@ a {
 .compus-content-1-yorcle-father{
     float: left;
     position: relative;
-    top: -290px;
+    top: -310px;
     left: 680px;
 }
 .compus-content-1-yorcle{
-    background: url("../images/home/yellow-orcle.png") no-repeat;
     height: 40px;
-    width: 120px;
+    width: 160px;
     padding-top: 4px;
     padding-left: 40px;
     letter-spacing: 10px;
+    font-size: 19px;
+    margin-top: 20px;
+    position: relative;
+    top: -40px;
 }
 .compus-content-1-img{
     border: #ECECEC solid 1px;
@@ -196,16 +224,16 @@ a {
     border-radius: 100%;
     position: relative;
     top: 200px;
-    left: 70px;
+    left: 73px;
 }
 .compus-content-3-oracle{
     float: left;
-    height: 17px;
-    width: 17px;
+    height: 21px;
+    width: 21px;
     background-color: #E6BD0D;
     border-radius: 100%;
     position: relative;
-    left: 286px;
+    left: 256px;
     top: 3px;
 }
 
@@ -236,7 +264,6 @@ a {
     letter-spacing:8px;
     position: relative;
     top: 245px;
-    left: 4px;
 }
 .compus-content-2-list-right{
     font-family: "微软雅黑";
@@ -247,7 +274,7 @@ a {
     letter-spacing:8px;
     position: relative;
     top: -144px;
-    left: 293px;
+    left: 287px;
 }
 .compus-content-2-moveToright{
     position: relative;
@@ -317,6 +344,7 @@ a {
     height: 376px;
     position: relative;
     top: 20px;
+    padding: 100px 0 0 180px;
 }
 .compus-content-4-rightImg{
     float: left;
@@ -329,23 +357,23 @@ a {
     margin-top: 40px;
 }
 .compus-content-4-takeItEasy{
-    position: relative;
-    top: 90px;
-    left: 135px;
+
 }
 .compus-content-4-takeItEasy-1{
     writing-mode: vertical-rl;
     font-family: 微软雅黑;
     font-size: 24px;
+    float: left;
+    margin-top: 30px;
 }
 .compus-content-4-loralce{
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     border: 1px black solid;
     border-radius: 100%;
     position: relative;
     top: -18px;
-    right: 25px;
+    right: 28px;
 }
 .compus-content-4-height{
     width: 0px;
@@ -359,9 +387,9 @@ a {
     font-size: 35px;
     writing-mode: vertical-rl;
     font-family: 微软雅黑;
-    position: relative;
-    top: -335px;
-    left: 60px;
+    float: left;
+    border-left: 2px solid ;
+    padding: 15px;
 }
 .compus-content-4-content>a{
     color: black;
@@ -369,12 +397,12 @@ a {
 .compus-content-4-remove-right{
     color: white;
     position: relative;
-    top: 86px;
-    left: -140px;
+    top: 106px;
+    left: -100px;
 }
 .compus-content-4-getHelp{
     position: relative;
-    left: 60px;
+    left: 30px;
     font-size: 35px;
     font-family: 微软雅黑;
 }
@@ -386,8 +414,8 @@ a {
     margin-top: 10px;
 }
 .compus-content-4-loralce-right{
-    width: 15px;
-    height: 15px;
+    width: 20px;
+    height: 20px;
     border: 1px white solid;
     border-radius: 100%;
     position: relative;
@@ -396,10 +424,90 @@ a {
 }
 .compus-content-4-remove-right-gx{
     position: relative;
-    top: 1px;
-    left:65px;
+    top: -5px;
+    left:45px;
+    font-size: 20px;
 }
 .compus-content-4-remove-right-Mi{
     position: relative;
     top: 15px;
+}
+
+.navbar {
+    padding: 0 30px;
+    height: 100px;
+    position: fixed;
+    overflow: hidden;
+    line-height: 100px;
+    width: 1920px;
+    z-index: 99;
+    transition: .4s;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+}
+
+.big-navbar {
+    width: 100%;overflow: hidden;margin: 0 auto;
+}
+
+.dark-bg-navbar {
+    width: 100%;
+    background: rgba(85,106,137,0.8);
+    height: 80px;
+    line-height: 80px;
+}
+
+.nav-logo20 {
+    width: 60px;margin-top: 20px;transition: .4s;
+}
+.nav-logo10 {
+    margin-top: 10px;
+}
+
+.compus-foot {
+    border-top: 1px solid #E3E9ED;width: 100%;
+}
+
+.compus-buttom-entry {
+    background: #fbfbfb;overflow:hidden;padding: 20px 0
+}
+
+.compus-entry-div {
+    width: 1000px;margin: 0 auto;color: #9d9d9d;
+}
+
+.compus-column > div {
+    line-height: 2;
+}
+
+.a-dark-color {
+    color: #9d9d9d;
+}
+.a-dark-color:hover,.a-dark-color:focus {
+    color: #5d5d5d;
+}
+
+.right-relate > div {
+    line-height: 2;
+}
+
+.qq-text {
+    text-align: center;width: 80px;
+}
+
+.compus-buttom {
+    background: #222;overflow:hidden;padding: 10px 0;
+}
+
+.compus-buttom-div {
+    width: 1000px;margin: 0 auto;color: #9d9d9d;
+}
+
+.compus-buttom-left {
+    width: fit-content;float: left;
+}
+
+.compus-buttom-right {
+    float: right;width: fit-content;
 }
