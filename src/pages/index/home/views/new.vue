@@ -26,7 +26,7 @@
                             <span class="compus-login">&nbsp;&nbsp;Hello, 
                                 <router-link to="/person/info">{{myinfo.stuName}}</router-link>
                             </span> -->
-                            <Button style="margin-right: 30px;" to="/admin" type="primary">后台管理</Button>
+                            <Button v-if="hasAdminRole" style="margin-right: 30px;" to="/admin" type="primary">后台管理</Button>
                             <Dropdown @on-click="go" transfer>
                                 <template>
                                     <badge :count="msgcount">

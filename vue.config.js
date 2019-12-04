@@ -22,11 +22,11 @@ module.exports = {
             template: 'public/index.html',
             filename: 'index.html'
         },
-        chat: {
-            entry: 'src/pages/chat/main.js',
-            template: 'public/chat.html',
-            filename: 'chat.html'
-        }
+        // chat: {
+        //     entry: 'src/pages/chat/main.js',
+        //     template: 'public/chat.html',
+        //     filename: 'chat.html'
+        // }
     },
     chainWebpack: config => {
         config.module
