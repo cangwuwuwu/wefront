@@ -157,7 +157,7 @@
             </Menu>
         </Col>
 
-        <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu">
+        <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu" >
             <div class="card-shadow">
                 <ul class="ivu-menu ivu-menu-light ivu-menu-vertical" style="width: auto;">
                     <Menu width="310" @on-select="selectMenu">

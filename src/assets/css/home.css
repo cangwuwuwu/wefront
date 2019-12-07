@@ -24,6 +24,10 @@ a {
     color: #fff;
 }
 
+.compus-width {
+    width: 1920px;margin: 0 auto;
+}
+
 
 .cs-bg-head {
     font-family: Arial;font-size: 70px;font-weight: 1000;
@@ -106,23 +110,14 @@ a {
     top: 23px;
     left: -40px;
  }
-.compus-little-squa-1{
-    margin: 0 auto;
-    background-color: #E9BF15;
-    width: 170px;
-    height: 30px;
-    border-radius: 30px;
-    margin-top: 10px;
-    position: relative;
-    left: 39px
-}
+
 .compus-little-squa{
     margin: 0 auto;
     background-color: #E9BF15;
     width: 170px;
     height: 30px;
     border-radius: 30px;
-    margin-top: 10px;
+    margin: 10px auto 50px;
 }
 
 
@@ -194,21 +189,16 @@ a {
 .compus-content-style{
     margin: 0 auto;
     text-align: center;
-    width: 980px;
+    width: 100%;
     height: 700px;
     letter-spacing:3px;
-    clear: both;
 }
 .compus-content-1-block{
-    display: block;
     color: black;
-    text-decoration: none;
-    width: 100%;
-    height: 100%;
 }
 
 .compus-content-2-style{
-    margin: 40px auto 0;
+    margin: 0 auto ;
     border: solid #ECECEC  1px;
     border-radius: 16px;
     width: 950px;
@@ -216,25 +206,25 @@ a {
 
 }
 .compus-content-2-left-oracl{
-    margin-left: 103px;
     float: left;
     height: 21px;
     width: 21px;
     background-color: #E6BD0D;
-    border-radius: 100%;
-    position: relative;
-    top: 200px;
-    left: 73px;
+    border-radius: 50%;
+    margin: 15px 8px;
 }
 .compus-content-3-oracle{
     float: left;
     height: 21px;
     width: 21px;
     background-color: #E6BD0D;
-    border-radius: 100%;
-    position: relative;
-    left: 256px;
-    top: 3px;
+    border-radius: 50%;
+    margin: 2px 15px;
+}
+
+.ele-notice {
+    font-size: 19px;
+    float: left;
 }
 
 .compus-content-2-left-oracl-right{
@@ -259,38 +249,29 @@ a {
     font-family: "微软雅黑";
     writing-mode: vertical-rl;
     float: left;
-    position: relative;
+    line-height: 2;
     font-size: 19px;
     letter-spacing:8px;
-    position: relative;
-    top: 245px;
 }
 .compus-content-2-list-right{
     font-family: "微软雅黑";
     writing-mode: vertical-rl;
     float: left;
-    position: relative;
+    line-height: 2;
     font-size: 19px;
     letter-spacing:8px;
-    position: relative;
-    top: -144px;
-    left: 287px;
 }
 .compus-content-2-moveToright{
     position: relative;
     left:220px;
 }
 .compus-content-2-block{
-    display: block;
-    color: black;
-    text-decoration: none;
-    width: 100%;
-    height: 100%;
-    position: relative;
-    left: 8px;
+    color: #000;
+}
+.btn-enter-block {
+    border: 1px solid;padding: 15px 80px;font-size: 20px;letter-spacing:10px;width: 280px;margin: 0 auto;
 }
 .compus-content-2-enter{
-    font-weight: lighter;
     letter-spacing:10px;
     font-size: 20px;
     line-height: 55px;
@@ -299,38 +280,17 @@ a {
     width: 220px;
     border: solid black 1px;
     float: left;
-    margin-left: -286px;
-    position: relative;
-    left: 160px;
 }
 .compus-content-3-enter{
-    font-weight: lighter;
     letter-spacing:10px;
     font-size: 20px;
     line-height: 55px;
     z-index: 9;
-    height: 55px;
     width: 220px;
     border: solid black 1px;
-    margin: 30px auto 0;
+    margin: 30px auto;
 }
-.compus-content-triangle-top{
-    margin: 30px auto 40px;
-    clear: both;
-    width:0;
-    height:0;
-    border-width:24px 24px 0;
-    border-style:solid;
-    border-color:#34445E transparent transparent;
-}
-.compus-content-triangle-botton{
-    margin: -50px auto 80px;
-    width:0;
-    height:0;
-    border-width:24px 24px 0;
-    border-style:solid;
-    border-color:#34445E transparent transparent;
-}
+
 .compus-content-3-img{
     background: url("../images/home/power_rate_remind.jpg") round;background-size: 100%;
     width: 640px;
@@ -342,8 +302,6 @@ a {
     background: url("../images/home/compusContent1.jpg")round;background-size: 500px;
     width: 375px;
     height: 376px;
-    position: relative;
-    top: 20px;
     padding: 100px 0 0 180px;
 }
 .compus-content-4-rightImg{
@@ -352,53 +310,38 @@ a {
     width: 526px;
     height: 376px;
 }
-.compus-content-4-remove-left{
-    margin-left: 80px;
-    margin-top: 40px;
-}
-.compus-content-4-takeItEasy{
-
-}
 .compus-content-4-takeItEasy-1{
     writing-mode: vertical-rl;
     font-family: 微软雅黑;
     font-size: 24px;
     float: left;
-    margin-top: 30px;
+    margin-right: 10px;
 }
 .compus-content-4-loralce{
     width: 20px;
     height: 20px;
     border: 1px black solid;
     border-radius: 100%;
-    position: relative;
-    top: -18px;
-    right: 28px;
 }
 .compus-content-4-height{
     width: 0px;
     height: 200px;
     border: 1px black solid;
-    position: relative;
-    top: -134px;
-    left: 45px;
 }
-.compus-content-4-content{
+.compus-content-4-content {
+    letter-spacing:10px;
     font-size: 35px;
     writing-mode: vertical-rl;
     font-family: 微软雅黑;
     float: left;
-    border-left: 2px solid ;
-    padding: 15px;
+    border-left: 2px solid;
+    padding: 0 15px 20px 10px;
 }
 .compus-content-4-content>a{
     color: black;
 }
 .compus-content-4-remove-right{
     color: white;
-    position: relative;
-    top: 106px;
-    left: -100px;
 }
 .compus-content-4-getHelp{
     position: relative;
@@ -414,13 +357,11 @@ a {
     margin-top: 10px;
 }
 .compus-content-4-loralce-right{
+    float: left;
     width: 20px;
     height: 20px;
     border: 1px white solid;
     border-radius: 100%;
-    position: relative;
-    left: 220px;
-    top: 20px;
 }
 .compus-content-4-remove-right-gx{
     position: relative;
@@ -434,7 +375,6 @@ a {
 }
 
 .navbar {
-    padding: 0 30px;
     height: 100px;
     position: fixed;
     overflow: hidden;
@@ -449,13 +389,17 @@ a {
 
 .big-navbar {
     width: 100%;overflow: hidden;margin: 0 auto;
-}
+} 
 
 .dark-bg-navbar {
     width: 100%;
     background: rgba(85,106,137,0.8);
     height: 80px;
     line-height: 80px;
+}
+
+.nav-logo0 {
+    width: 40px;margin-top: 40px;
 }
 
 .nav-logo20 {
@@ -493,7 +437,7 @@ a {
 }
 
 .qq-text {
-    text-align: center;width: 80px;
+    text-align: center;
 }
 
 .compus-buttom {
@@ -510,4 +454,86 @@ a {
 
 .compus-buttom-right {
     float: right;width: fit-content;
+}
+
+.guide-point {
+    border-radius: 50%;background: #E6BD0D;width: 20px;height: 20px;float: left;margin: 7px 15px;
+}
+.orange-bg-bar {
+    width: 850px;height: 130px;background: #E6BD0D;border-radius: 15px;position: absolute;top:220px;z-index:-1;
+}
+
+.guide-title {
+    font-size: 24px;letter-spacing: 10px;
+}
+.guide-item-block {
+    overflow: hidden;margin: 10px 0;
+}
+
+.btn-enter {
+    margin-top: 70px;text-align: center;
+}
+
+.guide-img-block {
+    width: 550px;height: 340px;background: #fff;border: 1px solid #ececec;border-radius: 15px;padding: 8% 12%;
+}
+.catalog-head {
+    padding: 20px 0;text-align: center;letter-spacing: 3px;
+}
+.res-content {
+    width: 100%;text-align: center;
+}
+
+.res-content-block {
+    width: 800px;margin: 0 auto;border: 1px solid #ececec; border-radius: 15px;padding: 20px 80px 40px;
+}
+
+.res-img {
+    width: 280px;height: 280px;border-radius: 50%;
+}
+
+.res-content-item {
+    margin-left:21px;letter-spacing:10px;
+}
+
+.other-content {
+    overflow: hidden;width: fit-content;margin: 0 auto;
+}
+
+.other-content-round {
+    width: 20px; height: 20px;border: 1px solid;border-radius: 50%;float: left;margin: 8px;
+}
+
+.other-right {
+    border-bottom: 2px solid;padding:8px 20px 8px 0;font-size: 35px;color: #fff;letter-spacing:10px;
+}
+
+.other-right-block {
+    margin: 10px 0;overflow:hidden;
+}
+
+.other-right-round {
+    float: left;
+    width: 20px;
+    height: 20px;
+    border: 1px #fff solid;
+    border-radius: 100%;
+    margin: 7px 10px 7px 0;
+}
+
+.other-right-btn {
+    font-size: 22px;float: left;letter-spacing:5px;
+}
+
+.friend-link-col {
+    margin-top: 34px;
+}
+
+.elemind-block {
+    overflow: hidden;width: fit-content;
+}
+
+.center-logo {
+    width: fit-content;
+    margin: 0 auto;
 }

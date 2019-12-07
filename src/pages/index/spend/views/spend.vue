@@ -302,9 +302,11 @@
                         if (res) {
                             let revlist = res.data.list.reverse();
                             _self.spend = revlist;
+                            console.log(res.data);
                             _self.string2list(revlist);
                             _self.total = res.data.total;
                             _self.page = res.data.pageNum;
+                            
                         }
                     })
             },
@@ -340,7 +342,6 @@
                         if (valid) {
                             this.$refs['formSpend2'].validate((valid) => {
                                 if (valid) {
-                                    // this.$Message.success('Success!');
                                     this.Listloading = true;
                                     axios
                                         .post('/api/comp/spend', {

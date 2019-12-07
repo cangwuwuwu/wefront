@@ -49,7 +49,8 @@
         font-size: 22px;
     }
     .ivu-layout-sider {
-        min-width: 0px !important;  
+        min-width: 0px !important;
+        height:100vh;
     }
     .admin-name-box {
         float: right;
@@ -60,12 +61,16 @@
         text-decoration: underline;
         cursor: pointer;
     }
+
+    .sub-menu>.ivu-menu>.ivu-menu-item {
+        padding: 14px 24px !important;
+    }
 </style>
 <template>
     <div class="layout">
         <Layout>
             <Sider ref="side" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" style="">
-                <Menu 
+                <Menu accordion
                     :active-name="breadName" 
                     theme="dark" 
                     width="auto" 
@@ -83,18 +88,35 @@
                         <Icon type="md-contact"></Icon>
                         <span>账号管理</span>
                     </MenuItem>
-                    <MenuItem name="finance">
-                        <Icon type="logo-usd"></Icon>
-                        <span>财务管理</span>
-                    </MenuItem>
-                    <MenuItem name="resource">
-                        <Icon type="ios-paper"></Icon>
-                        <span>资源管理</span>
-                    </MenuItem>
-                    <MenuItem name="guide">
+                    <Submenu name="4" class="sub-menu">
+                        <template slot="title">
+                            <Icon type="logo-usd"></Icon>
+                            <span>财务管理</span>
+                        </template>
+                        <MenuItem name="finance">会费收支</MenuItem>
+                        <MenuItem name="finance-dues">会费缴纳</MenuItem>
+                    </Submenu>
+<!--                    <MenuItem name="finance">-->
+<!--                        <Icon type="logo-usd"></Icon>-->
+<!--                        <span>财务管理</span>-->
+<!--                    </MenuItem>-->
+<!--                    <MenuItem name="resource">-->
+<!--                        <Icon type="ios-paper"></Icon>-->
+<!--                        <span>资源管理</span>-->
+<!--                    </MenuItem>-->
+                    <Submenu name="5" class="sub-menu">
+                        <template slot="title">
+                            <Icon type="ios-paper"></Icon>
+                            <span>资源管理</span>
+                        </template>
+                        <MenuItem name="resource-webdesk">网盘资源</MenuItem>
+                        <MenuItem name="resource-web">在线资源</MenuItem>
+                        <MenuItem name="resource-audit">资源审核</MenuItem>
+                    </Submenu>
+                    <!-- <MenuItem name="guide">
                         <Icon type="ios-navigate"></Icon>
                         <span>指南管理</span>
-                    </MenuItem>
+                    </MenuItem> -->
                     <MenuItem name="notice">
                         <Icon type="ios-notifications"></Icon>
                         <span>发送通知</span>

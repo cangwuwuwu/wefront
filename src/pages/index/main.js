@@ -11,6 +11,7 @@ import Ripple from 'vue-ripple-directive'
 require('@/assets/css/index.css');
 require('@/assets/css/icons.css');
 require('@/assets/css/home.css')
+
 import 'view-design/dist/styles/iview.css';
 
 Vue.config.productionTip = false;

@@ -2,7 +2,7 @@
     <div>
         <div class="big-navbar">
             <div class="navbar" :class="navbarTheme ? 'dark-bg-navbar' : ''">
-                <ul>
+                <ul class="md-navbar">
                     <li @click="router('/home')">
                         <img class="nav-logo20" :class="navbarTheme ? 'nav-logo10':''" src="@/assets/images/home/logo1.png"/>
                     </li>
@@ -26,7 +26,7 @@
                             <span class="compus-login">&nbsp;&nbsp;Hello, 
                                 <router-link to="/person/info">{{myinfo.stuName}}</router-link>
                             </span> -->
-                            <Button v-if="hasAdminRole" style="margin-right: 30px;" to="/admin" type="primary">后台管理</Button>
+                            <Button v-if="hasAdminRole" style="margin-right: 30px;" to="/admin/overview" type="primary">后台管理</Button>
                             <Dropdown @on-click="go" transfer>
                                 <template>
                                     <badge :count="msgcount">
@@ -68,17 +68,49 @@
                         </div>
                     </li>
                 </ul>
+                <ul class="xs-navbar">
+                    <li @click="catalog = true"><div class="iconfont" style="font-size: 40px">&#xe617;</div></li>
+                </ul>
             </div>
         </div>
+
+        <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu" placement="left" >
+            <div class="card-shadow">
+                <ul class="ivu-menu ivu-menu-light ivu-menu-vertical" style="width: auto;">
+                    <Menu width="310">
+                        <div class="navigate-group catalogue">起步</div>
+                        <MenuItem name="cover" to="/index/cover">封面/登录/注册</MenuItem>
+                        <div @click="go('/docs/guide')" class="navigate-group catalogue">校园指南</div>
+                        <MenuItem name="college-website" to="/docs/guide/college-website">学校信息</MenuItem>
+                        <MenuItem name="wel-new" to="/docs/guide/wel-new">新生专区</MenuItem>
+                        <MenuItem name="score" to="/docs/guide/score">其他指南</MenuItem>
+                        <div @click="go('/docs/resources')" class="navigate-group catalogue">资源分享</div>
+                        <MenuItem name="java" to="/docs/resources/java">编程语言</MenuItem>
+                        <MenuItem name="tocet">四六级</MenuItem>
+                        <MenuItem name="toothers">其他专业</MenuItem>
+                        <div @click="go('/comp/spend')" class="navigate-group catalogue">财务公示</div>
+                        <div @click="go('/course/list')" class="navigate-group catalogue">计协课程</div>
+                        <div @click="go('/queryele')" class="navigate-group catalogue">电量通知</div>
+                        <div @click="go('/docs/help')" class="navigate-group catalogue">帮助文档</div>
+                        <MenuItem name="help" to="/docs/help/update-log">更新日志</MenuItem>
+                    </Menu>
+                </ul>
+            </div>
+        </Drawer>
+
         <div class="compus" v-ripple.mouseover.3000>
-            <div style="width: 1920px;margin: 0 auto;">
+            <div class="compus-width">
                 <div class="compus-cover">
                     <div>
                         <div class="cs-bg-head">
+                            
                             <div>Computer</div>
                             <div>Society</div>
                         </div>
                         <div class="nit-head">Nanchang Institute of Techology</div>
+                        <div class="center-logo">
+                            <img style="width: 80px;" v-show="!navbarTheme" src="@/assets/images/home/logo.png"/>
+                        </div>
                     </div>
                     <div class="compus-squareness"></div>
                     <div class="mirrorRotateVertical">
@@ -111,142 +143,246 @@
                 </div>
             </div>
         </div>
-        <div class="compus-content">
-            <div class="compus-content-style" style="position: relative;left: -50px;top: 30px;">
-                <!--校园指导整体-->
-                <span class="bold-letter" style="margin-left: 89px">校园指南</span>
-                <br />
-                <span style="margin-left: 89px">Campus guide</span>
-                <div class="compus-little-squa-1"></div>
-                <div class="compus-content-1">
-                    <div class="compus-content-1-squa"></div>
-                    <!--黄色框框-->
-                    <div class="compus-content-1-img">
-                        <!--放图片的div-->
-                        <div class="compus-content-1-img-style"></div>
+        <div>
+            <div class="device-height" style="height: 800px;">
+                <div class="catalog-head">
+                    <div class="bold-letter">校园指南</div>
+                    <div>Campus guide</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <Row type="flex">
+                    <Col :xs="{span: 0}" :md="{span: 24}" style="width: 900px;margin: 0 auto;">
+                        <Row style="overflow: hidden;">
+                            <Col :md="{span: 15}">
+                                <div class="guide-img-block">
+                                    <img style="width: 100%;height: 100%;" src="@/assets/images/home/coampDirect.png">
+                                </div>
+                            </Col>
+                            <Col :md="{span: 9}" style="padding: 50px 50px;">
+                                <div >
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">学校信息</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">新生专区</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">其他指南</div>
+                                    </div>
+                                    <div class="btn-enter">
+                                        <div class="btn-enter-block">
+                                            <a class="compus-content-2-block" 
+                                                href="/docs/guide" >ENTER</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <div class="orange-bg-bar"></div>
+                    </Col>
+                    <Col :xs="{span: 24}" :md="{span: 0}">
+                        <Row style="overflow: hidden;">
+                            <Col>
+                                <img style="width: 100%;height: 100%;" src="@/assets/images/home/coampDirect.png">
+                            </Col>
+                            <Col style="padding: 30px;">
+                                <div class="xs-guide-item">
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">学校信息</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">新生专区</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">其他指南</div>
+                                    </div>
+                                </div>
+                                <div class="btn-enter">
+                                    <div class="btn-enter-block">
+                                        <a class="compus-content-2-block" 
+                                            href="/docs/guide" >ENTER</a>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </div>
+
+            <div class="device-height" style="height: 800px;">
+                <div class="catalog-head">
+                    <div class="bold-letter">资源分享</div>
+                    <div>Resource sharing</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <Row type="flex" class="res-content">
+                    <Col :xs="{span: 0}" :md="{span: 24}" class="res-content-block">
+                        <Row style="overflow: hidden;">
+                            <Col :md="{span: 4}" style="padding-top: 160px;">
+                                <div>
+                                    <div class="compus-content-2-list-left">
+                                        <div class="compus-content-2-left-oracl"></div>PDF资源
+                                    </div>
+                                    <div class="compus-content-2-list-left res-content-item">
+                                        <div class="compus-content-2-left-oracl"></div>学习视频
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col :md="{span: 16}">
+                                <img src="@/assets/images/home/resource-share.jpg" class="res-img">
+                            </Col>
+                            <Col :md="{span: 4}" style="padding-top: 160px;">
+                                <div>
+                                    <div class="compus-content-2-list-left">
+                                        <div class="compus-content-2-left-oracl"></div>PDF资源
+                                    </div>
+                                    <div class="compus-content-2-list-left res-content-item">
+                                        <div class="compus-content-2-left-oracl"></div>学习视频
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <div>
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" 
+                                    href="/docs/resources" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col :xs="{span: 24}" :md="{span: 0}">
+                        <div>
+                            <img src="@/assets/images/home/resource-share.jpg" class="res-img">
+                        </div>
+                        <div style="overflow: hidden;">
+                            <div style="width: fit-content;margin: 0 auto;">
+                                <div class="compus-content-2-list-left">
+                                    <div class="compus-content-2-left-oracl"></div>PDF资源
+                                </div>
+                                <div class="compus-content-2-list-left" style="letter-spacing: 10px;">
+                                    <div class="compus-content-2-left-oracl"></div>学习视频
+                                </div>
+                                <div class="compus-content-2-list-left">
+                                    <div class="compus-content-2-left-oracl"></div>PDF资源
+                                </div>
+                                <div class="compus-content-2-list-left" style="letter-spacing: 10px;">
+                                    <div class="compus-content-2-left-oracl"></div>学习视频
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-enter">
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" 
+                                    href="/docs/resources" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+            
+            <div class="course-block" style="height: 700px;">
+                <div class="catalog-head">
+                    <div class="bold-letter" style="letter-spacing: 3px;">计协课程</div>
+                    <div>Course</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <div>
+                    <img style="width: 100%;height: 100%;" src="@/assets/images/home/course.png">
+                </div>
+                <div style="width: 100%;">
+                    <div class="elemind-block" style="margin: 30px auto;">
+                        <div class="compus-content-3-oracle"></div>
+                        <div class="ele-notice">报名课程</div>
+                        <div class="compus-content-3-oracle"></div>
+                        <div class="ele-notice">推荐网课</div>
                     </div>
-                    <!-- 圆圈框-->
-                    <div class="compus-content-1-yorcle-father">
-                        <div class="compus-content-1-yorcle">
-                            <div class="compus-content1LeftOracl"></div>学校信息
-                        </div>
-                        <div class="compus-content-1-yorcle">
-                            <div class="compus-content1LeftOracl"></div>新生专区
-                        </div>
-                        <div class="compus-content-1-yorcle">
-                            <div class="compus-content1LeftOracl"></div>其他指南
-                        </div>
-                    </div>
-                    <div class="compus-content-1-enter">
-                        <a class="compus-content-1-block" href="/docs/guide">ENTER</a>
+                </div>
+                <div class="btn-enter">
+                    <div class="btn-enter-block">
+                        <a class="compus-content-2-block compus-ayellow" href="/course/list" >ENTER</a>
                     </div>
                 </div>
             </div>
 
-            <div style="width: 100px;height: 100px; margin: 0  auto">
-                <div class="compus-content-triangle-top"></div>
-                <div class="compus-content-triangle-botton"></div>
-            </div>
-            <div style="margin-top: 60px"></div>
-            <div class="compus-content-style">
-                <span class="bold-letter">资源分享</span>
-                <br />
-                <span>Resource sharing</span>
-                <div class="compus-little-squa"></div>
-                <div class="compus-content-2-style">
-                    <div>
-                        <div class="compus-content-2-left-oracl"></div>
-                        <!--小圆圈-->
-                        <div class="compus-content-2-left-oracl" style="margin-left: 27px"></div>
-                        <!--小圆圈-->
-                        <div class="compus-content-2-list-left">PDF资源</div>
-                        <div
-                            class="compus-content-2-list-left"
-                            style="margin-left:21px;letter-spacing:10px;"
-                        >学习视频</div>
-                    </div>
-                    <div class="compus-content-2-img"></div>
-                    <div class="compus-content-2-moveToright">
-                        <div class="compus-content-2-left-oracl-right"></div>
-                        <!--小圆圈-->
-                        <div class="compus-content-2-left-oracl-right" style="margin-left: 30px"></div>
-                        <!--小圆圈-->
-                        <div class="compus-content-2-list-right" style="letter-spacing:10px;">学习线路</div>
-                        <div
-                            class="compus-content-2-list-right"
-                            style="margin-left: 24px;letter-spacing:10px;"
-                        >在线资料</div>
-                        <div class="compus-content-2-enter">
-                            <a
-                                class="compus-content-2-block compus-ayellow"
-                                href="/docs/resources"
-                            >ENTER</a>
+
+            <div class="device-height" style="height: 700px;">
+                <div class="catalog-head">
+                    <div class="bold-letter">电量提醒</div>
+                    <div>Electricity Remind</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <Row>
+                    <Col :xs="{span: 0}" :md="{span: 24}" class="compus-content-style">
+                        <div class="compus-content-2-style">
+                            <div class="compus-content-3-img"></div>
                         </div>
-                    </div>
-                </div>
+                        <div style="width: 100%;">
+                            <div class="elemind-block" style="margin: 20px auto;">
+                                <div class="compus-content-3-oracle"></div>
+                                <div class="ele-notice">开通后，宿舍电量不足时会自动收到邮件提醒</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" href="/queryele" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col :xs="{span: 24}" :md="{span: 0}">
+                        <div>
+                            <img style="width: 100%;height: 100%;" src="@/assets/images/home/power_rate_remind.jpg">
+                        </div>
+                        <div style="width: 100%;">
+                            <div class="elemind-block" style="margin: 30px auto;">
+                                <div class="compus-content-3-oracle"></div>
+                                <div class="ele-notice">开通宿舍电量不足提醒</div>
+                            </div>
+                        </div>
+                        <div class="btn-enter">
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" href="/queryele" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
             </div>
-            <!--两个三角形-->
-            <div style="width: 100px;height: 100px; margin: 0  auto">
-                <div class="compus-content-triangle-top"></div>
-                <div class="compus-content-triangle-botton"></div>
-            </div>
-            <!--compus-content-2-->
-            <div style="height: 800px" class="compus-content-style">
-                <span class="bold-letter">电量提醒</span>
-                <br />
-                <span>Resource sharing</span>
-                <!--litter-squa-->
-                <div class="compus-little-squa"></div>
-                <div class="compus-content-2-style">
-                    <div class="compus-content-3-img"></div>
+            
+
+            
+            <div class="device-height other-box" style="height: 1000px;">
+                <div class="catalog-head">
+                    <div class="bold-letter" style="letter-spacing: 3px;">其他</div>
+                    <div>Others</div>
+                    <div class="compus-little-squa"></div>
                 </div>
-                <div style="margin-top: 10px">
-                    <div class="compus-content-3-oracle"></div>
-                    <div
-                        style="font-size: 17px;margin-left: 50px;font-size: 19px;"
-                    >开通后，宿舍电量不足时会自动收到邮件提醒</div>
-                </div>
-                <div class="compus-content-3-enter">
-                    <a class="compus-content-2-block compus-ayellow" href="/queryele">ENTER</a>
-                </div>
-            </div>
-            <!--两个三角形-->
-            <div style="width: 100px;height: 100px; margin: 0  auto">
-                <div class="compus-content-triangle-top"></div>
-                <div class="compus-content-triangle-botton"></div>
-            </div>
-            <!--compus-content-4-->
-            <div style="width: 1030px" class="compus-content-style">
-                <span class="bold-letter">其他</span>
-                <br />
-                <span>Others</span>
-                <!--litter-squa-->
-                <div class="compus-little-squa"></div>
-                <div class="compus-content-4-remove-left">
-                    <!--left-img-->
-                    <div class="compus-content-4-leftImg">
-                        <div class="compus-content-4-takeItEasy">
-                            <div class="compus-content-4-takeItEasy-1">
-                                <!--小圆圈-->
-                                <div class="compus-content-4-loralce"></div>
-                                <div class="compus-content-4-remove-right-Mi">
-                                    <!-- <router-link target="_blank" to="/comp/spend" style="color: #000">财务公示</router-link> -->
-                                    <a href="/comp/spend" style="color: #000">财务公示</a>
+                <div type="flex">
+                    <div class="other-content">
+                        <div class="compus-content-4-leftImg" style="margin-top: 20px;">
+                            <div class="compus-content-4-takeItEasy">
+                                <div class="compus-content-4-takeItEasy-1">
+                                    <div class="other-content-round"></div>
+                                    <div style="float: left;">
+                                        <a href="/comp/spend" style="color: #000">财务公示</a>
+                                    </div>
+                                </div>
+                                <div class="compus-content-4-content">上报收支</div>
+                            </div>
+                        </div>
+                        <div class="compus-content-4-rightImg" style="padding: 100px;">
+                            <div style="width: fit-content;">
+                                <div class="other-right">获取帮助</div>
+                                <div class="other-right-block">
+                                    <div class="other-right-round"></div>
+                                    <div class="other-right-btn">
+                                        <a href="/docs/help/update-log">更新日志</a>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="compus-content-4-content">上报收支</div>
-                        </div>
-                    </div>
-                </div>
-                <!--right-img-->
-                <div class="compus-content-4-rightImg">
-                    <div class="compus-content-4-remove-right">
-                        <div class="compus-content-4-getHelp">获取帮助</div>
-                        <div class="compus-content-4-width"></div>
-                        <div class="compus-content-4-loralce-right"></div>
-                        <div class="compus-content-4-remove-right-gx">
-                            <!-- <router-link target="_blank" to="/docs/help/update-log">更新日志</router-link> -->
-                            <a href="/docs/help/update-log">更新日志</a>
                         </div>
                     </div>
                 </div>
@@ -260,7 +396,24 @@
                     <Row>
                         <Col :md="{span: 14}">
                             <div style="margin-bottom: 14px;">&copy;2019 Niter.work</div>
-                            <Col :md="{span:10}" class="compus-column">
+                            
+                            <Col :md="{span:7}" :xs="{span: 10}" class="compus-column">
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        href="https://blog.csdn.net/qq_43581949"
+                                        class="a-dark-color"
+                                    >作者博客</a>
+                                </div>
+                                <div>
+                                    <a href="#" class="a-dark-color">加入我们</a>
+                                </div>
+                                <div>反馈错误</div>
+                                <div>
+                                    <a target="_blank" href="/docs/help" class="a-dark-color">Help</a>
+                                </div>
+                            </Col>
+                            <Col :md="{span:10}" :xs="{span: 12, offset: 2}" class="compus-column">
                                 <div>
                                     <a
                                         target="_blank"
@@ -290,31 +443,9 @@
                                     >校园网上统一支付平台</a>
                                 </div>
                             </Col>
-                            <Col :md="{span:7}" class="compus-column">
-                                <div>
-                                    <a
-                                        target="_blank"
-                                        href="https://blog.csdn.net/qq_43581949"
-                                        class="a-dark-color"
-                                    >作者博客</a>
-                                </div>
-                                <div>
-                                    <a href="#" class="a-dark-color">加入我们</a>
-                                </div>
-                                <div>反馈错误</div>
-                                <div>
-                                    <a target="_blank" href="/docs/help" class="a-dark-color">Help</a>
-                                </div>
-                            </Col>
-                            <Col :md="{span:7}" class="compus-column">
-                                <div>友情链接</div>
-                                <div>友情链接</div>
-                                <div>友情链接</div>
-                                <div>友情链接</div>
-                            </Col>
                         </Col>
-                        <Col :md="{span:10}" style="margin-top: 34px;">
-                            <Col :md="{span:16}" class="right-relate">
+                        <Col :md="{span:10}" class="friend-link-col">
+                            <Col :md="{span:16}" :xs="{span: 15, offset: 1}" class="right-relate">
                                 <div>
                                     <a
                                         target="_blank"
@@ -347,7 +478,7 @@
                                     >Wefront</a>
                                 </div>
                             </Col>
-                            <Col :md="{span:5, offset: 3}">
+                            <Col :md="{span:5, offset: 2}" :xs="{span: 5, offset: 2}">
                                 <img src="@/assets/images/home/qqun.png" alt="qq群二维码" />
                                 <p class="qq-text">QQ</p>
                             </Col>
@@ -357,7 +488,7 @@
             </div>
             <div class="compus-buttom">
                 <div class="compus-buttom-div">
-                    <div class="compus-buttom-left" style>
+                    <div class="compus-buttom-left">
                         <a target="_blank" href="http://www.beian.miit.gov.cn/">浙ICP备19026120号</a>&nbsp; by Cangwuwuwu
                     </div>
                     <div class="compus-buttom-right">简体 / 繁體 / English</div>
@@ -495,7 +626,7 @@
             </Form>
         </Modal>
 
-        <BackTop></BackTop>
+        <BackTop class="back-2-top"></BackTop>
     </div>
 </template>
 
@@ -511,6 +642,7 @@
         },
         data() {
             return {
+                catalog: false,
                 navbarTheme: false,
                 myinfo: {},
                 msg: '',
@@ -550,7 +682,7 @@
                             }
                         }
                     ],
-                }
+                },
             };
         },
         created() {
@@ -567,15 +699,15 @@
                 this.formChPass.stuEmail = email;
 
                 if (this.$store.state.passStatus === 0) {
-                    // this.checkFirstLogin(id);
+                    this.checkFirstLogin(id);
                 }
                 const auth = jsonInfo.authorities;
                 if (auth.length === 2) {
                     this.hasAdminRole = true;
                 }
-                // this.connectMsgWsServer(this.id)
+                this.connectMsgWsServer(this.id)
             } else {
-                // this.connectMsgWsServer('')
+                this.connectMsgWsServer('')
             }
         },
         mounted() {
@@ -629,7 +761,6 @@
                     var ws = new WebSocket('ws://119.3.59.217:15674/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
-                        _self.$Message.success('消息服务器连接成功!');
                         client.subscribe('/exchange/wecoding.fanout/', function (msg) {
                             // console.log(msg);
                             let jsonMsg = JSON.parse(msg.body);
@@ -794,7 +925,6 @@
 
 
 
-
             router(link) {
                 this.$router.push(link);
             },
@@ -804,11 +934,13 @@
                         document.documentElement.scrollTop ||
                         window.pageXOffset
                 );
-                if (top >= 800) {
+                if (top >= 520) {
                     this.navbarTheme = true;
                 } else {
                     this.navbarTheme = false;
                 }
+
+                let list = document.getElementsByClassName('device-height');
             },
             
         },
@@ -816,10 +948,98 @@
             revmsglist() {
                 return this.msglist.reverse();
             }
+        },
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);   //  离开页面清除（移除）滚轮滚动事件
         }
     };
 </script>
 <style scoped>
+@media screen and (max-width: 770px) {
+    .cs-bg-head {
+        text-align: center;
+    }
+    .compus {
+        height: 600px;
+    }
+    .compus,
+    .compus-width,
+    .compus-buttom-div,
+    .compus-cover {
+        width: auto;
+    }
+    .compus-cover {
+        padding: 90px 0;
+    }
+    .nit-head {
+        text-align: center;
+        font-size: 15px;
+    }
+    .compus-entry-div {
+        width: 100%;
+    }
+    .compus-buttom-entry {
+        text-align: center;
+    }
+    .friend-link-col {
+        margin-top: 15px;
+    }
+    .xs-guide-item {
+        width: 200px;
+        margin: 0 auto;
+    }
+    .btn-enter {
+        margin-top: 40px;
+    }
+    .compus-little-squa {
+        margin: 10px auto;
+    }
+    .back-2-top {
+        display: none;
+    }
+    .dark-bg-navbar {
+        width: 100%;
+        background: rgba(85,106,137,1);
+    }
+    .nav-logo10 {
+        margin-top: 10px;
+        width: 40px;
+    }
+    .navbar ul li {
+        padding: 0 10px;
+    }
+    .navbar {
+        padding: 0;
+    }
+    .navbar, .dark-bg-navbar {
+        height: 60px;
+        line-height: 60px;
+    }
+    .other-box,
+    .qq-text,
+    .mirrorRotateVertical,
+    .compus-squareness,
+    .md-navbar,
+    .compus-buttom-right {
+        display: none;
+    }
+    .compus-buttom-div {
+        margin: 0 auto;
+        width: fit-content;
+    }
+}
+
+@media screen and (min-width: 770px) {
+    .navbar ul li {
+        padding: 0 50px;
+    }
+    .course-block,
+    .xs-navbar,
+    .center-logo {
+        display: none;
+    }
+}
+    
 .compus-ayellow:hover {
     color: #e9bf15;
 }
