@@ -298,7 +298,7 @@
                     },
                 }).then(res => {
                     if (res.status == 200){
-                                this.$Message.info("操作成功成功");
+                                this.$Message.success("操作成功");
                                 this.resourceInfo.splice(index, 1);
                     }
                 });
@@ -314,7 +314,7 @@
                 }
                 axios.delete("/api/admin/comp/res/" + uri + '/' + id).then(res => {
                     if (res.status == 200){
-                        this.$Message.info("删除成功");
+                        this.$Message.success("删除成功");
                     }
                 });
                 this.resourceInfo.splice(index, 1);

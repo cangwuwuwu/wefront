@@ -8,8 +8,6 @@
                             <div class="catalogue">
                                 <Button long type="primary" ghost @click="uploadResModal = true">
                                     上传资源
-                                    <Badge text="new">
-                                    </Badge>
                                 </Button>
                                 <Divider/>
                                 软件工程
@@ -94,6 +92,15 @@
                                 <MenuItem name="/docs/resources/master">
                                     考研
                                 </MenuItem>
+                                <MenuItem name="/docs/resources/adobe">
+                                    Adobe
+                                </MenuItem>
+                                <MenuItem name="/docs/resources/office">
+                                    Office
+                                </MenuItem>
+                                <MenuItem name="/docs/resources/others">
+                                    其他大杂烩
+                                </MenuItem>
                             </MenuGroup>
                         </Menu>
                     </ul>
@@ -107,9 +114,7 @@
                         <div class="catalogue">软件工程
                             <Button type="primary" style="float:right;" ghost size="large"
                                     @click="uploadResModal = true">
-                                <Badge text="new">
-                                    上传资源&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                </Badge>
+                                    上传资源
                             </Button>
                         </div>
                         <MenuGroup title="编程语言">
@@ -191,6 +196,21 @@
                             </MenuItem>
                             <MenuItem name="/docs/resources/master">
                                 考研
+                            </MenuItem>
+                            <MenuItem name="/docs/resources/adobe">
+                                Adobe
+                                <Badge text="new" style="float: right;">
+                                </Badge>
+                            </MenuItem>
+                            <MenuItem name="/docs/resources/office">
+                                Office
+                                <Badge text="new" style="float: right;">
+                                </Badge>
+                            </MenuItem>
+                            <MenuItem name="/docs/resources/others">
+                                其他大杂烩
+                                <Badge text="new" style="float: right;">
+                                </Badge>
                             </MenuItem>
                         </MenuGroup>
                     </Menu>
@@ -361,6 +381,18 @@
                         value: 'master',
                         label: '考研'
                     },
+                    {
+                        value: 'adobe',
+                        label: 'Adobe'
+                    },
+                    {
+                        value: 'office',
+                        label: 'Office'
+                    },
+                    {
+                        value: 'others',
+                        label: '其他大杂烩'
+                    }
                 ],
                 upRes: {
                     resForm: '',

@@ -462,6 +462,39 @@ export default new Router({
                                 title: '考研-NIT计算机协会官网|Wecoding',
                             }
                         },
+                        {
+                            path: 'adobe',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: 'Adobe-NIT计算机协会官网|Wecoding',
+                            }
+                        },
+                        {
+                            path: 'office',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: 'Office-NIT计算机协会官网|Wecoding',
+                            }
+                        },
+                        {
+                            path: 'others',
+                            components: {
+                                'videos': Videos,
+                                'web': Web,
+                                'others': Others
+                            },
+                            meta: {
+                                title: '其他大杂烩-NIT计算机协会官网|Wecoding',
+                            }
+                        }
                     ]
                 }
             ]

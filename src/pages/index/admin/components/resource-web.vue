@@ -236,7 +236,7 @@
                         }).then( res => {
                             this.isUpdateShow = false;
                             if (res.status == 200){
-                                this.$Message.info("修改成功");
+                                this.$Message.success("修改成功");
                             }
                         })
                     } else {
@@ -272,8 +272,8 @@
             /*点击删除对话框确定按钮后，根据学号删除该账户*/
             deleteResource(){
                 axios.delete("/api/admin/comp/res/deleteResourceWeb/" + this.editResId).then(res => {
-                    if (res.status == 200){
-                        this.$Message.info("删除成功");
+                    if (res.status == 200) {
+                        this.$Message.success("删除成功");
                     }
                 });
                 this.mapperInfo();

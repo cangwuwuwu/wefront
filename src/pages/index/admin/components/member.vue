@@ -185,7 +185,7 @@
                     },
                     {
                         title: '学号',
-                        width: 150,
+                        // width: 150,
                         key: 'stuId',
                         align: 'center',
                         slot: 'id'
@@ -194,7 +194,7 @@
                         title: '性别',
                         key: 'stuGender',
                         slot: 'gender',
-                        width: 100,
+                        // width: 100,
                         align: 'center',
                         filters: [
                             {
@@ -213,14 +213,14 @@
                     },
                     {
                         title: '民族',
-                        width: 150,
+                        // width: 150,
                         key: 'stuNation',
                         slot: 'nation',
                         align: 'center',
                     },
                     {
                         title: '院系/专业',
-                        width: 200,
+                        // width: 200,
                         key: 'stuDept',
                         slot: 'dept',
                         align: 'center',
@@ -281,21 +281,21 @@
                     },
                     {
                         title: '班级',
-                        width: 150,
+                        // width: 150,
                         key: 'stuClass',
                         slot: 'class',
                         align: 'center',
                     },
                     {
                         title: '联系方式',
-                        width: 150,
+                        // width: 150,
                         key: 'stuPhone',
                         slot: 'phone',
                         align: 'center',
                     },
                     {
                         title: '邮箱',
-                        width: 200,
+                        // width: 200,
                         key: 'stuEmail',
                         slot: 'email',
                         align: 'center',
@@ -305,7 +305,7 @@
                         key: 'stuInfo',
                         slot: 'info',
                         align: 'center',
-                        width: 217
+                        width: 200
                     },
                     {
                         title: '操作',

@@ -333,7 +333,7 @@ export default {
                     }).then( res => {
                         this.isDrawerShow = false;
                         if (res.status == 200){
-                            this.$Message.info("修改成功");
+                            this.$Message.success("修改成功");
                         }
                     })
                 } else {
@@ -370,7 +370,7 @@ export default {
         deleteResource(){
             axios.delete("/api/admin/comp/res/deleteResource/" + this.editResId).then(res => {
                 if (res.status == 200){
-                    this.$Message.info("删除成功");
+                    this.$Message.success("删除成功");
                 }
             });
             this.mapperInfo();

@@ -408,7 +408,7 @@
                                 <div>
                                     <a href="#" class="a-dark-color">加入我们</a>
                                 </div>
-                                <div>反馈错误</div>
+                                <div @click="bug = true" style="cursor:pointer;">反馈错误</div>
                                 <div>
                                     <a target="_blank" href="/docs/help" class="a-dark-color">Help</a>
                                 </div>
@@ -489,7 +489,7 @@
             <div class="compus-buttom">
                 <div class="compus-buttom-div">
                     <div class="compus-buttom-left">
-                        <a target="_blank" href="http://www.beian.miit.gov.cn/">浙ICP备19026120号</a>&nbsp; by Cangwuwuwu
+                        <a target="_blank" href="http://www.beian.miit.gov.cn/">浙ICP备19026120号</a>&nbsp; UI designed by 廖嘉璐
                     </div>
                     <div class="compus-buttom-right">简体 / 繁體 / English</div>
                 </div>
@@ -626,6 +626,36 @@
             </Form>
         </Modal>
 
+        <!-- 反馈bug -->
+        <Modal
+                footer-hide
+                title="反馈"
+                v-model="bug">
+            <div>反馈类型</div>
+            <RadioGroup v-model="bugtype">
+                <Radio label="bug">
+                    <Icon type="md-alert" size="15"></Icon>
+                    <span>Bug</span>
+                </Radio>
+                <Radio label="need">
+                    <Icon type="ios-hand" size="15"></Icon>
+                    <span>没有我想要的</span>
+                </Radio>
+                <Radio label="advice">
+                    <Icon type="ios-information-circle" size="15"></Icon>
+                    <span>指正/建议</span>
+                </Radio>
+            </RadioGroup>
+            <div>反馈内容</div>
+            <div class="bug-div">
+                <Input v-model="bugcontent" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                       placeholder="Enter something..."/>
+            </div>
+            <div class="bug-div">
+                <Button :loading="loading" long type="primary" @click="sendfeedback">提交反馈</Button>
+            </div>
+        </Modal>
+
         <BackTop class="back-2-top"></BackTop>
     </div>
 </template>
@@ -642,6 +672,7 @@
         },
         data() {
             return {
+                bug: false,
                 catalog: false,
                 navbarTheme: false,
                 myinfo: {},
