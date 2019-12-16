@@ -219,7 +219,7 @@ export default {
                 .then(res => {
                     if (res) {
                         let _data = res.data.courseList;
-                        console.log(res.data)
+                        // console.log(res.data)
                         _self.courseList = _data.list;
                         _self.total = _data.total;
 

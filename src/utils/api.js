@@ -1,6 +1,6 @@
 import axios from 'axios'
 import router from '@/pages/index/router'
-import { Message } from 'iview'
+import { Message } from 'view-design'
 axios.interceptors.request.use(config => {
   return config;
 }, err => {

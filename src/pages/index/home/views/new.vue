@@ -807,11 +807,9 @@
                         _self.$Message.error('消息服务器连接失败!')
                     };
                     client.connect('guest', 'guest', onConnect, onError, '/');
+                    client.debug = null;
                 } else {
-                    this.$Message.error({
-                        content: '未登录!暂时无法连接到消息服务器',
-                        duration: 3
-                    });
+                    return;
                 }
             },
             changeinfo2list(myinfo) {

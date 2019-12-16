@@ -1,18 +1,19 @@
 <template>
+<div class="person-bg">
     <div class="person-board">
         <Row>
             <Col :md="{span: 4}" style="min-height: 600px;border-right: 1px solid #e4e4e8;">
-                <div style="height: 249px;border-bottom: 1px solid #e4e4e8;">
+                <div style="height: 215px;border-bottom: 1px solid #e4e4e8;">
                     <div class="demo-upload-list">
                         <img v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
                             style="width: 100%;"
                             :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
                             alt="用户头像"
                         />
-                        <Avatar v-else shape="square" icon="ios-person" size="250"/>
+                        <Avatar v-else shape="square" icon="ios-person" size="215"/>
                         <div class="demo-upload-list-cover">
-                            <Icon title="查看大图" type="md-qr-scanner" v-if="myinfo.stuImg !== null" @click.native="handleView" size="80"></Icon>
-                            <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead" size="80"></Icon>
+                            <Icon title="查看大图" type="md-qr-scanner" v-if="myinfo.stuImg !== null" @click.native="handleView" size="50"></Icon>
+                            <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead" size="50"></Icon>
                         </div>
                     </div>
                     
@@ -35,12 +36,20 @@
             </Col>
             <Col :md="{span: 20}">
                 <div class="person-bg-head">
-                    {{choose === '/person/info' ? '用户信息' : choose === '/person/account' ? '账户信息' : choose === '/person/msg' ? '消息中心' : '交纳会费'}}
+                    {{choose === '/person/info' ? '用户信息 userinfo' : choose === '/person/account' ? '账户信息' : choose === '/person/msg' ? '消息中心' : '交纳会费'}}
                 </div>
                 <router-view></router-view>
             </Col>
         </Row>
     </div>
+
+    
+    <Modal footer-hide v-model="visible" class="handle-view-modal">
+        <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
+                v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" style="width: 100%;height: 100%">
+        <Avatar v-else shape="square" icon="ios-person" size="520"/>
+    </Modal>
+</div>
 </template>
 
 <script>
@@ -52,6 +61,7 @@ export default {
             myinfo: {},
             choose: '',
             role: false,
+            visible: false,
         };
     },
     created() {
@@ -78,22 +88,26 @@ export default {
         path2item(name) {
             this.choose = name;
             this.$router.push(name);
-        }
+        },
+        // 显示头像大图
+        handleView() {
+            this.visible = true;
+        },
     }
 };
 </script>
 
 <style scoped>
 
-
 .person-board {
-    width: 1500px;
-    margin: 100px auto;
+    width: 1300px;
+    margin: 0 auto;
     height: 600px;
     box-shadow: 0 8px 20px rgba(96, 118, 243, 0.2);
     -moz-box-shadow: 0 8px 20px rgba(96, 118, 243, 0.2);
     -webkit-box-shadow: 0 8px 20px rgba(96, 118, 243, 0.2);
     border-radius: 5px;
+    background: #fff;
 }
 
 .ivu-menu-item {
@@ -105,15 +119,15 @@ export default {
 }
 
 .person-bg-head {
-    border-bottom: 1px solid #e4e4e8;padding: 25px;font-size: 30px;font-weight: bold;
+    border-bottom: 1px solid #e4e4e8;padding: 25px;font-size: 30px;
 }
 
 .demo-upload-list {
     display: inline-block;
-    width: 250px;
-    height: 250px;
+    width: 215px;
+    height: 215px;
     text-align: center;
-    line-height: 80px;
+    line-height: 215px;
     border: 1px solid transparent;
     border-radius: 4px;
     overflow: hidden;
