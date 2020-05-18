@@ -12,7 +12,7 @@
                         placeholder="全局搜索"
                         icon="ios-search"
                         size="large"
-                        @on-change="searchByKeyWords"
+                        @on-focus="searchByKeyWords"
                         @on-clear="editIndex = -1"
                         >
                 </AutoComplete>
@@ -42,7 +42,7 @@
 
             <template slot-scope="{ row, index }" slot="action">
                 <div v-if="editIndex === index">
-                    <Button @click="handleSave(index)">保存</Button>
+                    <Button @click="handleSave(row,index)">保存</Button>
                     <Button @click="handleCancel">取消</Button>
                 </div>
                 <div v-else>
@@ -77,6 +77,7 @@
 
 <script>
     import axios from 'axios'
+    import store from '../../store.js'
 
     export default {
         name: '',
@@ -142,6 +143,8 @@
                 stuDesc: '',
                 editIndex : -1 ,
 
+                //登录用户的权限
+                authLength: JSON.parse(localStorage.getItem('wecoding_login_info')).authorities.length
             }
         },
             methods: {
@@ -167,9 +170,14 @@
 
             //根据搜索字段查询信息
             searchByKeyWords(){
-                this.currentPage = 1;
-                this.currentSize = 10;
-                this.mapperInfo();
+                let _self = this;
+                document.onkeyup = function (ev) {
+                    if (ev.keyCode == 13 && ev.which == 13){
+                        _self.currentPage = 1;
+                        _self.currentSize = 10;
+                        _self.mapperInfo();
+                    }
+                }
             },
 
             //改变页数
@@ -186,6 +194,10 @@
 
             /*用户点击修改后显示对应要修改的选择器*/
             handleEdit(row, index){
+                if(this.authLength <= 2){
+                    this.$Message.info("权限不足");
+                    return;
+                }
                 this.editAuth = row.stuAuthString;
                 this.editStuId = this.AccountInfo[index].stuId;
                 this.editIndex = index;
@@ -208,9 +220,9 @@
             },
 
             /*用户点击保存修改后，将数据传给后端操作*/
-            handleSave(index){
+            handleSave(row,index){
 
-                if (this.editAuth == this.stuAuth){
+                if (this.editAuth == this.AccountInfo[this.editIndex].stuAuthString){
                     this.editIndex = -1;
                     return;
                 }
@@ -219,7 +231,7 @@
                 formData.append("stuId", this.editStuId);
                 formData.append("stuAuth", this.editAuth);
                 axios.put("/api/admin/comp/account/updateAuth", formData).then();
-                this.mapperInfo();
+                this.AccountInfo[this.editIndex].stuAuthString = this.editAuth;
                 this.editIndex = -1;
             },
 
@@ -231,24 +243,40 @@
 
             /*点击删除按钮*/
             handleDelete(row){
-              this.editStuId = row.stuId;
-              this.isModalShow = true;
+                if(this.authLength <= 2){
+                    this.$Message.info("权限不足");
+                    return;
+                }
+                this.editStuId = row.stuId;
+                this.isModalShow = true;
             },
 
             /*点击删除对话框确定按钮后，根据学号删除该账户*/
             deleteAccount(){
-            axios.delete("/api/admin/comp/account/deleteAccount/" + this.editStuId).then();
-            this.mapperInfo();
+                axios.delete("/api/admin/comp/account/deleteAccount/" + this.editStuId).then();
+                this.mapperInfo();
             }
             
         },
         created() {
-            this.mapperInfo()
+            this.mapperInfo();
         }
 
     }
 </script>
 
 <style>
-
+    .overview{
+        border: 1px solid #e8eaec;
+        padding: 26px;
+        display: block;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        position: relative;
+        transition: all .2s ease-in-out;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
 </style>

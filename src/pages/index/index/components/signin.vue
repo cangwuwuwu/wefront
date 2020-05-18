@@ -68,7 +68,7 @@
                         let formData = new FormData();
                         formData.append('stuId', this.formSignin.stuId);
                         formData.append('stuPassword', this.formSignin.stuPassword);
-                        formData.append('remember-me', this.remember)
+                        formData.append('remember-me', this.remember);
                         axios
                             .post('/api/login', formData)
                             .then(res => {
@@ -89,6 +89,11 @@
                     }
                 })
             }
+        },
+
+        created() {
+            // 用户登录后给后台发送一个请求记录访问次数
+            axios.get("/api/admin/comp/access/signIn").then()
         }
     }
 

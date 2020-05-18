@@ -1,5 +1,5 @@
 <template>
-    <div class="resource-audit">
+    <div class="resource-audit overview">
         <Row style="margin-bottom: 10px;">
             <Col span="8">
                 <div style="font-size: 25px;font-weight: bold;">资源审核</div>
@@ -12,7 +12,7 @@
                         placeholder="资源搜索"
                         icon="ios-search"
                         size="large"
-                        @on-change="searchByKeyWords"
+                        @on-focus="searchByKeyWords"
                 >
                 </AutoComplete>
             </Col>
@@ -22,7 +22,7 @@
         <Tabs type="card"  :animated="false" @on-click="clickTable" >
             <!--审核网盘资源-->
             <TabPane label="网盘资源审核">
-                <Table ref="selection" :columns="webDiskInfoColumns" :data="resourceInfo" :loading="loading" @on-row-dblclick="rowClick">
+                <Table  ref="selection" size="large" no-data-text="暂无需要审核资源" :columns="webDiskInfoColumns" :data="resDiskInfo" :loading="loading" @on-row-dblclick="rowClick">
                     <template slot-scope="{ row, index }" slot="resUpTime">
                         {{row.resUpTime | formatDate}}
                     </template>
@@ -36,7 +36,7 @@
             </TabPane>
             <TabPane label="在线资源审核">
                 <!--表格-->
-                <Table ref="selection" :columns="webColumns" :data="resourceInfo" :loading="loading">
+                <Table border ref="selection" no-data-text="暂无需要审核资源"  size="large" :columns="webColumns" :data="resWebInfo" :loading="loading">
                     <template slot-scope="{ row, index }" slot="action">
                         <Button type="primary" size="small" style="margin-right: 5px" @click="approved(row, index)">通过</Button>
                         <Button type="error" size="small" @click="handleDelete(row, index)">删除</Button>
@@ -47,6 +47,12 @@
         <br>
         <!--分页-->
         <Row>
+            <Col span="2" style="text-align: center">
+                <Button type="primary" @click="addInfo">全部通过</Button>
+            </Col>
+            <Col span="2" style="text-align: center;">
+                <Button type="primary" @click="refresh">刷新</Button>
+            </Col>
             <Col style="float: right">
                 <Page show-sizer :current="currentPage" :page-size="currentSize" :total="total" @on-change="changePage" @on-page-size-change="changePageSize"/>
             </Col>
@@ -68,38 +74,31 @@
                         </FormItem>
                     </Col>
                     <Col span="12">
-                        <FormItem label="名称" label-position="top">
-                            <Input v-model="formData.resName" placeholder="资源名称" readonly/>
+                        <FormItem label="邮箱" label-position="top">
+                            <Input v-model="formData.resUpEmail" placeholder="上传人邮箱" readonly/>
                         </FormItem>
                     </Col>
                 </Row>
 
                 <Row :gutter="32">
+                    <Col span="12">
+                        <FormItem label="名称" label-position="top">
+                            <Input v-model="formData.resName" placeholder="资源名称" readonly/>
+                        </FormItem>
+                    </Col>
                     <Col span="12">
                         <FormItem label="分类" label-position="top">
                             <Input v-model="formData.resType" placeholder="资源分类名称"  readonly />
                         </FormItem>
                     </Col>
+                </Row>
+
+                <Row :gutter="32">
                     <Col span="12">
                         <FormItem label="类别" label-position="top">
                             <Input v-model="formData.resForm == 1 ? '基础学习' : formData.resForm == 2 ? '进阶面试' : formData.resForm == 3 ? '实战项目' : formData.resForm == 4 ? '文档/PDF' : '未知'" placeholder="类别" readonly/>
                         </FormItem>
                     </Col>
-                </Row>
-
-                <Row :gutter="32">
-                    <Col span="12">
-                        <FormItem label="资源网址" label-position="top">
-                            <Input v-model="formData.resUrl" placeholder="输入资源下载/观看网址" readonly/>
-                        </FormItem>
-                    </Col>
-                    <Col span="12">
-                        <FormItem label="提取码" label-position="top">
-                            <Input v-model="formData.resPassword" placeholder="如果资源下载网址非网盘，可不填" readonly/>
-                        </FormItem>
-                    </Col>
-                </Row>
-                <Row :gutter="32">
                     <Col span="12">
                         <FormItem label="上传时间" label-position="top">
                             <DatePicker
@@ -114,6 +113,18 @@
                         </FormItem>
                     </Col>
 
+                </Row>
+                <Row :gutter="32">
+                    <Col span="12">
+                        <FormItem label="资源网址" label-position="top">
+                            <Input v-model="formData.resUrl" placeholder="输入资源下载/观看网址" readonly/>
+                        </FormItem>
+                    </Col>
+                    <Col span="12">
+                        <FormItem label="提取码" label-position="top">
+                            <Input v-model="formData.resPassword" placeholder="如果资源下载网址非网盘，可不填" readonly/>
+                        </FormItem>
+                    </Col>
                 </Row>
 
                 <FormItem label="描述资源信息" label-position="top">
@@ -145,16 +156,20 @@
                     {
                         title: '分类',
                         key: 'resType',
-                        align: "center"
+                        align: "center",
+                        tooltip: true,
                     },
                     {
                         title: '名称',
                         key: 'resName',
-                        align: "center"
+                        // align: "center",
+                        tooltip: true,
+                        className: "text-ellipsis",
                     },
                     {
                         title: '上传时间',
                         slot: 'resUpTime',
+                        className: "text-ellipsis",
                         align: "center"
                     },
                     {
@@ -176,29 +191,39 @@
                         title: '分类',
                         key: 'resWebType',
                         width: 150,
-                        align: "center"
+                        // align: "center",
+                        tooltip: true,
+                        className: "text-ellipsis",
                     },
                     {
                         title: '名称',
                         key: 'resWebName',
                         width: 150,
-                        align: "center"
+                        // align: "center",
+                        tooltip: true,
+                        className: "text-ellipsis",
                     },
                     {
                         title: '描述',
                         key: 'resWebDescribe',
-                        align: "center",
+                        // align: "left",
+                        className: "text-ellipsis",
+                        tooltip: true,
+
                     },
                     {
                         title: '网址',
                         key: 'resWebUrl',
-                        align: "center"
+                        // align: "center",
+                        tooltip: true,
+                        className: "text-ellipsis",
                     },
                     {
                         title: '上传人',
                         key: 'resWebUper',
                         width: 150,
-                        align: "center"
+                        align: "center",
+                        tooltip: true,
                     },
                     {
                         title: '审核',
@@ -209,7 +234,8 @@
                 ],
 
                 //资源信息
-                resourceInfo:[],
+                resWebInfo:[],
+                resDiskInfo:[],
                 //判断网盘表格数据是否在加载
                 loading : true,
                 //网盘资源具体信息显示对话框
@@ -229,11 +255,20 @@
         },
 
         methods:{
+
             /*加载所有信息*/
             async getInfo(currentPage, currentSize, uri){
+                let _this = this;
                 let info = await axios.get("/api/admin/comp/res/" + uri, {
                     params:{page: currentPage, size: currentSize, search: this.keyWords}
+
                 });
+
+                if (info == '' || info == null || info == undefined){
+                    _this.loading = false;
+                    return null;
+                }
+
                 return info.data;
             },
             /*映射信息*/
@@ -243,19 +278,32 @@
                     uri = 'getResourceWebAuditInfo';
                 }
                 this.getInfo(this.currentPage, this.currentSize, uri).then(info => {
-                    this.resourceInfo = info .list;
-                    this.currentPage = info.pageNum;
-                    this.currentSize = info.pageSize;
-                    this.total = info.total;
-                    this.loading = false;
+                    if (info != null){
+                        if (this.isWeb){
+                            this.resWebInfo = info .list;
+                        }else {
+                            this.resDiskInfo = info .list;
+                        }
+
+                        this.currentPage = info.pageNum;
+                        this.currentSize = info.pageSize;
+                        this.total = info.total;
+                        this.loading = false;
+                    }
                 });
             },
 
             //根据搜索字段查询信息
             searchByKeyWords(){
-                this.currentPage = 1;
-                this.currentSize = 10;
-                this.mapperInfo();
+                let _self = this;
+               document.onkeyup = function (ev) {
+                   if (ev.keyCode == 13 && ev.which == 13){
+                       _self.currentPage = 1;
+                       _self.currentSize = 10;
+                       _self.mapperInfo();
+                   }
+               }
+
             },
 
             //点击tab标签
@@ -299,9 +347,50 @@
                 }).then(res => {
                     if (res.status == 200){
                                 this.$Message.success("操作成功");
-                                this.resourceInfo.splice(index, 1);
+                                if (this.isWeb){
+                                    this.resWebInfo.splice(index, 1);
+                                }else {
+                                    this.resDiskInfo.splice(index, 1);
+                                }
                     }
                 });
+            },
+
+            //全部通过
+            addInfo(){
+                let uri = 'approvedResAudit';
+                let result = true;
+                let info = this.resDiskInfo;
+                if (this.isWeb){
+                    uri = 'approvedResWebAudit';
+                    info = this.resWebInfo;
+                }
+
+
+                for (var i = 0; i < info.length; i++){
+                    axios({
+                        method: 'post',
+                        url: "/api/admin/comp/res/" + uri,
+                        data: JSON.stringify(info[i]),
+                        headers: {
+                            'Content-Type': 'application/json;charset=utf-8'
+                        },
+                    }).then(res => {
+                        if (res.status != 200){
+                           result = false;
+                        }
+                    });
+                }
+
+                if (result){
+                    this.$Message.success("操作成功");
+                    this.mapperInfo();
+                }
+            },
+
+            /*刷新页面*/
+            refresh(){
+                location.reload();
             },
 
             //未通过进行删除
@@ -317,7 +406,11 @@
                         this.$Message.success("删除成功");
                     }
                 });
-                this.resourceInfo.splice(index, 1);
+                if (this.isWeb){
+                    this.resWebInfo.splice(index, 1);
+                }else{
+                    this.resDiskInfo.splice(index, 1);
+                }
             },
 
             //改变页数
@@ -339,10 +432,33 @@
 </script>
 
 <style>
+
+    .overview{
+        border: 1px solid #e8eaec;
+        padding: 26px;
+        display: block;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        position: relative;
+        transition: all .2s ease-in-out;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     .demo-drawer-footer{
         float: right;
         overflow: hidden;
         /*margin-right: 20px;*/
         /*margin-bottom: 20px;*/
+    }
+    .text-ellipsis{
+        /*display: block;*/
+        text-align: left;
+        padding-left: 30px;
+        /*white-space: nowrap;*/
+        /*text-overflow: ellipsis;*/
+        /*overflow: hidden;*/
     }
 </style>

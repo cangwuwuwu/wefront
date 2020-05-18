@@ -5,19 +5,27 @@
 </style>
 <template>
     <div>
-        <Row class="expand-row" >
-            <Col span="8">
+        <Row class="expand-row" type="flex" justify="center">
+            <Col span="7">
                 <span class="expand-key" >email: </span>
                 <span class="expand-value" >{{ row.email }}</span>
             </Col>
-            <Col span="8">
+            <Col span="7">
                 <span class="expand-key">其他: </span>
                 <span class="expand-value">{{ row.others }}</span>
             </Col>
-            <Col span="8">
-                <span class="expand-key">相关图片: </span>
-                <span class="expand-value">{{ row.name }}</span>
+            <Col span="7">
+                <div style="float: left" class="expand-key">相关图片: </div>
+                <div style="float: left; margin-left: 20px" class="expand-value" >
+                    <span v-if="row.small == null || row.small == ''">暂无相关图片</span>
+                    <span v-else>
+                         <a  target="_blank"  :href="'http://39.106.85.24:9000/wecoding/' + row.big.split(',')[index]" v-for="(img,index) in row.small.split(',')" :key="index">
+                            <img title="放大"  :src="'http://39.106.85.24:9000/wecoding/' + img"/>
+                            </a>
+                    </span>
+                </div>
             </Col>
+
         </Row>
     </div>
 </template>

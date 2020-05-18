@@ -733,13 +733,14 @@
                     this.checkFirstLogin(id);
                 }
                 const auth = jsonInfo.authorities;
-                if (auth.length === 2) {
+                if (auth.length === 2 || auth.length === 3) {
                     this.hasAdminRole = true;
                 }
                 this.connectMsgWsServer(this.id)
             } else {
                 this.connectMsgWsServer('')
             }
+
         },
         mounted() {
             window.addEventListener("scroll", this.handleScroll, true);
@@ -975,6 +976,7 @@
             },
             
         },
+
         computed: {
             revmsglist() {
                 return this.msglist.reverse();

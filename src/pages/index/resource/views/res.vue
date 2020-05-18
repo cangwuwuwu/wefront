@@ -430,6 +430,9 @@
             } else {
                 this.upRes.resUploader = 'Anonymity'
             }
+
+            // 用户访问资源分享页面给后台发送一个请求记录访问次数
+            axios.get("/api/admin/comp/access/res").then()
         },
         mounted: function () {
             this.choose = this.$route.path;

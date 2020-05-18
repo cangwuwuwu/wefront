@@ -88,6 +88,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: "guide",
         data() {
@@ -105,6 +106,12 @@
             this.$router.push('/docs/guide');
             this.$router.push(this.choose)
         },
+
+        created(){
+            // 用户访问校园指南页面给后台发送一个请求记录访问次数
+            axios.get("/api/admin/comp/access/guide").then()
+        },
+
         methods: {
             path2Docs(name) {
                 this.tagSet.add(name);

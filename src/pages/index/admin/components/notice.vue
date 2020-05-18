@@ -4,12 +4,11 @@
       <!--消息列表-->
     <div class="card">
         <div class="msgCard"  v-for="(msgInfo,index) in this.msgListInfo" :key="index">
-            <p class="title">{{msgInfo.msgHead}}</p>
+            <p class="title">{{msgInfo.msgHead}}: {{msgInfo.msgType}}</p>
             <div class="line"></div>
             <p class="content">{{msgInfo.msgContent}}</p>
             <div class="sp">
-                <span class="sp1">{{msgInfo.msgType}}</span>
-                <span class="sp3"><Time :time="parseInt(msgInfo.msgTime)" type="datetime"/></span>
+                <span class="sp3">{{msgInfo.msgTime}}</span>
                 <span class="sp2">{{msgInfo.msgSender}}</span>
             </div>
         </div>
@@ -33,14 +32,7 @@
         <FormItem label="发送者" prop="msgSender">
           <Input v-model="messageInfo.msgSender"  placeholder="输入消息发送者名称"/>
         </FormItem>
-        <FormItem label="时间" prop="msgTime">
-          <DatePicker v-model="messageInfo.msgTime"
-                      :editable="false"
-                      type="datetime"
-                      format="yyyy-MM-dd HH:mm"
-                      transfer
-                      placeholder="选择时间和日期"></DatePicker>
-        </FormItem>
+
         <FormItem label="消息内容" prop="msgContent">
           <Input type="textarea" v-model="messageInfo.msgContent" :rows="3" placeholder="输入消息内容" />
         </FormItem>
@@ -82,7 +74,6 @@ export default {
               msgType:[{required: true, message: '选择标签类型', trigger: 'blur'}],
               msgHead:[{required: true, message: '输入消息头', trigger: 'blur'}],
               msgSender:[{required: true, message: '输入消息发送者名称', trigger: 'blur'}],
-              msgTime:[{required: true, message: '选择时间和日期', pattern: /.+/, trigger: 'change'}],
               msgContent:[{required: true, message: '输入消息内容', trigger: 'blur'}],
           },
 
@@ -121,12 +112,13 @@ export default {
                          'Content-Type': 'application/json;charset=utf-8'
                      },
                  }).then(res => {
-                     if (res){
+                     if (res.status == 200){
                          this.submitLoading = false;
-                         this.$Message.info("发送成功");
+                         this.$Message.success("发送成功");
                          this.$refs[name].resetFields();
+                         this.getInfo();
                      }else {
-                         this.$Message.info("发送失败");
+                         this.$Message.error("发送失败");
                      }
                  });
              } else {
@@ -155,20 +147,31 @@ export default {
 
 <style>
   .overview{
-    height: 580px;
+      height: 640px;
+      border: 1px solid #e8eaec;
+      padding: 26px;
+      display: block;
+      background: #fff;
+      border-radius: 4px;
+      font-size: 14px;
+      position: relative;
+      transition: all .2s ease-in-out;
+      margin: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
   }
 
   /*发送表单*/
   .form{
-    width: 460px;
+    width: 440px;
     /*position: absolute;*/
     /*right: 20px;*/
     /*top: 40px;*/
     float: right;
     margin-top: 30px;
-    margin-right: 20px;
+    margin-right: 60px;
     border-style:solid; border-width:1px; border-color: #d4d4d4;
-    padding: 20px 55px 15px 35px;
+    padding: 30px 75px 15px 55px;
       -webkit-box-shadow:0px 3px 3px #c8c8c8 ;
       -moz-box-shadow:0px 3px 3px #c8c8c8 ;
       box-shadow:0px 3px 3px #c8c8c8 ;

@@ -69,7 +69,8 @@
 <template>
     <div class="layout">
         <Layout>
-            <Sider ref="side" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" style="">
+            <Sider ref="side" hide-trigger collapsible :collapsed-width="78" v-model="isCollapsed" style="width: 100vh;overflow: auto;position: fixed">
+<!--            <Sider ref="side"  v-model="isCollapsed" :style="{position: 'fixed', height: '100vh', left: 0, overflow: 'auto'}">-->
                 <Menu accordion
                     :active-name="breadName" 
                     theme="dark" 
@@ -138,16 +139,21 @@
                         </Dropdown>
                     </span>
                 </Header>
-                <Content :style="{padding: '0 16px 16px'}">
+                <Content :style="{padding: '0 16px 16px', marginLeft: '195px'}">
                     <Breadcrumb :style="{margin: '16px 0'}">
                         <BreadcrumbItem>ADMIN</BreadcrumbItem>
                         <BreadcrumbItem>{{ breadName.toUpperCase() }}</BreadcrumbItem>
                     </Breadcrumb>
-                    <Card dis-hover>
+<!--                    <Card dis-hover>-->
+<!--                        <div>-->
+<!--                            <router-view></router-view>-->
+<!--                        </div>-->
+<!--                    </Card>-->
+                    <div>
                         <div>
                             <router-view></router-view>
                         </div>
-                    </Card>
+                    </div>
                 </Content>
             </Layout>
         </Layout>
@@ -201,3 +207,19 @@
         }
     }
 </script>
+<style>
+    .div-card-content{
+        border: 1px solid #e8eaec;
+        padding: 16px;
+        display: block;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        position: relative;
+        transition: all .2s ease-in-out;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+
+    }
+</style>

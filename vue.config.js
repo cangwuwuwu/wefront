@@ -1,7 +1,7 @@
 /* eslint-disable */
 
-const path = require('path')
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const path = require('path');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 
 module.exports = {
     devServer: {

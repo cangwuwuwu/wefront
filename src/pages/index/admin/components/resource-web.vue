@@ -12,13 +12,18 @@
                         placeholder="资源搜索"
                         icon="ios-search"
                         size="large"
-                        @on-change="searchByKeyWords"
+                        @on-focus="searchByKeyWords"
                 >
                 </AutoComplete>
             </Col>
         </Row>
         <!--表格-->
-        <Table ref="selection" :columns="infoColumns" :data="resourceInfo" :loading="loading">
+        <Table ref="selection" size="large" :columns="infoColumns" :data="resourceInfo" :loading="loading" >
+            <template slot-scope="{ row, index }" slot="resWebUrl">
+                <Tooltip class="web-url-tooltip" max-width="300" :content="row.resWebUrl">
+                    <div class="web-url"  @click="toWebUrl(row.resWebUrl)">{{row.resWebUrl}}</div>
+                </Tooltip>
+            </template>
             <template slot-scope="{ row, index }" slot="action">
                 <Button type="primary" size="small" style="margin-right: 5px" @click="formModalShow(row, index)">修改</Button>
                 <Button type="error" size="small" @click="handleDelete(row)">删除</Button>
@@ -29,6 +34,9 @@
         <Row>
             <Col span="2" style="text-align: center">
                 <Button type="primary" @click="addInfo">新增</Button>
+            </Col>
+            <Col span="2" style="text-align: left;">
+                <Button type="primary" @click="refresh">刷新</Button>
             </Col>
             <Col style="float: right">
                 <Page show-sizer :current="currentPage" :page-size="currentSize" :total="total" @on-change="changePage" @on-page-size-change="changePageSize"/>
@@ -43,7 +51,7 @@
             @on-cancel="closeFormModal"
             :styles="{top: '60px'}"
         >
-            <p slot="header" style="text-align: center; font-size: 16px">增加/修改在线资源</p>
+            <p slot="header" style="text-align: center; font-size: 16px; ">增加/修改在线资源</p>
             <Form class="updateForm"  ref="formValidate" :model="formData" :rules="ruleValidate" :label-width="80">
                 <FormItem label="分类" prop="resWebType">
                     <Input v-model="formData.resWebType" placeholder="输入资源分类"></Input>
@@ -84,12 +92,9 @@
 
 <script>
     import axios from 'axios'
-    import resourceTable from './resource-hide-table'
     export default {
         name: 'resource-web',
-        components:{
-            resourceTable
-        },
+
         data() {
             return {
                 //表格头
@@ -103,29 +108,46 @@
                         title: '分类',
                         key: 'resWebType',
                         width: 150,
-                        align: "center"
+                        // align: "center",
+                        tooltip: true,
+                        className: "text-ellipsis",
                     },
                     {
                         title: '名称',
                         key: 'resWebName',
                         width: 150,
-                        align: "center"
+                        // align: "center",
+                        tooltip: true,
+                        className: "text-ellipsis",
                     },
                     {
                         title: '描述',
                         key: 'resWebDescribe',
-                        align: "center",
+                        // align: "left",
+                        className: "text-ellipsis",
+                        tooltip: true,
+
                     },
                     {
                         title: '网址',
-                        key: 'resWebUrl',
-                        align: "center"
+                        slot: 'resWebUrl',
+                        className: "text-ellipsis",
+                        // align: "center",
+                        tooltip: true,
+                        // render:(h,paramer)=>{
+                        //     return h('a',{
+                        //         style:{
+                        //             color: '#515A6E'
+                        //         }
+                        //     }, paramer.row.resWebUrl)
+                        // }
                     },
                     {
                         title: '上传人',
                         key: 'resWebUper',
                         width: 150,
-                        align: "center"
+                        align: "center",
+                        tooltip: true,
                     },
                     {
                         title: 'Action',
@@ -209,9 +231,14 @@
 
             //根据搜索字段查询信息
             searchByKeyWords(){
-                this.currentPage = 1;
-                this.currentSize = 10;
-                this.mapperInfo();
+                let _self = this;
+                document.onkeyup = function (ev) {
+                    if (ev.keyCode == 13 && ev.which == 13){
+                        _self.currentPage = 1;
+                        _self.currentSize = 10;
+                        _self.mapperInfo();
+                    }
+                }
             },
 
             /*点击修改表单*/
@@ -279,6 +306,11 @@
                 this.mapperInfo();
             },
 
+            /*刷新页面*/
+            refresh(){
+                location.reload();
+            },
+
             //改变页数
             changePage(current){
                 this.currentPage = current;
@@ -290,6 +322,11 @@
                 this.currentSize = pageSize;
                 this.mapperInfo();
             },
+
+            //点击网址进行跳转
+            toWebUrl(url){
+                window.location.href = url;
+            }
         },
         created() {
             this.mapperInfo();
@@ -298,6 +335,21 @@
 </script>
 
 <style>
+
+    .overview{
+        border: 1px solid #e8eaec;
+        padding: 26px;
+        display: block;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        position: relative;
+        transition: all .2s ease-in-out;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     .demo-drawer-footer{
         width: 100%;
         margin-top: 40px;
@@ -317,4 +369,35 @@
         margin-right: 20px;
         margin-top: 10px;
     }
+
+    .text-ellipsis{
+        /*display: block;*/
+        text-align: left;
+        padding-left: 30px;
+        /*white-space: nowrap;*/
+        /*text-overflow: ellipsis;*/
+        /*overflow: hidden;*/
+    }
+
+    .web-url{
+        width: 100%;
+        height: 100%;
+        height: inherit;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        color: #515A6E;
+    }
+
+    .web-url:hover{
+        color: #515A6E;
+        cursor: pointer;
+    }
+
+   .web-url-tooltip{
+       width: 100%;
+       display: flex;
+       align-items: center;
+   }
+
 </style>

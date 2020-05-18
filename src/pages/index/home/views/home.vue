@@ -411,7 +411,7 @@
         },
         mounted () {
             const info = localStorage.getItem('wecoding_login_info');
-            let jsonInfo = JSON.parse(info)
+            let jsonInfo = JSON.parse(info);
             if (jsonInfo) {
                 this.hasLogin = true;
                 this.myinfo.stuName = jsonInfo.stuName;
@@ -426,7 +426,8 @@
                     this.checkFirstLogin(id);
                 }
                 const auth = jsonInfo.authorities;
-                if (auth.length === 2) {
+
+                if (auth.length === 2 || auth.length === 3) {
                     this.hasAdminRole = true;
                 }
                 // this.connectMsgWsServer(this.id)
@@ -434,6 +435,7 @@
                 // this.connectMsgWsServer('')
             }
         },
+
         methods: {
             // 获取当前账号信息
             getCurrentInfo() {
