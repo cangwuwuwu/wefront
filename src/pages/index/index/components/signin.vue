@@ -80,8 +80,11 @@
                                         if (_self.$route.query.redirect === location.hostname) {
                                             _self.$router.go(-1);
                                         } else {
-                                            _self.$router.push('/home')
+                                            _self.$router.push('/home');
                                         }
+                                        _self.$router.push('/home');
+                                        // 用户登录后给后台发送一个请求记录访问次数
+                                        axios.get("/api/admin/comp/access/signIn").then()
                                     }, 1500);
                                 }
                                 _self.loginbtnload = false;
@@ -92,8 +95,7 @@
         },
 
         created() {
-            // 用户登录后给后台发送一个请求记录访问次数
-            axios.get("/api/admin/comp/access/signIn").then()
+
         }
     }
 
