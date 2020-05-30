@@ -2,6 +2,7 @@ export const index = {
     welcome: 'Welcome',
     login: 'Login',
     signup: 'Sign Up',
+    remember: 'Remember Me',
     coverHead: 'Welcome',
     moreButton: 'Learn More',
     userCount: 'Total users',

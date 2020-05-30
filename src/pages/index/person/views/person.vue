@@ -30,7 +30,7 @@
                         <MenuItem name="/person/account">账户信息</MenuItem>
                         <MenuItem name="/person/msg">消息中心</MenuItem>
                         <MenuItem name="/person/pay">交纳会费</MenuItem>
-                        <MenuItem name="/admin" v-if="role">进入后台</MenuItem>
+                        <MenuItem name="/admin/overview" v-if="role">进入后台</MenuItem>
                     </Menu>
                 </ul>
             </Col>
@@ -43,25 +43,34 @@
         </Row>
     </div>
 
-    
+    <!-- 查看大图     -->
     <Modal footer-hide v-model="visible" class="handle-view-modal">
         <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
                 v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" style="width: 100%;height: 100%">
         <Avatar v-else shape="square" icon="ios-person" size="520"/>
     </Modal>
+
+    <!-- 上传头像 -->
+    <UpHead :visibleup="visibleup" @updateHead="changeHeadImg" @visiblechange="visiblechange"/>
+    
 </div>
 </template>
 
 <script>
 import axios from "axios";
+import UpHead from "@/pages/index/person/components/uphead.vue"
 export default {
     name: "person",
+    components: {
+        UpHead
+    },
     data() {
         return {
             myinfo: {},
             choose: '',
             role: false,
             visible: false,
+            visibleup: false,
         };
     },
     created() {
@@ -82,6 +91,7 @@ export default {
                     _self.hasLogin = true;
                     _self.myinfo = res.data;
                     _self.$store.commit('setUserInfo', res.data);
+                    // console.log(_self.$store.state.userInfo);
                 }
             });
         },
@@ -93,6 +103,17 @@ export default {
         handleView() {
             this.visible = true;
         },
+        // 显示上传头像窗口
+        uploadHead() {
+            this.visibleup = true;
+        },
+        // 上传完成头像后更新person页面的头像
+        changeHeadImg(res) {
+            this.myinfo.stuBigImg = res;
+        },
+        visiblechange(visible) {
+            this.visibleup = visible;
+        }
     }
 };
 </script>

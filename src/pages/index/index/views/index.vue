@@ -13,7 +13,6 @@
         </Tabs>
 
         <footer class="mastfoot mt-auto">
-            <p class="mb-1">&copy; 2019 Wecoding</p>
             <ul class="list-inline">
                 <li class="list-inline-item">
                     <div @click="indexOpen('http://github.com/cangwuwuwu/wecoding')">{{ $t('index.sourceCode') }}</div>
@@ -32,6 +31,7 @@
                     <div @click="changeLang('en')">English</div>
                 </li>
             </ul>
+            <p class="mb-1">&copy; 2019-2020 Wecoding <a target="_blank" style="color: #2c3e50" href="http://www.beian.miit.gov.cn/">浙ICP备19026120号</a></p>
         </footer>
 
         <BackTop></BackTop>

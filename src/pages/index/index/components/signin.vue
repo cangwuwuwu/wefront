@@ -20,7 +20,7 @@
                             <Icon type="md-checkmark" slot="open"></Icon>
                             <Icon type="md-close" slot="close"></Icon>
                         </i-Switch>
-                        记住我
+                        {{ $t('index.remember') }}
                     </FormItem>
                     <FormItem>
                         <Button type="primary" :loading="loginbtnload" long @click="handleSubmit('formSignin')">{{ $t('index.login') }}
@@ -41,8 +41,8 @@
         data() {
             return {
                 formSignin: {
-                    stuId: '',
-                    stuPassword: '',
+                    stuId: '2017101943',
+                    stuPassword: 'wecoding',
                 },
                 loginbtnload: false,
                 ruleSignin: {
