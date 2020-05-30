@@ -1,6 +1,6 @@
 <template>
   <div class="overview">
-      <Row style="margin-bottom: 10px;">
+      <Row style="margin-bottom: 30px;">
           <Col span="8">
               <div style="font-size: 25px;font-weight: bold;">网盘资源管理</div>
           </Col>
@@ -12,13 +12,13 @@
                       placeholder="资源搜索"
                       icon="ios-search"
                       size="large"
-                      @on-change="searchByKeyWords"
+                      @on-focus="searchByKeyWords"
               >
               </AutoComplete>
           </Col>
       </Row>
       <!--表格-->
-    <Table ref="selection" :columns="infoColumns" :data="resourceInfo" :loading="loading">
+    <Table ref="selection" size="large" :columns="infoColumns" :data="resourceInfo" :loading="loading">
         <template slot-scope="{ row, index }" slot="resStatus">
             {{ (row.resMore.resStatus) == 1 ? '有效' : '无效'}}
         </template>
@@ -36,6 +36,9 @@
           <Col span="2" style="text-align: center">
               <Button type="primary" @click="addInfo">新增</Button>
           </Col>
+          <Col span="2" style="text-align: left;">
+              <Button type="primary" @click="refresh">刷新</Button>
+          </Col>
           <Col style="float: right">
               <Page show-sizer :current="currentPage" :page-size="currentSize" :total="total" @on-change="changePage" @on-page-size-change="changePageSize"/>
           </Col>
@@ -46,13 +49,13 @@
           <Drawer
                   title="修改/增加 资源"
                   v-model="isDrawerShow"
-                  width="720"
+                  width="40%"
                   :mask-closable="false"
                   :styles="styles"
                   @on-close="closeDrawer"
           >
               <Form ref="formValidate"   :model="formData" label-position="top"  :rules="ruleResource">
-                  <Row :gutter="32">
+                  <Row :gutter="32" style="margin-top: 20px">
                       <Col span="12">
                           <FormItem label="分类" label-position="top" prop="resType">
                               <Input v-model="formData.resType" placeholder="输入资源分类名称" />
@@ -64,37 +67,37 @@
                           </FormItem>
                       </Col>
                   </Row>
-                  <Row :gutter="32">
-                      <Col span="12">
-                          <FormItem label="状态" label-position="top"  prop="resMore.resStatus">
-                                  <Select v-model="formData.resMore.resStatus"  :placeholder="formData.resMore.resStatus == 1 ? '有效' : '无效' ">
-                                  <Option value="1">有效</Option>
-                                  <Option value="0">无效</Option>
-                              </Select>
-                          </FormItem>
-                      </Col>
-                      <Col span="12">
-                          <FormItem label="上传时间" label-position="top" prop="resUpTime">
-                              <DatePicker
-                                      v-model="formData.resUpTime"
-                                      :editable="false"
-                                      type="datetime"
-                                      format="yyyy-MM-dd HH:mm"
-                                      transfer
-                                      placeholder="选择时间和日期">
-                              </DatePicker>
-                          </FormItem>
-                      </Col>
-                  </Row>
-                  <Row :gutter="32">
+<!--                  <Row :gutter="32">-->
+<!--                      <Col span="12">-->
+<!--                          <FormItem label="状态" label-position="top"  prop="resMore.resStatus">-->
+<!--                                  <Select v-model="formData.resMore.resStatus"  :placeholder="formData.resMore.resStatus == 1 ? '有效' : '无效' ">-->
+<!--                                  <Option value="1">有效</Option>-->
+<!--                                  <Option value="0">无效</Option>-->
+<!--                              </Select>-->
+<!--                          </FormItem>-->
+<!--                      </Col>-->
+<!--                      <Col span="12">-->
+<!--                          <FormItem label="上传时间" label-position="top" prop="resUpTime">-->
+<!--                              <DatePicker-->
+<!--                                      v-model="formData.resUpTime"-->
+<!--                                      :editable="false"-->
+<!--                                      type="datetime"-->
+<!--                                      format="yyyy-MM-dd HH:mm"-->
+<!--                                      transfer-->
+<!--                                      placeholder="选择时间和日期">-->
+<!--                              </DatePicker>-->
+<!--                          </FormItem>-->
+<!--                      </Col>-->
+<!--                  </Row>-->
+                  <Row :gutter="32" style="margin-top: 20px">
                       <Col span="12">
                           <FormItem label="上传人" label-position="top" prop="resUploader">
                               <Input v-model="formData.resUploader"  placeholder="输入上传人姓名"/>
                           </FormItem>
                       </Col>
-                      <Col span="12">
+                      <Col span="12" >
                           <FormItem label="类别" label-position="top" prop="resForm">
-                              <Select v-model="formData.resForm" :placeholder="formData.resForm == 1 ?
+                              <Select  v-model="formData.resForm" :placeholder="formData.resForm == 1 ?
                                                             '基础学习' : formData.resForm == 2 ? '进阶面试' :
                                                          formData.resForm == 3 ? '实战项目' : formData.resForm == 4 ? '文档/PDF' : '未知'">
                                   <Option value="1">基础学习</Option>
@@ -105,7 +108,7 @@
                           </FormItem>
                       </Col>
                   </Row>
-                  <Row :gutter="32">
+                  <Row :gutter="32" style="margin-top: 20px">
                       <Col span="12">
                           <FormItem label="资源网址" label-position="top" prop="resUrl">
                               <Input v-model="formData.resUrl" placeholder="输入资源下载/观看网址"/>
@@ -117,20 +120,20 @@
                           </FormItem>
                       </Col>
                   </Row>
-                  <Row :gutter="32">
+                  <Row :gutter="32" style="margin-top: 20px">
                       <Col span="12">
-                          <FormItem label="评分" label-position="top">
+                          <FormItem label="评分" label-position="top" prop="resMore.resPoint">
                               <InputNumber :max="5" :min="0" :step="0.5" v-model="formData.resMore.resPoint"></InputNumber>
                           </FormItem>
                       </Col>
                       <Col span="12">
-                          <FormItem label="下载量" label-position="top">
+                          <FormItem label="下载量" label-position="top" prop="resMore.resHeat">
                               <InputNumber  :min="0" v-model="formData.resMore.resHeat"></InputNumber>
                           </FormItem>
                       </Col>
                   </Row>
-                  <FormItem label="描述资源信息" label-position="top">
-                      <Input type="textarea" v-model="formData.resDescribe" :rows="4" placeholder="输入该资源的相关描述" />
+                  <FormItem label="描述资源信息" label-position="top" style="margin-top: 20px" prop="resDescribe">
+                      <Input type="textarea" v-model="formData.resDescribe" :rows="6" placeholder="输入该资源的相关描述" />
                   </FormItem>
 
                   <FormItem class="demo-drawer-footer">
@@ -186,12 +189,14 @@ export default {
             {
                 title: '分类',
                 key: 'resType',
-                align: "center"
+                align: "center",
+                tooltip: true,
             },
             {
                 title: '名称',
                 key: 'resName',
-                align: "center"
+                align: "center",
+                tooltip: true,
             },
             {
                 title: '状态',
@@ -262,15 +267,20 @@ export default {
                 resName:[{required: true, message: '请输入资源名称', trigger: 'blur'}],
                 resType:[{required: true, message: '请输入资源分类', trigger: 'blur'}],
                 resUrl:[{required: true, message: '请输入资源地址', trigger: 'blur'}],
+                'resMore.resPoint':[{required: false, message: '评分', trigger: 'blur'}],
+                'resMore.resHeat':[{required: false, message: '热度', trigger: 'blur'}],
+                resDescribe:[{required: false, message: '描述', trigger: 'blur'}],
                 resPassword:[{required: false, message: '如果资源下载网址非网盘，可不填', trigger: 'blur'}],
-                resUpTime:[{required: true, message: '请输入资源上传时间', pattern: /.+/, trigger: 'change'}],
+                // resUpTime:[{required: true, message: '请输入资源上传时间', pattern: /.+/, trigger: 'change'}],
                 resUploader:[{required: true, message: '请输入资源上传人', trigger: 'blur'}],
-                'resMore.resStatus':[{required: true, message: '请输入资源状态', trigger: 'blur'}],
+                // 'resMore.resStatus':[{required: true, message: '请输入资源状态', trigger: 'blur'}],
             },
 
             //是否显现删除对话框
             isModalShow : false,
             editResId: '',
+
+
 
             //当前页
             currentPage: 1,
@@ -301,9 +311,14 @@ export default {
 
         //根据搜索字段查询信息
         searchByKeyWords(){
-            this.currentPage = 1;
-            this.currentSize = 10;
-            this.mapperInfo();
+            let _self = this;
+            document.onkeyup = function (ev) {
+                if (ev.keyCode == 13 && ev.which == 13){
+                    _self.currentPage = 1;
+                    _self.currentSize = 10;
+                    _self.mapperInfo();
+                }
+            }
         },
 
         /*点击修改表单*/
@@ -333,7 +348,7 @@ export default {
                     }).then( res => {
                         this.isDrawerShow = false;
                         if (res.status == 200){
-                            this.$Message.success("修改成功");
+                            this.$Message.success("操作成功");
                         }
                     })
                 } else {
@@ -371,10 +386,16 @@ export default {
             axios.delete("/api/admin/comp/res/deleteResource/" + this.editResId).then(res => {
                 if (res.status == 200){
                     this.$Message.success("删除成功");
+                    this.mapperInfo();
                 }
             });
-            this.mapperInfo();
         },
+
+        /*刷新页面*/
+        refresh(){
+            location.reload();
+        },
+
 
         //改变页数
         changePage(current){
@@ -395,13 +416,27 @@ export default {
 </script>
 
 <style>
+
+    .overview{
+        border: 1px solid #e8eaec;
+        padding: 26px;
+        display: block;
+        background: #fff;
+        border-radius: 4px;
+        font-size: 14px;
+        position: relative;
+        transition: all .2s ease-in-out;
+        margin: 0;
+        box-sizing: border-box;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     .demo-drawer-footer{
         width: 100%;
-        margin-top: 40px;
-        margin-right: 15px;
+        margin-top: 20px;
+        text-align: center;
         left: 0;
         padding: 10px 16px;
-        text-align: right;
         background: #fff;
     }
 </style>

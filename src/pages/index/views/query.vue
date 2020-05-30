@@ -151,6 +151,9 @@ export default {
     created() {
         this.initRoomInfo();
         this.getCount();
+
+        // 用户访问电费提醒页面给后台发送一个请求记录访问次数
+        axios.get("/api/admin/comp/access/electric").then()
     },
     methods: {
         initRoomInfo() {

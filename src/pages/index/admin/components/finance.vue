@@ -12,7 +12,7 @@
                 placeholder="全局搜索"
                 icon="ios-search"
                 size="large"
-                @on-change="searchByKeyWords"
+                @on-focus="searchByKeyWords"
         >
         </AutoComplete>
       </Col>
@@ -35,7 +35,9 @@
     </Table>
 
     <br>
-    <span style="font-size: 16px">总开支：{{totalMoney}}</span>
+    <span style="font-size: 16px">社团经费余额：{{balance}}</span>
+    <span v-if="totalMoney === '0'" style="font-size: 16px; margin-left: 30px">计算收支：--</span>
+    <span v-else style="font-size: 16px; margin-left: 30px">计算收支：{{totalMoney}}</span>
     <!--分页-->
     <Row type="flex" justify="end">
       <Col>
@@ -116,6 +118,11 @@
             </CarouselItem>
             <CarouselItem>
               <div class="demo-carousel">
+                <div style="margin-left: 20px" class="expand-value">
+                  <a target="_blank" :href="'http://39.106.85.24:9000/wecoding/' + money.big.split(',')[index]" v-for="(img,index) in money.small.split(',')" :key="index">
+                    <img style="margin-left: 10px" title="放大"  :src="'http://39.106.85.24:9000/wecoding/' + img"/>
+                  </a>
+                </div>
                 <UpImg @getImg="getImgMethod"/>
               </div>
             </CarouselItem>
@@ -296,6 +303,8 @@ export default {
           spendInfo: [],
           //总开支
           totalMoney: '0',
+          //协会经费余额
+          balance: '0',
           //搜索字段
           keyWords: '',
           //判断表格数据是否正在加载
@@ -321,8 +330,8 @@ export default {
             name: '',
             number: 0,
             email: '',
-            small: [],
-            big: [],
+            small: '',
+            big: '',
             desc: '',
           },
 
@@ -359,12 +368,27 @@ export default {
         });
       },
 
+      /*查询协会经费余额*/
+      async getSpendBalance(){
+          await axios.get("/api/admin/comp/spend/getSpendBalance").then(res => {
+          this.balance = res.data;
+        });
+      },
+
       /*根据搜索字段查询*/
       searchByKeyWords(){
-        this.currentPage = 1;
-        this.currentSize = 10;
-        this.mapperInfo();
+        let _self = this;
+        document.onkeyup = function (ev) {
+          if (ev.keyCode == 13 && ev.which == 13){
+            _self.currentPage = 1;
+            _self.currentSize = 10;
+            _self.mapperInfo();
+          }
+        }
       },
+
+      /*查询余额*/
+
 
       //改变页数
       changePage(current){
@@ -470,7 +494,7 @@ export default {
       deleteAccount(){
         axios.delete("/api/admin/comp/spend/deleteSpend/" + this.editSpendId).then(res => {
           if (res.status == 200){
-            this.$Message.info("删除成功");
+            this.$Message.success("删除成功");
             this.mapperInfo();
           }
         })
@@ -488,6 +512,7 @@ export default {
 
     created() {
       this.mapperInfo();
+      this.getSpendBalance();
 
     }
 }
@@ -569,6 +594,21 @@ export default {
   }
 </style>
 <style>
+
+  .overview{
+    border: 1px solid #e8eaec;
+    padding: 26px;
+    display: block;
+    background: #fff;
+    border-radius: 4px;
+    font-size: 14px;
+    position: relative;
+    transition: all .2s ease-in-out;
+    margin: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   .step {
     width: 500px;
     margin: auto;

@@ -1,55 +1,55 @@
 <template>
   <div class="overview">
 
-      <!--消息列表-->
-    <div class="card">
-        <div class="msgCard"  v-for="(msgInfo,index) in this.msgListInfo" :key="index">
-            <p class="title">{{msgInfo.msgHead}}</p>
-            <div class="line"></div>
-            <p class="content">{{msgInfo.msgContent}}</p>
-            <div class="sp">
-                <span class="sp1">{{msgInfo.msgType}}</span>
-                <span class="sp3"><Time :time="parseInt(msgInfo.msgTime)" type="datetime"/></span>
-                <span class="sp2">{{msgInfo.msgSender}}</span>
-            </div>
-        </div>
-        <Page  class="page"  :current="currentPage" :page-size="currentSize" :total="total" @on-change="changePage" />
-    </div>
+      <Row>
+          <Col span="14">
+              <!--消息列表-->
+              <div class="card">
+                  <div class="msgCard"  v-for="(msgInfo,index) in this.msgListInfo" :key="index">
+                      <p class="title">{{msgInfo.msgHead}}: {{msgInfo.msgType}}</p>
+                      <div class="line"></div>
+                      <p class="content">{{msgInfo.msgContent}}</p>
+                      <div class="sp">
+                          <span class="sp3">{{msgInfo.msgTime}}</span>
+                          <span class="sp2">{{msgInfo.msgSender}}</span>
+                      </div>
+                  </div>
+                  <Page  class="page"  :current="currentPage" :page-size="currentSize" :total="total" @on-change="changePage" />
+              </div>
+          </Col>
+          <Col span="10">
+              <!--发送消息表单-->
+              <div class="form">
+                  <Form ref="formValidate" :model="messageInfo" :rules="ruleValidate"  :label-width="80" >
+                      <p>发送消息</p>
+                      <FormItem label="类型" prop="msgType">
+                          <Select v-model="messageInfo.msgType" placeholder="选择标签类型">
+                              <Option value="test">测试消息</Option>
+                              <Option value="official">全局消息</Option>
+                          </Select>
+                      </FormItem>
+                      <FormItem label="消息头" prop="msgHead">
+                          <Input v-model="messageInfo.msgHead" placeholder="输入消息头"/>
+                      </FormItem>
+                      <FormItem label="发送者" prop="msgSender">
+                          <Input v-model="messageInfo.msgSender"  placeholder="输入消息发送者名称"/>
+                      </FormItem>
+
+                      <FormItem label="消息内容" prop="msgContent">
+                          <Input type="textarea" v-model="messageInfo.msgContent" :rows="3" placeholder="输入消息内容" />
+                      </FormItem>
+                      <FormItem class="formClick">
+                          <Button type="primary" @click="handleSubmit('formValidate')" :loading="submitLoading">发送</Button>
+                          <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
+                      </FormItem>
+                  </Form>
+              </div>
+          </Col>
+      </Row>
 
 
-    <!--发送消息表单-->
-    <div class="form">
-      <Form ref="formValidate" :model="messageInfo" :rules="ruleValidate" :label-width="80" >
-        <p>发送消息</p>
-        <FormItem label="类型" prop="msgType">
-          <Select v-model="messageInfo.msgType" placeholder="选择标签类型">
-            <Option value="test">测试消息</Option>
-            <Option value="official">全局消息</Option>
-          </Select>
-        </FormItem>
-        <FormItem label="消息头" prop="msgHead">
-          <Input v-model="messageInfo.msgHead" placeholder="输入消息头"/>
-        </FormItem>
-        <FormItem label="发送者" prop="msgSender">
-          <Input v-model="messageInfo.msgSender"  placeholder="输入消息发送者名称"/>
-        </FormItem>
-        <FormItem label="时间" prop="msgTime">
-          <DatePicker v-model="messageInfo.msgTime"
-                      :editable="false"
-                      type="datetime"
-                      format="yyyy-MM-dd HH:mm"
-                      transfer
-                      placeholder="选择时间和日期"></DatePicker>
-        </FormItem>
-        <FormItem label="消息内容" prop="msgContent">
-          <Input type="textarea" v-model="messageInfo.msgContent" :rows="3" placeholder="输入消息内容" />
-        </FormItem>
-              <FormItem class="formClick">
-                <Button type="primary" @click="handleSubmit('formValidate')" :loading="submitLoading">发送</Button>
-                <Button @click="handleReset('formValidate')" style="margin-left: 8px">重置</Button>
-              </FormItem>
-      </Form>
-    </div>
+
+
 
   </div>
 </template>
@@ -82,7 +82,6 @@ export default {
               msgType:[{required: true, message: '选择标签类型', trigger: 'blur'}],
               msgHead:[{required: true, message: '输入消息头', trigger: 'blur'}],
               msgSender:[{required: true, message: '输入消息发送者名称', trigger: 'blur'}],
-              msgTime:[{required: true, message: '选择时间和日期', pattern: /.+/, trigger: 'change'}],
               msgContent:[{required: true, message: '输入消息内容', trigger: 'blur'}],
           },
 
@@ -121,12 +120,13 @@ export default {
                          'Content-Type': 'application/json;charset=utf-8'
                      },
                  }).then(res => {
-                     if (res){
+                     if (res.status == 200){
                          this.submitLoading = false;
-                         this.$Message.info("发送成功");
+                         this.$Message.success("发送成功");
                          this.$refs[name].resetFields();
+                         this.getInfo();
                      }else {
-                         this.$Message.info("发送失败");
+                         this.$Message.error("发送失败");
                      }
                  });
              } else {
@@ -155,20 +155,34 @@ export default {
 
 <style>
   .overview{
-    height: 580px;
+      /*height: 640px;*/
+      border: 1px solid #e8eaec;
+      padding: 26px;
+      display: block;
+      background: #fff;
+      border-radius: 4px;
+      font-size: 14px;
+      position: relative;
+      transition: all .2s ease-in-out;
+      margin: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
   }
 
   /*发送表单*/
   .form{
-    width: 460px;
-    /*position: absolute;*/
-    /*right: 20px;*/
-    /*top: 40px;*/
-    float: right;
-    margin-top: 30px;
-    margin-right: 20px;
+    /*width: 400px;*/
+    /*!*!*position: absolute;*!*!*/
+    /*!*!*right: 20px;*!*!*/
+    /*!*!*top: 40px;*!*!*/
+    /*float: right;*/
+    /*margin-top: 30px;*/
+    /*margin-right: 60px;*/
+      width: 80%;
+      height: 420px;
+      margin: 20px 40px 0 0;
     border-style:solid; border-width:1px; border-color: #d4d4d4;
-    padding: 20px 55px 15px 35px;
+    padding: 30px 45px 15px 30px;
       -webkit-box-shadow:0px 3px 3px #c8c8c8 ;
       -moz-box-shadow:0px 3px 3px #c8c8c8 ;
       box-shadow:0px 3px 3px #c8c8c8 ;
@@ -189,15 +203,16 @@ export default {
 
   /*卡片div*/
   .card{
-      float: left;
-      width: 700px;
+      /*float: left;*/
+      /*width: 700px;*/
   }
 
   /*卡片内容*/
   .msgCard{
-      width: 480px;
+      /*width: 480px;*/
+      width:60%;
       height: 140px;
-      margin: 20px 30px 20px 100px;
+      margin: 20px 30px 20px 120px;
       padding: 10px 10px 0px 10px;
       border-style:solid; border-width:1px; border-color: #cccccc;
       -webkit-box-shadow:0px 3px 3px #c8c8c8 ;
@@ -246,7 +261,7 @@ export default {
   .page{
       margin-top: 20px;
       float: right;
-      margin-right: 130px;
+      margin-right: 22%;
   }
 
 </style>

@@ -287,6 +287,9 @@
             let info = this.$store.state.token;
             this.money.name = info.stuName;
             this.money.email = info.stuEmail;
+
+            // 用户访问财务页面给后台发送一个请求记录访问次数
+            axios.get("/api/admin/comp/access/spend").then()
         },
         methods: {
             getAllSpendByPage(page, size) {

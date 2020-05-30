@@ -59,6 +59,7 @@
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         name: "help",
         data() {
@@ -107,6 +108,11 @@
                 this.catalog = status;
             }
         },
+
+        created() {
+            // 用户访问帮助页面给后台发送一个请求记录访问次数
+            axios.get("/api/admin/comp/access/help").then()
+        }
     }
 </script>
 

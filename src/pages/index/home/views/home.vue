@@ -31,7 +31,7 @@
                                 <template>
                                     <badge :count="msgcount">
                                         <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
-                                                :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
+                                                :src="myinfo.stuImg"/>
                                         <Avatar v-else icon="ios-person"/>
                                     </badge>
                                 </template>
@@ -673,7 +673,7 @@
                 loading: false,
                 catalog: false,
                 navbarTheme: false,
-                myinfo: {},
+                myinfo: [],
                 msg: '',
                 more: '加载更多',
                 passwdtype: 'password',
@@ -716,7 +716,7 @@
         },
         created() {
             const info = localStorage.getItem('wecoding_login_info');
-            let jsonInfo = JSON.parse(info)
+            let jsonInfo = JSON.parse(info);
             if (jsonInfo) {
                 this.hasLogin = true;
                 this.myinfo.stuName = jsonInfo.stuName;
@@ -731,7 +731,8 @@
                     this.checkFirstLogin(id);
                 }
                 const auth = jsonInfo.authorities;
-                if (auth.length === 2) {
+
+                if (auth.length === 2 || auth.length === 3) {
                     this.hasAdminRole = true;
                 }
                 this.connectMsgWsServer(this.id)
