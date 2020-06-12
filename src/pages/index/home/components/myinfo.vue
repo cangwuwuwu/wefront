@@ -14,7 +14,7 @@
             <Col span="4" offset="4">
                 <div class="demo-upload-list">
                     <div v-if="myinfo.stuImg === null">点此上传</div>
-                    <img v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
+                    <img v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" :src="upImgBase + myinfo.stuImg"/>
                     <div class="demo-upload-list-cover">
                         <Icon title="查看大图" type="md-qr-scanner" v-if="myinfo.stuImg !== null" @click.native="handleView"></Icon>
                         <Icon title="上传头像" type="ios-cloud-upload" @click.native="uploadHead"></Icon>
@@ -22,7 +22,7 @@
                 </div>
             </Col>
             <Modal footer-hide v-model="visible" class="handle-view-modal">
-                <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
+                <img :src="upImgBase + myinfo.stuBigImg"
                      v-if="visible" style="width: 100%;height: 100%">
             </Modal>
 

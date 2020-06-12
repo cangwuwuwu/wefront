@@ -76,7 +76,7 @@
                 </div>
                 <Poptip trigger="hover" placement="right">
                     <div slot="title">
-                       <img src="http://39.106.85.24:8999/asqun.jpg" alt="">
+                       <img :src="manualImgBase + 'asqun.jpg'" alt="">
                     </div>
                     <div slot="content" style="text-align: center">
                        扫码加入计算机协会
@@ -87,7 +87,7 @@
                 </Poptip>
                 <!-- <Poptip trigger="hover" placement="right">
                     <div slot="title">
-                       <img src="http://39.106.85.24:8999/asqun.jpg" alt="">
+                       <img src="https://www.niter.work/images/asqun.jpg" alt="">
                     </div>
                     <div slot="content" style="text-align: center">
                        云端工作室公众号

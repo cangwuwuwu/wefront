@@ -9,6 +9,7 @@ export default new Vuex.Store({
         token: {},
         passStatus: 0,
         userInfo: {},
+        wsStatus: false
     },
     mutations: {
         isDisplayMenu(state, status) {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
         },
         setUserInfo(state, myinfo) {
             state.userInfo = myinfo;
+        },
+        setWsStatus(state, status) {
+            state.wsStatus = status;
         }
     }
 })

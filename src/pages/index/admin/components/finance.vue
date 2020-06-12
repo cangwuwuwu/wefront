@@ -119,8 +119,8 @@
             <CarouselItem>
               <div class="demo-carousel">
                 <div style="margin-left: 20px" class="expand-value">
-                  <a target="_blank" :href="'http://39.106.85.24:9000/wecoding/' + money.big.split(',')[index]" v-for="(img,index) in money.small.split(',')" :key="index">
-                    <img style="margin-left: 10px" title="放大"  :src="'http://39.106.85.24:9000/wecoding/' + img"/>
+                  <a target="_blank" :href="upImgBase + money.big.split(',')[index]" v-for="(img,index) in money.small.split(',')" :key="index">
+                    <img style="margin-left: 10px" title="放大"  :src="upImgBase + img"/>
                   </a>
                 </div>
                 <UpImg @getImg="getImgMethod"/>

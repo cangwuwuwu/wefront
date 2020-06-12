@@ -7,7 +7,7 @@
                     <div class="demo-upload-list">
                         <img v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
                             style="width: 100%;"
-                            :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
+                            :src="upImgBase + myinfo.stuBigImg"
                             alt="用户头像"
                         />
                         <Avatar v-else shape="square" icon="ios-person" size="215"/>
@@ -45,7 +45,7 @@
 
     <!-- 查看大图     -->
     <Modal footer-hide v-model="visible" class="handle-view-modal">
-        <img :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuBigImg"
+        <img :src="upImgBase + myinfo.stuBigImg"
                 v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined" style="width: 100%;height: 100%">
         <Avatar v-else shape="square" icon="ios-person" size="520"/>
     </Modal>

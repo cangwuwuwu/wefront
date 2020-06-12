@@ -50,3 +50,8 @@ new Vue({
     store,
     i18n
 }).$mount('#app');
+
+// 文件上传图片访问
+Vue.prototype.upImgBase = 'https://www.niter.work/wecoding/';
+// 手动上传图片访问
+Vue.prototype.manualImgBase = 'https://www.niter.work/images/'

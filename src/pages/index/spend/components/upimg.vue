@@ -38,7 +38,7 @@
             </div>
         </Upload>
         <Modal width="80" v-model="visible" footer-hide>
-            <img :src="'http://39.106.85.24:9000/wecoding/' + imgName"
+            <img :src="upImgBase + imgName"
                  v-if="visible" style="width: 100%;height: 100%">
         </Modal>
     </div>
@@ -84,7 +84,7 @@
                 this.small.push(res.small);
                 this.big.push(res.big);
                 this.$emit('getImg', this.small, this.big);
-                file.url = 'http://39.106.85.24:9000/wecoding/' + res.small;
+                file.url = upImgBase + res.small;
             },
             handleFormatError(file) {
                 this.$Notice.warning({

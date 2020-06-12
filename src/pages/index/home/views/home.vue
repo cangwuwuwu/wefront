@@ -20,18 +20,15 @@
                             </span>
                         </div>
                         <div v-else>
-                            <!-- <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
-                                :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
-                            <Avatar v-else icon="ios-person"/>
-                            <span class="compus-login">&nbsp;&nbsp;Hello, 
-                                <router-link to="/person/info">{{myinfo.stuName}}</router-link>
-                            </span> -->
                             <Button v-if="hasAdminRole" style="margin-right: 30px;" to="/admin/overview" type="primary">后台管理</Button>
+                            <!-- <Badge dot style="margin: 0 30px;" :offset="[30, 0]">
+                                <Icon type="ios-notifications-outline" size="26"></Icon>
+                            </Badge> -->
                             <Dropdown @on-click="go" transfer>
                                 <template>
-                                    <badge :count="msgcount">
+                                    <badge :count="msgcount" :offset="[25, 5]">
                                         <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
-                                                :src="myinfo.stuImg"/>
+                                                :src="upImgBase + myinfo.stuImg"/>
                                         <Avatar v-else icon="ios-person"/>
                                     </badge>
                                 </template>
@@ -55,9 +52,9 @@
                                         <Icon type="md-power" size="17"></Icon>
                                         退出登录
                                     </DropdownItem>
-                                    <DropdownItem name="person">
+                                    <!-- <DropdownItem name="person">
                                         person
-                                    </DropdownItem>
+                                    </DropdownItem> -->
                                 </DropdownMenu>
                             </Dropdown>
                         </div>
@@ -520,7 +517,7 @@
                     </a>
                     <p> {{ amsg.msgContent }}
                     <div style="text-align: right;">
-                        <Time :time="parseInt(amsg.msgTime)"/>
+                        <Time :time="timeConvert(amsg.msgTime)"/>
                     </div>
                     </p>
                 </Card>
@@ -552,7 +549,7 @@
                     </a>
                     <p> {{ ahismsg.msgContent }}
                     <div style="text-align: right;">
-                        <Time :time="parseInt(ahismsg.msgTime)" type="datetime"/>
+                        <Time :time="timeConvert(ahismsg.msgTime)"/>
                     </div>
                     </p>
                 </Card>
@@ -787,23 +784,27 @@
             },
             connectMsgWsServer(id) {
                 let _self = this;
-                if (id !== '') {
-                    var ws = new WebSocket('ws://119.3.59.217:15674/ws');
+                if (id !== '' && !this.$store.state.wsStatus) {
+                    var ws = new WebSocket('wss://www.niter.work/websocket/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
+                        if (ws.readyState == 1) {
+                            _self.$store.commit('setWsStatus', true);
+                        }
                         client.subscribe('/exchange/wecoding.fanout/', function (msg) {
                             // console.log(msg);
                             let jsonMsg = JSON.parse(msg.body);
+                            _self.msgcount += 1;
+                            _self.msglist.push(jsonMsg);
                             _self.$Notice.info({
                                 title: '收到一条' + jsonMsg.msgType + '消息',
                                 desc: jsonMsg.msgHead,
                             });
-                            _self.msgcount += 1;
-                            _self.msglist.push(jsonMsg);
                         })
                     };
                     var onError = function () {
-                        _self.$Message.error('消息服务器连接失败!')
+                        // _self.$Message.error('消息服务器连接失败!')
+                        console.log('消息服务器连接失败...')
                     };
                     client.connect('guest', 'guest', onConnect, onError, '/');
                     client.debug = null;
@@ -984,15 +985,19 @@
                         }
                     })
             },
+            // 把日期字符串转换为时间戳
+            timeConvert(timeStr) {
+                return (new Date(timeStr)).getTime();;
+            },
         },
         computed: {
             revmsglist() {
                 return this.msglist.reverse();
-            }
+            },
         },
         destroyed() {
             window.removeEventListener('scroll', this.handleScroll);   //  离开页面清除（移除）滚轮滚动事件
-        }
+        },
     };
 </script>
 <style scoped>

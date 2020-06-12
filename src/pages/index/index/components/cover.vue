@@ -29,7 +29,7 @@
                                                 :style="{background: color[ranum()]}">{{user.stuName.substr(0,1)}}
                                         </Avatar>
                                         <Avatar v-else size="large"
-                                                :src="'http://39.106.85.24:9000/wecoding/' + user.stuImg"></Avatar>
+                                                :src="upImgBase + user.stuImg"></Avatar>
                                     </Col>
                                     <Col span="16" offset="4" class-name="user-right-col">
                                         <strong>
@@ -79,7 +79,7 @@
                                 size="large" class="anonymity-head">{{chooseUser.stuName.substr(0,1)}}
                         </Avatar>
                         <img v-else style="height: 100%;border-radius: 50%;" alt=" ta的头像"
-                             :src="'http://39.106.85.24:9000/wecoding/' + chooseUser.stuImg"/>
+                             :src="upImgBase + chooseUser.stuImg"/>
                     </div>
                 </Col>
             </Row>

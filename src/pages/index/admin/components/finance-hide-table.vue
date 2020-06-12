@@ -19,8 +19,8 @@
                 <div style="float: left; margin-left: 20px" class="expand-value" >
                     <span v-if="row.small == null || row.small == ''">暂无相关图片</span>
                     <span v-else>
-                         <a  target="_blank"  :href="'http://39.106.85.24:9000/wecoding/' + row.big.split(',')[index]" v-for="(img,index) in row.small.split(',')" :key="index">
-                            <img title="放大"  :src="'http://39.106.85.24:9000/wecoding/' + img"/>
+                         <a  target="_blank"  :href="upImgBase + row.big.split(',')[index]" v-for="(img,index) in row.small.split(',')" :key="index">
+                            <img title="放大"  :src="upImgBase + img"/>
                             </a>
                     </span>
                 </div>

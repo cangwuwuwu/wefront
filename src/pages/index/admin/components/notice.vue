@@ -28,8 +28,8 @@
                               <Option value="official">全局消息</Option>
                           </Select>
                       </FormItem>
-                      <FormItem label="消息头" prop="msgHead">
-                          <Input v-model="messageInfo.msgHead" placeholder="输入消息头"/>
+                      <FormItem label="消息标题" prop="msgHead">
+                          <Input v-model="messageInfo.msgHead" placeholder="输入消息标题"/>
                       </FormItem>
                       <FormItem label="发送者" prop="msgSender">
                           <Input v-model="messageInfo.msgSender"  placeholder="输入消息发送者名称"/>
@@ -46,11 +46,6 @@
               </div>
           </Col>
       </Row>
-
-
-
-
-
   </div>
 </template>
 
