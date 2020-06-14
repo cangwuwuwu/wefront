@@ -5,7 +5,7 @@
         <div>
             <Card style="padding: 20px;border: 1px solid #dcdee2;">
                 <Row type="flex" justify="center" align="bottom">
-                    <img style="width: 100%" :src="'http://39.106.85.24:8999/' + choose + '_path.jpg'"
+                    <img style="width: 100%" :src="manualImgBase + choose + '_path.jpg'"
                          @click="watchPic"/>
                 </Row>
             </Card>
@@ -35,7 +35,7 @@
         },
         methods: {
             watchPic() {
-                window.open('http://39.106.85.24:8999/' + this.choose + '_path.jpg')
+                window.open(this.manualImgBase + this.choose + '_path.jpg')
             }
         }
     }

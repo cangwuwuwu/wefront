@@ -13,8 +13,10 @@
                         placeholder="全局搜索"
                         icon="ios-search"
                         size="large"
-                        @on-focus="searchByKeywords">
-
+                        @on-change="searchByKeywords"
+                        @on-clear="clearSearchComplete"
+                        @on-blur="clearSearchComplete"
+                        @on-select="chooseSearch">
                 </AutoComplete>
             </Col>
         </Row>
@@ -463,7 +465,7 @@
                 ],
                 data: [],
                 data1: [],
-                data_search: [],
+                cur_data: [],
                 total: 0,
                 page: 1,
                 limit: 10,
@@ -485,56 +487,49 @@
                 this.data = result;
                 this.total = result.length;
                 this.loading = false;
-                this.getStuInfo();
+                this.getStuInfo(result);
             });
             // this.getStuByPage(this.page, this.limit)
         },
         methods: {
-            searchByKeywords(){
-                let _self = this;
-                document.onkeyup = function (ev) {
-                    if (ev.keyCode == 13 && ev.which == 13){
-                        _self.currentPage = 1;
-                        _self.currentSize = 10;
-                        _self.searchResult();
-                    }
+            searchByKeywords() {
+                if (this.keywords === '') {
+                    this.cur_data = this.data;
+                    this.page = 1;
+                    this.getStuInfo(this.data);
+                    this.total = this.data.length;
+                    return;
                 }
+                this.cur_data = this.search(this.keywords);
+                this.total = this.cur_data.length;
+                this.getStuInfo(this.cur_data);
+                
             },
-
-            searchResult() {
-                let _self = this;
-                if (this.keywords === '') return;
-                axios
-                    .get('/api/admin/comp/stu/name', {
-                        params: {
-                            searchName: this.keywords
-                        }
-                    })
-                    .then(res => {
-                        if (res) {
-                            // _self.data_search = res.data;
-                            // _self.globalSearchData = _self.candidate(res.data);
-                            this.data = res.data;
-                            this.$set(this.data);
-                        }
-                    })
+            search(keywords) {
+                return this.data.filter(stu => {
+                    var id = String(stu.stuId);
+                    var name = stu.stuName.toLowerCase();
+                    if (id.includes(keywords) || name.includes(keywords.toLowerCase())) {
+                        return stu;
+                    }
+                });
             },
             async getAllStuInfo() {
                 this.loading = true;
                 var res = await axios.get('/api/admin/comp/stu/all');
                 return res.data;
             },
-            getStuInfo() {
+            getStuInfo(data) {
                 let start = (this.page - 1) * this.limit;
-                this.data1 = this.data.slice(start, start + this.limit)
+                this.data1 = data.slice(start, start + this.limit)
             },
             changePage(page) {
                 this.page = page;
-                this.getStuInfo();
+                this.getStuInfo(this.cur_data);
             },
             changeSize(pageSize) {
                 this.limit = pageSize;
-                this.getStuInfo();
+                this.getStuInfo(this.cur_data);
             },
             // 导出数据
             exportData(type) {
@@ -621,15 +616,6 @@
                     }
                 });
             },
-            search(searchName) {
-                if (searchName === '')
-                    return this.data1;
-                return this.data.filter(stu => {
-                    if (stu.stuName.includes(searchName)) {
-                        return stu;
-                    }
-                });
-            },
             candidate() {
                 let a = [];
                 this.data_search.forEach(element => {
@@ -646,36 +632,6 @@
             chooseSearch() {
 
             }
-            // 分页搜索信息
-            // getStuByPage(page, size) {
-            //     this.loading = true;
-            //     let _self = this;
-            //     axios
-            //     .get('/api/comp', {
-            //         params: {
-            //             page: page,
-            //             size: size
-            //         },
-            //     }).then(res => {
-            //         if (res) {
-            //             _self.data = res.data.list;
-            //             _self.total = res.data.total;
-            //             _self.page = res.data.pageNum;
-            //             _self.loading = false;
-            //         }
-            //     })
-            // },
-            // 异步搜索名字
-            // searchStuByName(searchName) {
-            //     var _self = this;
-            //     axios
-            //     .get('/api/comp/name/' + searchName)
-            //     .then(res => {
-            //         if (res) {
-            //             this.data_search = res.data;
-            //         }
-            //     })
-            // },
         }
     }
 </script>

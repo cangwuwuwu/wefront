@@ -1,166 +1,75 @@
 <template>
-<!-- 旧版本主页，暂时废弃 -->
-    <div :class="'home ' + headtheme">
-        <Col style="border-bottom: 1px solid #dcdee2">
-            <Menu mode="horizontal" :theme="headtheme"
-                  @on-select="selectMenu">
-                <MenuItem to="/" name="index" class="wecoding-logo" title="返回封面">
-                    <span><Icon custom="iconfont icon-logo6-copy" size="32"></Icon>coding</span>
-                </MenuItem>
-                <Col :md="{span: 17}" :xs="{span: 0}">
-                    <MenuItem to="/docs/guide" name="guide">
-                        <Icon type="ios-paper"></Icon>
-                        校园指南
-                    </MenuItem>
-                    <MenuItem to="/docs/resources" name="resources">
-                        <Icon type="logo-buffer" size="16"></Icon>
-                        资源分享
-                    </MenuItem>
-                    <!--<Submenu name="talk-chat">
-                        <template slot="title">
-                            <Icon type="ios-stats"></Icon>
-                            交流讨论
-                        </template>
-                        <MenuGroup title="现在开始">
-                            <MenuItem to="/chat/forum" name="forum">
-                                <Icon type="md-chatboxes"></Icon>
-                                论坛
-                            </MenuItem>
-                            <MenuItem to="/chat/room" name="chatroom">
-                                <Icon type="ios-chatbubbles"></Icon>
-                                聊天室
-                            </MenuItem>
-                        </MenuGroup>
-                    </Submenu> -->
-                    <MenuItem to="/course/list" name="list">
-                        <Icon type="md-list" size="16"></Icon>
-                        计协课程
-                    </MenuItem>
-                    <MenuItem to="/comp/spend" name="spend">
-                        <Icon type="logo-usd" size="16"></Icon>
-                        财务公示
-                    </MenuItem>
-                    <MenuItem to="/queryele" name="query">
-                        <Icon type="ios-notifications" size="16"></Icon>
-                        电量通知
-                    </MenuItem>
-                    <MenuItem to="/docs/help" name="help">
-                        <Icon type="md-help-circle" size="16"></Icon>
-                        帮助
-                    </MenuItem>
-                    <!-- <Poptip trigger="hover" title="相信我!  点进去你就出不来了 " content="戴上耳机，好好放松一下吧！">
-                        <MenuItem to="https://static.hfi.me/mikutap/" target="_blank" name="relax">
-                            <Icon type="md-musical-note"></Icon>
-                            轻松一下
-                        </MenuItem>
-                    </Poptip> -->
-                </Col>
+    <div>
+        <div class="big-navbar">
+            <div class="navbar" :class="navbarTheme ? 'dark-bg-navbar' : ''">
+                <ul class="md-navbar">
+                    <li @click="router('/home')">
+                        <img class="nav-logo20" :class="navbarTheme ? 'nav-logo10':''" src="@/assets/images/home/logo1.png"/>
+                    </li>
+                    <li @click="router('/docs/guide')">校园指南</li>
+                    <li @click="router('/docs/resources')">资源分享</li>
+                    <li @click="router('/course/list')">计协课程</li>
+                    <li @click="router('/comp/spend')">财务公示</li>
+                    <li @click="router('/queryele')">电量通知</li>
+                    <li @click="router('/docs/help')">帮助</li>
+                    <li style="float: right;">
+                        <div v-if="!hasLogin">
+                            <span class="iconfont" style="margin-right: 10px">&#xe613;</span>
+                            <span class="compus-login">
+                                <router-link to="/index/signin">Login</router-link>
+                            </span>
+                        </div>
+                        <div v-else>
+                            <Button v-if="hasAdminRole" style="margin-right: 30px;" to="/admin/overview" type="primary">后台管理</Button>
+                            <!-- <Badge dot style="margin: 0 30px;" :offset="[30, 0]">
+                                <Icon type="ios-notifications-outline" size="26"></Icon>
+                            </Badge> -->
+                            <Dropdown @on-click="go" transfer>
+                                <template>
+                                    <badge :count="msgcount" :offset="[25, 5]">
+                                        <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
+                                                :src="upImgBase + myinfo.stuImg"/>
+                                        <Avatar v-else icon="ios-person"/>
+                                    </badge>
+                                </template>
+                                <a class="ios-arrow-down" href="javascript:void(0)">
+                                    <Icon type="ios-arrow-down"></Icon>
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem name="#">
+                                        <Icon type="md-at" size="17"></Icon>
+                                        <span id="username"> {{ myinfo.stuName }}</span>
+                                    </DropdownItem>
+                                    <DropdownItem name="me" divided>
+                                        <Icon type="ios-person" size="17"></Icon>
+                                        个人中心
+                                    </DropdownItem>
+                                    <DropdownItem name="changepasswd">
+                                        <Icon type="md-settings" size="17"></Icon>
+                                        修改密码
+                                    </DropdownItem>
+                                    <DropdownItem name="logout" divided>
+                                        <Icon type="md-power" size="17"></Icon>
+                                        退出登录
+                                    </DropdownItem>
+                                    <!-- <DropdownItem name="person">
+                                        person
+                                    </DropdownItem> -->
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="xs-navbar">
+                    <li @click="catalog = true"><div class="iconfont" style="font-size: 40px">&#xe617;</div></li>
+                </ul>
+            </div>
+        </div>
 
-                <Col :md="{span: 0}" :xs="{span:2}" class="xs-menu-btn"
-                     :style=" headtheme === 'dark' ? 'color: rgba(255,255,255,.7)' : headtheme === 'primary' ? 'color: #fff' : ''">
-                    <Icon type="md-menu" size="25" @click="openmenu"/>
-                </Col>
-                <!-- <Col :xs="{span: 0}" :md="{span: 3}"> -->
-                <Submenu name="choose-theme" class="change-theme" style="float: right;">
-                    <template slot="title">
-                        <Icon type="md-color-palette"></Icon>
-                        更换主题
-                    </template>
-                    <MenuGroup title="主题">
-                        <MenuItem name="light">
-                            <Icon type="ios-color-fill-outline"></Icon>
-                            亮色
-                        </MenuItem>
-                        <MenuItem name="dark">
-                            <Icon type="ios-color-fill"></Icon>
-                            暗色
-                        </MenuItem>
-                        <MenuItem name="primary">
-                            <Icon type="md-color-fill"></Icon>
-                            蓝色
-                        </MenuItem>
-                        <MenuItem name="pink">
-                            <Icon type="md-color-fill"></Icon>
-                            骚粉
-                        </MenuItem>
-                    </MenuGroup>
-                </Submenu>
-                <!-- </Col> -->
-                <MenuItem name="6" style="float: right;">
-                    <div v-if="hasLogin !== false">
-                        <Dropdown @on-click="go">
-                            <template>
-                                <badge :count="msgcount">
-                                    <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
-                                            :src="'http://39.106.85.24:9000/wecoding/' + myinfo.stuImg"/>
-                                    <Avatar v-else icon="ios-person"/>
-                                </badge>
-                            </template>
-                            <a class="ios-arrow-down" href="javascript:void(0)">
-                                <Icon type="ios-arrow-down"></Icon>
-                            </a>
-                            <DropdownMenu slot="list">
-                                <DropdownItem name="#">
-                                    <Icon type="md-at" size="17"></Icon>
-                                    <span id="username"> {{ myinfo.stuName }}</span>
-                                </DropdownItem>
-                                <DropdownItem name="me" divided>
-                                    <Icon type="ios-person" size="17"></Icon>
-                                    个人中心
-                                </DropdownItem>
-                                <!-- <DropdownItem name="msg">
-                                    <Icon type="ios-notifications" size="17"></Icon>
-                                    消息中心
-                                </DropdownItem> -->
-                                <DropdownItem name="pay">
-                                    <Icon custom="iconfont icon-renminbi" size="17"></Icon>
-                                    会费交纳
-                                </DropdownItem>
-                                <DropdownItem name="changepasswd">
-                                    <Icon type="md-settings" size="17"></Icon>
-                                    修改密码
-                                </DropdownItem>
-                                <DropdownItem name="logout" divided>
-                                    <Icon type="md-power" size="17"></Icon>
-                                    退出登录
-                                </DropdownItem>
-                                <DropdownItem v-if="hasAdminRole" name="admin" divided>
-                                    <Icon type="md-pie" size="17"></Icon>
-                                    进入后台
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                    <div v-else>
-                        <Dropdown @on-click="go">
-                            <Avatar icon="ios-person"/>
-                            <a class="ios-arrow-down" href="javascript:void(0)">
-                                <Icon type="ios-arrow-down"></Icon>
-                            </a>
-                            <DropdownMenu slot="list">
-                                <DropdownItem name="/index/signin">
-                                    <Icon type="md-contact" size="17"></Icon>
-                                    未登录
-                                </DropdownItem>
-                                <DropdownItem name="/index/signin" divided>
-                                    <Icon type="md-log-in" size="17"></Icon>
-                                    登录
-                                </DropdownItem>
-                                <DropdownItem name="/index/signup">
-                                    <Icon type="md-log-out" size="17"></Icon>
-                                    注册
-                                </DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
-                    </div>
-                </MenuItem>
-            </Menu>
-        </Col>
-
-        <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu" >
+        <Drawer title="全局导航" :closable="false" v-model="catalog" class="catalog-menu" placement="left" >
             <div class="card-shadow">
                 <ul class="ivu-menu ivu-menu-light ivu-menu-vertical" style="width: auto;">
-                    <Menu width="310" @on-select="selectMenu">
+                    <Menu width="310">
                         <div class="navigate-group catalogue">起步</div>
                         <MenuItem name="cover" to="/index/cover">封面/登录/注册</MenuItem>
                         <div @click="go('/docs/guide')" class="navigate-group catalogue">校园指南</div>
@@ -171,45 +80,486 @@
                         <MenuItem name="java" to="/docs/resources/java">编程语言</MenuItem>
                         <MenuItem name="tocet">四六级</MenuItem>
                         <MenuItem name="toothers">其他专业</MenuItem>
-                        <!-- <div class="navigate-group catalogue">交流讨论</div>
-                        <MenuItem name="room" to="/chat/room">在线聊天</MenuItem> -->
                         <div @click="go('/comp/spend')" class="navigate-group catalogue">财务公示</div>
                         <div @click="go('/course/list')" class="navigate-group catalogue">计协课程</div>
                         <div @click="go('/queryele')" class="navigate-group catalogue">电量通知</div>
                         <div @click="go('/docs/help')" class="navigate-group catalogue">帮助文档</div>
                         <MenuItem name="help" to="/docs/help/update-log">更新日志</MenuItem>
-                        <div class="navigate-group catalogue">更换主题</div>
-                        <MenuItem name="light">
-                            <Icon type="ios-color-fill-outline"></Icon>
-                            亮色
-                        </MenuItem>
-                        <MenuItem name="dark">
-                            <Icon type="ios-color-fill"></Icon>
-                            暗色
-                        </MenuItem>
-                        <MenuItem name="primary">
-                            <Icon type="md-color-fill"></Icon>
-                            蓝色
-                        </MenuItem>
-                        <MenuItem name="pink">
-                            <Icon type="md-color-fill"></Icon>
-                            骚粉
-                        </MenuItem>
-                        <MenuGroup title="更新中...">
-                        </MenuGroup>
                     </Menu>
                 </ul>
             </div>
         </Drawer>
 
-        <div style="padding: 20px">
-            <Row type="flex" justify="center" align="middle" style="width:100%">
-                <Col :md="{span: 16}" :xs="{span: 24}" style="background: #fff">
-                    <Subject/>
-                </Col>
-            </Row>
+        <div class="compus" v-ripple.mouseover.3000>
+            <div class="compus-width">
+                <div class="compus-cover">
+                    <div>
+                        <div class="cs-bg-head">
+                            
+                            <div>Computer</div>
+                            <div>Society</div>
+                        </div>
+                        <div class="nit-head">Nanchang Institute of Techology</div>
+                        <div class="center-logo">
+                            <img style="width: 80px;" v-show="!navbarTheme" src="@/assets/images/home/logo.png"/>
+                        </div>
+                    </div>
+                    <div class="compus-squareness"></div>
+                    <div class="mirrorRotateVertical">
+                        <div class="cs-bg-head">
+                            <div>Computer</div>
+                            <div>Society</div>
+                        </div>
+                        <div class="nit-head">Nanchang Institute of Techology</div>
+                    </div>
+                    <!-- <div class="compus-icno" style="margin: 115px 0;">
+                        <a href="#">
+                            <div class="compus-title-oralce">
+                                <div class="iconfont" style="font-size: 40px">&#xe615;</div>
+                                <div class="compus-icno-title">校园指南</div>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="compus-title-oralce" style="margin: 0 25px">
+                                <div class="iconfont" style="font-size: 40px">&#xe60b;</div>
+                                <div class="compus-icno-title">资源分享</div>
+                            </div>
+                        </a>
+                        <a href="#">
+                            <div class="compus-title-oralce">
+                                <div class="iconfont" style="font-size: 40px">&#xe64c;</div>
+                                <div class="compus-icno-title">计协课程</div>
+                            </div>
+                        </a>
+                    </div>-->
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="device-height" style="height: 800px;">
+                <div class="catalog-head">
+                    <div class="bold-letter">校园指南</div>
+                    <div>Campus guide</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <Row type="flex">
+                    <Col :xs="{span: 0}" :md="{span: 24}" style="width: 900px;margin: 0 auto;">
+                        <Row style="overflow: hidden;">
+                            <Col :md="{span: 15}">
+                                <div class="guide-img-block">
+                                    <img style="width: 100%;height: 100%;" src="@/assets/images/home/coampDirect.png">
+                                </div>
+                            </Col>
+                            <Col :md="{span: 9}" style="padding: 50px 50px;">
+                                <div >
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">学校信息</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">新生专区</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">其他指南</div>
+                                    </div>
+                                    <div class="btn-enter">
+                                        <div class="btn-enter-block">
+                                            <a class="compus-content-2-block" 
+                                                href="/docs/guide" >ENTER</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <div class="orange-bg-bar"></div>
+                    </Col>
+                    <Col :xs="{span: 24}" :md="{span: 0}">
+                        <Row style="overflow: hidden;">
+                            <Col>
+                                <img style="width: 100%;height: 100%;" src="@/assets/images/home/coampDirect.png">
+                            </Col>
+                            <Col style="padding: 30px;">
+                                <div class="xs-guide-item">
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">学校信息</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">新生专区</div>
+                                    </div>
+                                    <div class="guide-item-block">
+                                        <div class="guide-point"></div>
+                                        <div class="guide-title">其他指南</div>
+                                    </div>
+                                </div>
+                                <div class="btn-enter">
+                                    <div class="btn-enter-block">
+                                        <a class="compus-content-2-block" 
+                                            href="/docs/guide" >ENTER</a>
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                    </Col>
+                </Row>
+            </div>
+
+            <div class="device-height" style="height: 800px;">
+                <div class="catalog-head">
+                    <div class="bold-letter">资源分享</div>
+                    <div>Resource sharing</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <Row type="flex" class="res-content">
+                    <Col :xs="{span: 0}" :md="{span: 24}" class="res-content-block">
+                        <Row style="overflow: hidden;">
+                            <Col :md="{span: 4}" style="padding-top: 160px;">
+                                <div>
+                                    <div class="compus-content-2-list-left">
+                                        <div class="compus-content-2-left-oracl"></div>PDF资源
+                                    </div>
+                                    <div class="compus-content-2-list-left res-content-item">
+                                        <div class="compus-content-2-left-oracl"></div>学习视频
+                                    </div>
+                                </div>
+                            </Col>
+                            <Col :md="{span: 16}">
+                                <img src="@/assets/images/home/resource-share.jpg" class="res-img">
+                            </Col>
+                            <Col :md="{span: 4}" style="padding-top: 160px;">
+                                <div>
+                                    <div class="compus-content-2-list-left">
+                                        <div class="compus-content-2-left-oracl"></div>PDF资源
+                                    </div>
+                                    <div class="compus-content-2-list-left res-content-item">
+                                        <div class="compus-content-2-left-oracl"></div>学习视频
+                                    </div>
+                                </div>
+                            </Col>
+                        </Row>
+                        <div>
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" 
+                                    href="/docs/resources" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col :xs="{span: 24}" :md="{span: 0}">
+                        <div>
+                            <img src="@/assets/images/home/resource-share.jpg" class="res-img">
+                        </div>
+                        <div style="overflow: hidden;">
+                            <div style="width: fit-content;margin: 0 auto;">
+                                <div class="compus-content-2-list-left">
+                                    <div class="compus-content-2-left-oracl"></div>PDF资源
+                                </div>
+                                <div class="compus-content-2-list-left" style="letter-spacing: 10px;">
+                                    <div class="compus-content-2-left-oracl"></div>学习视频
+                                </div>
+                                <div class="compus-content-2-list-left">
+                                    <div class="compus-content-2-left-oracl"></div>PDF资源
+                                </div>
+                                <div class="compus-content-2-list-left" style="letter-spacing: 10px;">
+                                    <div class="compus-content-2-left-oracl"></div>学习视频
+                                </div>
+                            </div>
+                        </div>
+                        <div class="btn-enter">
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" 
+                                    href="/docs/resources" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+            
+            <div class="course-block" style="height: 700px;">
+                <div class="catalog-head">
+                    <div class="bold-letter" style="letter-spacing: 3px;">计协课程</div>
+                    <div>Course</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <div>
+                    <img style="width: 100%;height: 100%;" src="@/assets/images/home/course.png">
+                </div>
+                <div style="width: 100%;">
+                    <div class="elemind-block" style="margin: 30px auto;">
+                        <div class="compus-content-3-oracle"></div>
+                        <div class="ele-notice">报名课程</div>
+                        <div class="compus-content-3-oracle"></div>
+                        <div class="ele-notice">推荐网课</div>
+                    </div>
+                </div>
+                <div class="btn-enter">
+                    <div class="btn-enter-block">
+                        <a class="compus-content-2-block compus-ayellow" href="/course/list" >ENTER</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="device-height" style="height: 700px;">
+                <div class="catalog-head">
+                    <div class="bold-letter">电量提醒</div>
+                    <div>Electricity Remind</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <Row>
+                    <Col :xs="{span: 0}" :md="{span: 24}" class="compus-content-style">
+                        <div class="compus-content-2-style">
+                            <div class="compus-content-3-img"></div>
+                        </div>
+                        <div style="width: 100%;">
+                            <div class="elemind-block" style="margin: 20px auto;">
+                                <div class="compus-content-3-oracle"></div>
+                                <div class="ele-notice">开通后，宿舍电量不足时会自动收到邮件提醒</div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" href="/queryele" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col :xs="{span: 24}" :md="{span: 0}">
+                        <div>
+                            <img style="width: 100%;height: 100%;" src="@/assets/images/home/power_rate_remind.jpg">
+                        </div>
+                        <div style="width: 100%;">
+                            <div class="elemind-block" style="margin: 30px auto;">
+                                <div class="compus-content-3-oracle"></div>
+                                <div class="ele-notice">开通宿舍电量不足提醒</div>
+                            </div>
+                        </div>
+                        <div class="btn-enter">
+                            <div class="btn-enter-block">
+                                <a class="compus-content-2-block compus-ayellow" href="/queryele" >ENTER</a>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </div>
+            
+
+            
+            <div class="device-height other-box" style="height: 1000px;">
+                <div class="catalog-head">
+                    <div class="bold-letter" style="letter-spacing: 3px;">其他</div>
+                    <div>Others</div>
+                    <div class="compus-little-squa"></div>
+                </div>
+                <div type="flex">
+                    <div class="other-content">
+                        <div class="compus-content-4-leftImg" style="margin-top: 20px;">
+                            <div class="compus-content-4-takeItEasy">
+                                <div class="compus-content-4-takeItEasy-1">
+                                    <div class="other-content-round"></div>
+                                    <div style="float: left;">
+                                        <a href="/comp/spend" style="color: #000">财务公示</a>
+                                    </div>
+                                </div>
+                                <div class="compus-content-4-content">上报收支</div>
+                            </div>
+                        </div>
+                        <div class="compus-content-4-rightImg" style="padding: 100px;">
+                            <div style="width: fit-content;">
+                                <div class="other-right">获取帮助</div>
+                                <div class="other-right-block">
+                                    <div class="other-right-round"></div>
+                                    <div class="other-right-btn">
+                                        <a href="/docs/help/update-log">更新日志</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <!--页脚  -->
+        <div class="compus-foot">
+            <div class="compus-buttom-entry">
+                <div class="compus-entry-div">
+                    <Row>
+                        <Col :md="{span: 14}">
+                            <div style="margin-bottom: 14px;">&copy;2019-2020 Niter.work</div>
+                            
+                            <Col :md="{span:7}" :xs="{span: 10}" class="compus-column">
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        href="https://blog.csdn.net/qq_43581949"
+                                        class="a-dark-color"
+                                    >作者博客</a>
+                                </div>
+                                <div>
+                                    <a href="#" class="a-dark-color">加入我们</a>
+                                </div>
+                                <div @click="bug = true" style="cursor:pointer;">反馈错误</div>
+                                <div>
+                                    <a target="_blank" href="/docs/help" class="a-dark-color">Help</a>
+                                </div>
+                            </Col>
+                            <Col :md="{span:10}" :xs="{span: 12, offset: 2}" class="compus-column">
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        href="http://www.nit.edu.cn/"
+                                        class="a-dark-color"
+                                    >南昌工程学院官网</a>
+                                </div>
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        href="http://pay.nit.edu.cn/"
+                                        class="a-dark-color"
+                                    >南昌工程学院电子支付平台</a>
+                                </div>
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        href="http://ngzhyfw.nit.edu.cn/"
+                                        class="a-dark-color"
+                                    >南昌工程学院志愿者服务系统</a>
+                                </div>
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        href="http://nontax.nit.edu.cn/"
+                                        class="a-dark-color"
+                                    >校园网上统一支付平台</a>
+                                </div>
+                            </Col>
+                        </Col>
+                        <Col :md="{span:10}" class="friend-link-col">
+                            <Col :md="{span:16}" :xs="{span: 15, offset: 1}" class="right-relate">
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        class="a-dark-color"
+                                        href="https://jq.qq.com/?_wv=1027&k=5U86hAr"
+                                    >
+                                        <Icon custom="iconfont icon-qq" size="22" />&nbsp;2019计算机协会QQ群: 462240069
+                                    </a>
+                                </div>
+                                <div>
+                                    <a
+                                        target="_blank"
+                                        class="a-dark-color"
+                                        href="mailto:niticpc@163.com"
+                                    >
+                                        <Icon custom="iconfont icon-mail" size="22" />&nbsp;ACMer选拔邮箱: niticpc@163.com
+                                    </a>
+                                </div>
+                                <div>
+                                    <Icon type="logo-github" size="22" />&nbsp;GitHub源码:
+                                    <a
+                                        target="_blank"
+                                        class="a-dark-color"
+                                        href="https://github.com/cangwuwuwu/wecoding"
+                                    >Wecoding</a> /
+                                    <a
+                                        target="_blank"
+                                        class="a-dark-color"
+                                        href="https://github.com/cangwuwuwu/wefront"
+                                    >Wefront</a>
+                                </div>
+                            </Col>
+                            <Col :md="{span:5, offset: 2}" :xs="{span: 5, offset: 2}">
+                                <img src="@/assets/images/home/qqun.png" alt="qq群二维码" />
+                                <p class="qq-text">QQ</p>
+                            </Col>
+                        </Col>
+                    </Row>
+                </div>
+            </div>
+            <div class="compus-buttom">
+                <div class="compus-buttom-div">
+                    <div class="compus-buttom-left">
+                        <a target="_blank" href="http://www.beian.miit.gov.cn/">浙ICP备19026120号</a>&nbsp; UI designed by 廖嘉璐
+                    </div>
+                    <div class="compus-buttom-right">简体 / 繁體 / English</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 抽屉 -->
+        <Drawer :closable="true" width="400" v-model="personinfo">
+            <Divider orientation="left">我的信息</Divider>
+            <div class="card-surround-gray">
+                <Card :bordered="false">
+                    <MyInfo :allinfo="myinfo" @updateHead="changeHeadImg"/>
+                </Card>
+            </div>
+
+            <br>
+            <Divider orientation="left">新的消息</Divider>
+            <div v-if="msglist.length == 0" class="card-surround-gray">
+                <Card>
+                    <p>
+                        <img alt="空的" src="@/assets/images/isempty.jpg"/>
+                    </p>
+                </Card>
+            </div>
+            <div v-for="(amsg, index) in revmsglist" :key="index" class="card-surround-gray">
+                <Card>
+                    <p slot="title">
+                        {{ amsg.msgType }}消息: {{ amsg.msgHead }}
+                    </p>
+                    <a href="#" slot="extra">
+                        <Icon type="ios-loop-strong"></Icon>
+                        {{ amsg.msgSender }}
+                    </a>
+                    <p> {{ amsg.msgContent }}
+                    <div style="text-align: right;">
+                        <Time :time="timeConvert(amsg.msgTime)"/>
+                    </div>
+                    </p>
+                </Card>
+            </div>
+            <br>
+            <Divider orientation="left">历史消息</Divider>
+            <div v-if="hismsglist.length == 0" style="padding: 10px;">
+                <Card>
+                    <div class="ivu-upload-drag" @click="show2hismsg">
+                        <div style="padding: 40px 0;">
+                            <Icon type="md-finger-print" size="30"></Icon>
+                            <P>点此加载</P>
+                        </div>
+                    </div>
+                    <Spin fix v-if="spinShowHis">
+                        <Icon type="ios-loading" size=25 class="demo-spin-icon-load"></Icon>
+                        <div>加载中...</div>
+                    </Spin>
+                </Card>
+            </div>
+            <div v-for="(ahismsg,index) in hismsglist" :key="index" style="padding: 10px;">
+                <Card>
+                    <p slot="title">
+                        {{ ahismsg.msgType }}消息: {{ ahismsg.msgHead }}
+                    </p>
+                    <a href="#" slot="extra">
+                        <Icon type="ios-loop-strong"></Icon>
+                        {{ ahismsg.msgSender }}
+                    </a>
+                    <p> {{ ahismsg.msgContent }}
+                    <div style="text-align: right;">
+                        <Time :time="timeConvert(ahismsg.msgTime)"/>
+                    </div>
+                    </p>
+                </Card>
+            </div>
+            <div v-if="hismsglist.length != 0" style="cursor: pointer" @click="showallhismsg">
+                <Divider>{{ more }}</Divider>
+            </div>
+        </Drawer>
+
+        <!-- 修改密码 -->
         <Modal footer-hide v-model="changepassmd">
             <p slot="header" style="color:#2d8cf0;text-align:center">
                 <Icon type="md-build"></Icon>
@@ -268,85 +618,37 @@
             </Form>
         </Modal>
 
-        <Drawer :closable="true" width="400" v-model="personinfo">
-            <Divider orientation="left">我的信息</Divider>
-            <div class="card-surround-gray">
-                <Card :bordered="false">
-                    <MyInfo :allinfo="myinfo" @updateHead="changeHeadImg"/>
-                </Card>
+        <!-- 反馈bug -->
+        <Modal
+                footer-hide
+                title="反馈"
+                v-model="bug">
+            <div>反馈类型</div>
+            <RadioGroup v-model="bugtype">
+                <Radio label="bug">
+                    <Icon type="md-alert" size="15"></Icon>
+                    <span>Bug</span>
+                </Radio>
+                <Radio label="need">
+                    <Icon type="ios-hand" size="15"></Icon>
+                    <span>没有我想要的</span>
+                </Radio>
+                <Radio label="advice">
+                    <Icon type="ios-information-circle" size="15"></Icon>
+                    <span>指正/建议</span>
+                </Radio>
+            </RadioGroup>
+            <div>反馈内容</div>
+            <div class="bug-div">
+                <Input v-model="bugcontent" type="textarea" :autosize="{minRows: 3,maxRows: 5}"
+                       placeholder="Enter something..."/>
             </div>
+            <div class="bug-div">
+                <Button :loading="loading" long type="primary" @click="sendfeedback">提交反馈</Button>
+            </div>
+        </Modal>
 
-            <br>
-            <Divider orientation="left">新的消息</Divider>
-            <div v-if="msglist.length == 0" class="card-surround-gray">
-                <Card>
-                    <p>
-                        <img alt="空的" src="@/assets/images/isempty.jpg"/>
-                    </p>
-                </Card>
-            </div>
-            <div v-for="(amsg, index) in revmsglist" :key="index" class="card-surround-gray">
-                <Card>
-                    <p slot="title">
-                        {{ amsg.msgType }}消息: {{ amsg.msgHead }}
-                    </p>
-                    <a href="#" slot="extra">
-                        <Icon type="ios-loop-strong"></Icon>
-                        {{ amsg.msgSender }}
-                    </a>
-                    <p> {{ amsg.msgContent }}
-                    <div style="text-align: right;">
-                        <Time :time="parseInt(amsg.msgTime)"/>
-                    </div>
-                    </p>
-                </Card>
-            </div>
-            <br>
-            <Divider orientation="left">历史消息</Divider>
-            <div v-if="hismsglist.length == 0" style="padding: 10px;">
-                <Card>
-                    <div class="ivu-upload-drag" @click="show2hismsg">
-                        <div style="padding: 40px 0;">
-                            <Icon type="md-finger-print" size="30"></Icon>
-                            <P>点此加载</P>
-                        </div>
-                    </div>
-                    <Spin fix v-if="spinShowHis">
-                        <Icon type="ios-loading" size=25 class="demo-spin-icon-load"></Icon>
-                        <div>加载中...</div>
-                    </Spin>
-                </Card>
-            </div>
-            <div v-for="(ahismsg,index) in hismsglist" :key="index" style="padding: 10px;">
-                <Card>
-                    <p slot="title">
-                        {{ ahismsg.msgType }}消息: {{ ahismsg.msgHead }}
-                    </p>
-                    <a href="#" slot="extra">
-                        <Icon type="ios-loop-strong"></Icon>
-                        {{ ahismsg.msgSender }}
-                    </a>
-                    <p> {{ ahismsg.msgContent }}
-                    <div style="text-align: right;">
-                        <Time :time="parseInt(ahismsg.msgTime)" type="datetime"/>
-                    </div>
-                    </p>
-                </Card>
-            </div>
-            <div v-if="hismsglist.length != 0" style="cursor: pointer" @click="showallhismsg">
-                <Divider>{{ more }}</Divider>
-            </div>
-        </Drawer>
-
-        <Footer :hometheme="headtheme"></Footer>
-
-        <Col :xs="{span: 0}" :md="{span: 1}">
-            <BackTop title="返回顶部" :height="100">
-                <div class="top">
-                    <Icon type="ios-arrow-up"/>
-                </div>
-            </BackTop>
-        </Col>
+        <BackTop class="back-2-top"></BackTop>
     </div>
 </template>
 
@@ -354,20 +656,21 @@
     import axios from 'axios'
     import Stomp from 'stompjs'
     import {formatDate} from '@/assets/js/date.js'
-    import Footer from '@/pages/index/components/footers.vue'
     import MyInfo from '@/pages/index/home/components/myinfo.vue'
-    import Subject from '@/pages/index/home/components/subject.vue'
-
     export default {
-        name: 'home',
+        name: "home",
         components: {
-            Footer, MyInfo, Subject
+            MyInfo
         },
         data() {
             return {
-                headtheme: 'light',
+                bug: false,
+                bugtype: '',
+                bugcontent: '',
+                loading: false,
                 catalog: false,
-                myinfo: {},
+                navbarTheme: false,
+                myinfo: [],
                 msg: '',
                 more: '加载更多',
                 passwdtype: 'password',
@@ -388,7 +691,6 @@
                     stuEmail: '',
                     stuCode: '',
                 },
-                emailist: [],
                 disabled: false,
                 btntext: '获取验证码',
                 btnstyle: '',
@@ -406,10 +708,10 @@
                             }
                         }
                     ],
-                }
-            }
+                },
+            };
         },
-        mounted () {
+        created() {
             const info = localStorage.getItem('wecoding_login_info');
             let jsonInfo = JSON.parse(info);
             if (jsonInfo) {
@@ -430,14 +732,15 @@
                 if (auth.length === 2 || auth.length === 3) {
                     this.hasAdminRole = true;
                 }
-                // this.connectMsgWsServer(this.id)
+                this.connectMsgWsServer(this.id)
             } else {
-                // this.connectMsgWsServer('')
+                this.connectMsgWsServer('')
             }
         },
-
+        mounted() {
+            window.addEventListener("scroll", this.handleScroll, true);
+        },
         methods: {
-            // 获取当前账号信息
             getCurrentInfo() {
                 let _self = this;
                 axios
@@ -481,31 +784,32 @@
             },
             connectMsgWsServer(id) {
                 let _self = this;
-                if (id !== '') {
-                    var ws = new WebSocket('ws://119.3.59.217:15674/ws');
+                if (id !== '' && !this.$store.state.wsStatus) {
+                    var ws = new WebSocket('wss://www.niter.work/websocket/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
-                        _self.$Message.success('消息服务器连接成功!');
+                        if (ws.readyState == 1) {
+                            _self.$store.commit('setWsStatus', true);
+                        }
                         client.subscribe('/exchange/wecoding.fanout/', function (msg) {
                             // console.log(msg);
                             let jsonMsg = JSON.parse(msg.body);
+                            _self.msgcount += 1;
+                            _self.msglist.push(jsonMsg);
                             _self.$Notice.info({
                                 title: '收到一条' + jsonMsg.msgType + '消息',
                                 desc: jsonMsg.msgHead,
                             });
-                            _self.msgcount += 1;
-                            _self.msglist.push(jsonMsg);
                         })
                     };
                     var onError = function () {
-                        _self.$Message.error('消息服务器连接失败!')
+                        // _self.$Message.error('消息服务器连接失败!')
+                        console.log('消息服务器连接失败...')
                     };
                     client.connect('guest', 'guest', onConnect, onError, '/');
+                    client.debug = null;
                 } else {
-                    this.$Message.error({
-                        content: '未登录!暂时无法连接到消息服务器',
-                        duration: 3
-                    });
+                    return;
                 }
             },
             changeinfo2list(myinfo) {
@@ -577,27 +881,21 @@
             logout() {
                 let _self = this;
                 axios
-                        .get('/api/logout')
-                        .then(res => {
-                            if (res) {
-                                setTimeout(function () {
-                                    localStorage.removeItem('wecoding_login_info');
-                                    // _self.$router.push('/index/signin');
-                                    _self.$router.replace({
-                                        path: '/refresh',
-                                        query: {
-                                            t: Date.now()
-                                        }
-                                    })
-                                }, 1500);
-                            }
-                        })
-            },
-            selectMenu(name) {
-                if (name === 'light' || name === 'dark' ||
-                    name === 'primary' || name === 'pink') {
-                    this.headtheme = name;
-                }
+                    .get('/api/logout')
+                    .then(res => {
+                        if (res) {
+                            setTimeout(function () {
+                                localStorage.removeItem('wecoding_login_info');
+                                // _self.$router.push('/index/signin');
+                                _self.$router.replace({
+                                    path: '/refresh',
+                                    query: {
+                                        t: Date.now()
+                                    }
+                                })
+                            }, 1500);
+                        }
+                    })
             },
             show2hismsg() {
                 this.spinShowHis = true;
@@ -626,10 +924,6 @@
                     }
                 }
             },
-            openmenu() {
-                // this.divheight === '200px' ? this.divheight = '0px' : this.divheight = '200px'
-                this.catalog = true;
-            },
             sendMail() {
                 let _self = this;
                 let params = new URLSearchParams();
@@ -656,99 +950,143 @@
                         }
                     })
             },
-            emailSearch(value) {
-                this.emailist = !value || value.includes('@') ? [] : [
-                    value + '@qq.com',
-                    value + '@sina.com',
-                    value + '@163.com',
-                    value + '@gmail.com',
-                    value + '@foxmail.com'
-                ];
-            }
+            router(link) {
+                this.$router.push(link);
+            },
+            handleScroll(e) {
+                let top = Math.floor(
+                    document.body.scrollTop ||
+                        document.documentElement.scrollTop ||
+                        window.pageXOffset
+                );
+                if (top >= 520) {
+                    this.navbarTheme = true;
+                } else {
+                    this.navbarTheme = false;
+                }
+
+                let list = document.getElementsByClassName('device-height');
+            },
+            sendfeedback() {
+                if (this.bugtype === '' || this.bugcontent === '')
+                    return;
+                this.loading = true;
+                let _self = this;
+                axios
+                    .post('/api/sendmail/feedback', {
+                        type: this.bugtype,
+                        content: this.bugcontent
+                    })
+                    .then(res => {
+                        if (res) {
+                            _self.$Message.success('反馈成功，感谢支持');
+                            _self.loading = false;
+                            _self.bug = false;
+                        }
+                    })
+            },
+            // 把日期字符串转换为时间戳
+            timeConvert(timeStr) {
+                return (new Date(timeStr)).getTime();;
+            },
         },
         computed: {
             revmsglist() {
                 return this.msglist.reverse();
-            }
-        }
-    }
+            },
+        },
+        destroyed() {
+            window.removeEventListener('scroll', this.handleScroll);   //  离开页面清除（移除）滚轮滚动事件
+        },
+    };
 </script>
-
-<style scoped lang="less">
-    @media screen and (max-width: 770px) {
-        .change-theme {
-            display: none;
-        }
-    }
-
-    .card-home {
-        transition: height .2s ease-in-out;
-        overflow: hidden;
-    }
-
-    .card-home:hover {
-        height: 200px;
-    }
-
-    .top {
-        background: @light-color;
-        box-shadow: 0 1px 6px rgba(0, 0, 0, .2);
+<style scoped>
+@media screen and (max-width: 770px) {
+    .cs-bg-head {
         text-align: center;
-        border-radius: 5px;
-        padding-top: 4px;
-        width: 48px;
-        height: 48px;
     }
-
-    .top .ivu-icon {
-        color: @dark-color;
+    .compus {
+        height: 600px;
     }
-
-    .catalogue {
-        font-size: 20px;
-        font-weight: bold;
-        padding: 15px 15px;
+    .compus,
+    .compus-width,
+    .compus-buttom-div,
+    .compus-cover {
+        width: auto;
     }
-
-    .dark {
-        background: @dark-color;
+    .compus-cover {
+        padding: 90px 0;
     }
-
-    .primary {
-        background: @primary-color;
-
-        .top .ivu-icon {
-            color: @primary-color;
-        }
+    .nit-head {
+        text-align: center;
+        font-size: 15px;
     }
-
-    .light {
-        background: @light-color;
+    .compus-entry-div {
+        width: 100%;
     }
-
-    .pink {
-        background: @light-pink-color;
-
-        .top .ivu-icon {
-            color: @light-pink-color;
-        }
+    .compus-buttom-entry {
+        text-align: center;
     }
-
-    .catalog-menu p {
-        margin: 10px;
-        font-size: 20px;
+    .friend-link-col {
+        margin-top: 15px;
     }
-
-    .catalog-menu p a {
-        text-decoration: underline;
+    .xs-guide-item {
+        width: 200px;
+        margin: 0 auto;
     }
-
-    .xs-menu-btn {
-        float: right;
-        padding-right: 20px;
+    .btn-enter {
+        margin-top: 40px;
     }
-
-    .ios-arrow-down {
-        color: @light-gray-color;
+    .compus-little-squa {
+        margin: 10px auto;
     }
+    .back-2-top {
+        display: none;
+    }
+    .dark-bg-navbar {
+        width: 100%;
+        background: rgba(85,106,137,1);
+    }
+    .nav-logo10 {
+        margin-top: 10px;
+        width: 40px;
+    }
+    .navbar ul li {
+        padding: 0 10px;
+    }
+    .navbar {
+        padding: 0;
+    }
+    .navbar, .dark-bg-navbar {
+        height: 60px;
+        line-height: 60px;
+    }
+    .other-box,
+    .qq-text,
+    .mirrorRotateVertical,
+    .compus-squareness,
+    .md-navbar,
+    .compus-buttom-right {
+        display: none;
+    }
+    .compus-buttom-div {
+        margin: 0 auto;
+        width: fit-content;
+    }
+}
+
+@media screen and (min-width: 770px) {
+    .navbar ul li {
+        padding: 0 50px;
+    }
+    .course-block,
+    .xs-navbar,
+    .center-logo {
+        display: none;
+    }
+}
+    
+.compus-ayellow:hover {
+    color: #e9bf15;
+}
 </style>

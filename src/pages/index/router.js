@@ -64,18 +64,11 @@ export default new Router({
         },
         {
             path: '/home',
-            component: () => import('@/pages/index/home/views/new.vue'),
+            component: () => import('@/pages/index/home/views/home.vue'),
             meta: {
                 title: '主页-NIT计算机协会官网|Wecoding'
             }
         },
-        // {
-        //     path: '/home',
-        //     component: () => import('@/pages/index/home/views/home.vue'),
-        //     meta: {
-        //         title: '主页-NIT计算机协会官网|Wecoding'
-        //     }
-        // },
         {
             path: '/person',
             component: () => import('@/pages/index/person/views/person.vue'),

@@ -2,6 +2,7 @@ export const index = {
     welcome: '封页',
     login: '登录',
     signup: '注册',
+    remember: '记住我',
     coverHead: '欢迎',
     moreButton: '了解更多',
     userCount: '总用户数',

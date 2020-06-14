@@ -1,73 +1,74 @@
 <template>
     <div>
         <div style="padding: 10px;">
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
-                    <div>真实姓名:</div>
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
+                    <div>姓名:</div>
                 </Col>
-                <Col :md="{span:11}" :xs="{span:17}">{{ myinfo.stuName }}</Col>
-                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                <Col :md="{span:8}" :xs="{span:17}">{{ myinfo.stuName }}</Col>
+                <Col class="person-info-col" :md="{span:4}" :xs="{span:7}">
                     <div>民族:</div>
                 </Col>
-                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">{{ myinfo.stuNation }}</Col>
+                <Col class="person-info-col" :md="{span:8}" :xs="{span:17}">{{ myinfo.stuNation }}</Col>
             </Row>
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
                     <div>ID学号:</div>
                 </Col>
-                <Col :md="{span:11}" :xs="{span:17}">{{ myinfo.stuId }}</Col>
-                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                <Col :md="{span:8}" :xs="{span:17}">{{ myinfo.stuId }}</Col>
+                <Col class="person-info-col" :md="{span:4}" :xs="{span:7}">
                     <div>政治面貌:</div>
                 </Col>
-                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">{{ myinfo.stuStatus }}</Col>
+                <Col class="person-info-col" :md="{span:8}" :xs="{span:17}">{{ myinfo.stuStatus }}</Col>
             </Row>
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
                     <div>性别:</div>
                 </Col>
-                <Col :md="{span:11}" :xs="{span:17}">{{ myinfo.stuGender }}</Col>
-                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                <Col :md="{span:8}" :xs="{span:17}">{{ myinfo.stuGender }}</Col>
+                <Col class="person-info-col" :md="{span:4}" :xs="{span:7}">
                     <div>籍贯:</div>
                 </Col>
-                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">{{ myinfo.stuArea }}</Col>
+                <Col class="person-info-col" :md="{span:8}" :xs="{span:17}">{{ myinfo.stuArea }}</Col>
             </Row>
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
                     <div>联系方式:</div>
                 </Col>
-                <Col :md="{span:11}" :xs="{span:17}">{{ myinfo.stuPhone }}</Col>
-                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                <Col :md="{span:8}" :xs="{span:17}">{{ myinfo.stuPhone }}</Col>
+                <Col class="person-info-col" :md="{span:4}" :xs="{span:7}">
                     <div>邮箱地址:</div>
                 </Col>
-                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">{{ myinfo.stuEmail }}</Col>
+                <Col class="person-info-col" :md="{span:8}" :xs="{span:17}">{{ myinfo.stuEmail }}</Col>
             </Row>
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
                     <div>生日:</div>
                 </Col>
-                <Col :md="{span:11}" :xs="{span:17}">{{ myinfo.stuBirthday | formatDate }}</Col>
-                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                <Col :md="{span:8}" :xs="{span:17}">{{ myinfo.stuBirthday | formatDate }}</Col>
+                <Col class="person-info-col" :md="{span:4}" :xs="{span:7}">
                     <div>院系:</div>
                 </Col>
-                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">{{ myinfo.stuDept }}</Col>
+                <Col class="person-info-col" :md="{span:8}" :xs="{span:17}">{{ myinfo.stuDept }}</Col>
             </Row>
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
                     <div>注册日期:</div>
                 </Col>
-                <Col :md="{span:11}" :xs="{span:17}">{{ myinfo.stuRegistTime | formatDateTime }}</Col>
-                <Col class="person-info-col" :md="{span:3}" :xs="{span:7}">
+                <Col :md="{span:8}" :xs="{span:17}">{{ myinfo.stuRegistTime | formatDateTime }}</Col>
+                <Col class="person-info-col" :md="{span:4}" :xs="{span:7}">
                     <div>班级:</div>
                 </Col>
-                <Col class="person-info-col" :md="{span:6}" :xs="{span:17}">{{ myinfo.stuClass }}</Col>
+                <Col class="person-info-col" :md="{span:8}" :xs="{span:17}">{{ myinfo.stuClass }}</Col>
             </Row>
-            <Row class="person-info-row">
-                <Col :md="{span:3}" :xs="{span:7}">
+            <Row class="person-info-row" type="flex">
+                <Col :md="{span:4}" :xs="{span:7}">
                     <div>个人简介:</div>
                 </Col>
-                <Col :md="{span:21}" :xs="{span:17}">{{ myinfo.stuInfo }}</Col>
+                <Col :md="{span:20}" :xs="{span:17}">{{ myinfo.stuInfo }}</Col>
             </Row>
         </div>
+
     </div>
 </template>
 
@@ -77,6 +78,7 @@ export default {
     data() {
         return {
             myinfo: {},
+            visible: false,
         };
     },
     computed: {
@@ -89,7 +91,10 @@ export default {
         getUserInfo(val) {
             this.myinfo = val;
         }
-    }
+    },
+    methods: {
+        
+    },
 };
 </script>
 

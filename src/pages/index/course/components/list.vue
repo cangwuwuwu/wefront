@@ -146,7 +146,7 @@
                         <Avatar 
                             v-for="(apply, index) in applyList" 
                             v-show="index < 8" 
-                            :src="apply.head === '' ? '' : 'http://39.106.85.24:9000/wecoding/' + apply.head" 
+                            :src="apply.head === '' ? '' : upImgBase + apply.head" 
                             :key="index" 
                             size="large"
                             style="background-color: #87d068">
@@ -219,7 +219,7 @@ export default {
                 .then(res => {
                     if (res) {
                         let _data = res.data.courseList;
-                        console.log(res.data)
+                        // console.log(res.data)
                         _self.courseList = _data.list;
                         _self.total = _data.total;
 

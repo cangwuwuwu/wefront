@@ -67,7 +67,7 @@
                         <div class="money-small-title">相关图片:</div>
                         <div class="money-small-content">
                             <img title="放大" class="magnify-img" v-for="(img,index) in hoverSpend.small" :key="index"
-                                 :src="'http://39.106.85.24:9000/wecoding/' + img" @click="openBigImg(index)"/>
+                                 :src="upImgBase + img" @click="openBigImg(index)"/>
                         </div>
                         <div class="money-small-title">其他补充:</div>
                         <div style="font-size: 18px;">{{ hoverSpend.others }}</div>
@@ -189,7 +189,7 @@
                                         </div>
                                         <div class="step3-title">如长时间没有答复,直接QQ联系</div>
                                         <div style="text-align: center;">
-                                            <img src="http://39.106.85.24:8999/money_qq.png"/>
+                                            <img :src="manualImgBase + 'money_qq.png'"/>
                                         </div>
                                     </div>
                                 </div>
@@ -326,7 +326,7 @@
                 this.clickIndex = index;
             },
             openBigImg(index) {
-                window.open('http://39.106.85.24:9000/wecoding/' + this.hoverSpend.big[index])
+                window.open(this.upImgBase + this.hoverSpend.big[index])
             },
             getImgMethod(small, big) {
                 this.money.small = small;
