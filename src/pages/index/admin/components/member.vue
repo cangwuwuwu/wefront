@@ -13,10 +13,8 @@
                         placeholder="全局搜索"
                         icon="ios-search"
                         size="large"
-                        @on-change="searchByKeywords"
-                        @on-clear="clearSearchComplete"
-                        @on-blur="clearSearchComplete"
-                        @on-select="chooseSearch">
+                        @on-focus="searchByKeywords">
+
                 </AutoComplete>
             </Col>
         </Row>
@@ -492,19 +490,32 @@
             // this.getStuByPage(this.page, this.limit)
         },
         methods: {
-            searchByKeywords() {
+            searchByKeywords(){
+                let _self = this;
+                document.onkeyup = function (ev) {
+                    if (ev.keyCode == 13 && ev.which == 13){
+                        _self.currentPage = 1;
+                        _self.currentSize = 10;
+                        _self.searchResult();
+                    }
+                }
+            },
+
+            searchResult() {
                 let _self = this;
                 if (this.keywords === '') return;
                 axios
                     .get('/api/admin/comp/stu/name', {
                         params: {
-                            keywords: this.keywords
+                            searchName: this.keywords
                         }
                     })
                     .then(res => {
                         if (res) {
-                            _self.data_search = res.data;
-                            _self.globalSearchData = _self.candidate(res.data);
+                            // _self.data_search = res.data;
+                            // _self.globalSearchData = _self.candidate(res.data);
+                            this.data = res.data;
+                            this.$set(this.data);
                         }
                     })
             },

@@ -277,6 +277,9 @@
         //资源分布信息
         resourceOption: {},
 
+        //所有信息
+        ovData:{},
+
         //初始化echars对象
         PageViewChart: Object,
         DeptChart: Object,
@@ -379,33 +382,83 @@
         this.PageViewChart.setOption(this.pageViewOption, true);
       },
 
+      /*从后台获取所有资源*/
+      getOVInfo(){
+        axios.get('/api/admin/comp/ov/getOVInfo').then(data => {
+          this.ovData = data.data;
+          this.getAccessInfo();
+          this.getResourceInfo();
+          this.getDeptInfo();
+          this.getGenderInfo();
+        });
+      },
+
+
+      // /*从后台获取访问量数据*/
+      // getAccessInfo(){
+      //   axios.get('/api/admin/comp/access').then(data => {
+      //     this.access = data.data;
+      //     this.access.accessUvAverage = Math.ceil(this.access.accessUvMonth/new Date().getDay());
+      //     this.current.UvCurrent = this.access.accessUvMonth;
+      //     this.current.accessCurrent = this.access.accessDay;
+      //     this.current.newUserCurrent = this.access.newUserMonth;
+      //     this.pageViewOption.series[0].data = this.access.accessTrend;
+      //     this.PageViewChart.setOption(this.pageViewOption, true);
+      //     this.pageView.pageViewDay = this.access.pageViewDay.sort(desc);
+      //     this.pageView.pageViewMonth = this.access.pageViewMonth.sort(desc);
+      //     this.pageView.pageViewYear = this.access.pageViewYear.sort(desc);
+      //     function desc(a, b) {
+      //       return b.value - a.value;
+      //     }
+      //     this.current.pageView = this.pageView.pageViewDay;
+      //   });
+      //
+      // },
+
       /*从后台获取访问量数据*/
       getAccessInfo(){
-        axios.get('/api/admin/comp/access').then(data => {
-          this.access = data.data;
-          this.access.accessUvAverage = Math.ceil(this.access.accessUvMonth/new Date().getDay());
-          this.current.UvCurrent = this.access.accessUvMonth;
-          this.current.accessCurrent = this.access.accessDay;
-          this.current.newUserCurrent = this.access.newUserMonth;
-          this.pageViewOption.series[0].data = this.access.accessTrend;
-          this.PageViewChart.setOption(this.pageViewOption, true);
-          this.pageView.pageViewDay = this.access.pageViewDay.sort(desc);
-          this.pageView.pageViewMonth = this.access.pageViewMonth.sort(desc);
-          this.pageView.pageViewYear = this.access.pageViewYear.sort(desc);
-          function desc(a, b) {
-            return b.value - a.value;
-          }
-          this.current.pageView = this.pageView.pageViewDay;
-        });
+        this.access = this.ovData["access"];
+        this.access.accessUvAverage = Math.ceil(this.access.accessUvMonth/new Date().getDay());
+        this.current.UvCurrent = this.access.accessUvMonth;
+        this.current.accessCurrent = this.access.accessDay;
+        this.current.newUserCurrent = this.access.newUserMonth;
+        this.pageViewOption.series[0].data = this.access.accessTrend;
+        this.PageViewChart.setOption(this.pageViewOption, true);
+        this.pageView.pageViewDay = this.access.pageViewDay.sort(desc);
+        this.pageView.pageViewMonth = this.access.pageViewMonth.sort(desc);
+        this.pageView.pageViewYear = this.access.pageViewYear.sort(desc);
+        function desc(a, b) {
+          return b.value - a.value;
+        }
+        this.current.pageView = this.pageView.pageViewDay;
 
       },
+
+
+      // /*从后台获取学生学院分布数据*/
+      // getDeptInfo(){
+      //   this.DeptChart.showLoading();
+      //   axios.get('/api/admin/comp/ov/getDeptDistribution').then(data => {
+      //     let map = data.data;
+      //     let yData = [];
+      //     let xData = [];
+      //     for(var key in map){
+      //       yData.push(map[key]);
+      //       xData.push(key)
+      //     }
+      //     this.deptOption.xAxis.data = xData;
+      //     this.deptOption.series[0].data = yData;
+      //
+      //     this.DeptChart.hideLoading();
+      //     this.DeptChart.setOption(this.deptOption, true);
+      //   });
+      // },
 
 
       /*从后台获取学生学院分布数据*/
       getDeptInfo(){
         this.DeptChart.showLoading();
-        axios.get('/api/admin/comp/ov/getDeptDistribution').then(data => {
-          let map = data.data;
+          let map = this.ovData["dept"];
           let yData = [];
           let xData = [];
           for(var key in map){
@@ -417,14 +470,14 @@
 
           this.DeptChart.hideLoading();
           this.DeptChart.setOption(this.deptOption, true);
-        });
       },
 
       /*从后台获取男女分布数据*/
       getGenderInfo(){
         this.GenderChart.showLoading();
-        axios.get('/api/admin/comp/ov/getGenderDis').then(data => {
-          let map = data.data;
+        // axios.get('/api/admin/comp/ov/getGenderDis').then(data => {
+        //   let map = data.data;
+          let map = this.ovData["gender"];
           let maxData = map['all'];
           let boys = map['boys'];
           let girls = map['girls'];
@@ -535,14 +588,15 @@
           };
           this.GenderChart.hideLoading();
           this.GenderChart.setOption(genderOption, true);
-        })
+        // })
       },
 
       /*从后台获取资源分布和年级分布信息*/
       getResourceInfo(){
         this.ResourceChart.showLoading();
-        axios.get("/api/admin/comp/ov/getResAndGrade").then(data => {
-          let infoList = data.data;
+        // axios.get("/api/admin/comp/ov/getResAndGrade").then(data => {
+        //   let infoList = data.data;
+          let infoList = this.ovData["res"];
           let resMap = {};
           let gradeMap = {};
           let legendList = [];
@@ -610,7 +664,7 @@
           };
           this.ResourceChart.hideLoading();
           this.ResourceChart.setOption(this.resourceOption, true);
-        });
+        // });
 
       },
 
@@ -623,10 +677,11 @@
     /*将图渲染到页面上*/
     mounted() {
       this.chart();
-      this.getAccessInfo();
-      this.getDeptInfo();
-      this.getGenderInfo();
-      this.getResourceInfo();
+      this.getOVInfo();
+      // this.getAccessInfo();
+      // this.getDeptInfo();
+      // this.getGenderInfo();
+      // this.getResourceInfo();
     },
 
 
