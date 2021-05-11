@@ -112,7 +112,7 @@
                 ruleValidate: {
                     stuId: [
                         {required: true, message: '学号不能为空!', trigger: 'blur'},
-                        {type: 'string', pattern: /^201\d{7}$/, message: '学号格式错误!', trigger: 'blur'},
+                        {type: 'string', pattern: /^20\d{8}$/, message: '学号格式错误!', trigger: 'blur'},
                         {validator: IdUsedCheck, trigger: 'blur'},
                     ],
                     stuName: [
@@ -534,7 +534,7 @@
                                     setTimeout(function () {
                                         _self.$Modal.success({
                                             title: '添加我们的QQ群',
-                                            content: '<p>点击<a style="color: #2d8cf0;" target=_blank href="https://jq.qq.com/?_wv=1027&k=5absL3A">这里</a>加入群聊【2019计算机协会】</p>'
+                                            content: '<p>点击<a style="color: #2d8cf0;" target=_blank href="https://jq.qq.com/?_wv=1027&k=5absL3A">这里</a>加入群聊【2020计算机协会】</p>'
                                         });
                                     }, 2000);
                                 }

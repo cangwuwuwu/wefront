@@ -41,8 +41,8 @@
         data() {
             return {
                 formSignin: {
-                    stuId: '2017101943',
-                    stuPassword: 'wecoding',
+                    stuId: '',
+                    stuPassword: '',
                 },
                 loginbtnload: false,
                 ruleSignin: {

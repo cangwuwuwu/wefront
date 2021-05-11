@@ -785,7 +785,8 @@
             connectMsgWsServer(id) {
                 let _self = this;
                 if (id !== '' && !this.$store.state.wsStatus) {
-                    var ws = new WebSocket('wss://www.niter.work/websocket/ws');
+                    // var ws = new WebSocket('wss://www.niter.work/websocket/ws');
+                    var ws = new WebSocket('ws://39.106.85.24:15674/ws');
                     var client = Stomp.over(ws);
                     var onConnect = function () {
                         if (ws.readyState == 1) {

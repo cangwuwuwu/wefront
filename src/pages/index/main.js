@@ -52,6 +52,8 @@ new Vue({
 }).$mount('#app');
 
 // 文件上传图片访问
-Vue.prototype.upImgBase = 'https://www.niter.work/wecoding/';
+// Vue.prototype.upImgBase = 'https://www.niter.work/wecoding/';
+Vue.prototype.upImgBase = 'http://39.106.85.24:9000/wecoding/';
 // 手动上传图片访问
-Vue.prototype.manualImgBase = 'https://www.niter.work/images/'
+// Vue.prototype.manualImgBase = 'https://www.niter.work/images/'
+Vue.prototype.manualImgBase = 'http://39.106.85.24:8999/images/'
