@@ -40,7 +40,7 @@
                                 </Row>
                                 <Row>
                                     <Col offset="12">
-                                        <span class="text-muted"><Time :time="user.stuRegistTime"/></span>
+                                        <span class="text-muted reg-time"><Time :time="user.stuRegistTime"/></span>
                                     </Col>
                                 </Row>
                             </Card>
@@ -263,6 +263,10 @@
 
         .person-info-row {
             padding: 10px !important;
+        }
+
+        .reg-time {
+            font-size: 12px;
         }
     }
 

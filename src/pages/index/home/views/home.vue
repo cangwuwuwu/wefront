@@ -62,6 +62,53 @@
                 </ul>
                 <ul class="xs-navbar">
                     <li @click="catalog = true"><div class="iconfont" style="font-size: 40px">&#xe617;</div></li>
+                    <li style="float: right;">
+                        <div v-if="!hasLogin">
+                            <span class="iconfont" style="margin-right: 10px">&#xe613;</span>
+                            <span class="compus-login">
+                                <router-link to="/index/signin">Login</router-link>
+                            </span>
+                        </div>
+                        <div v-else>
+                            <Button v-if="hasAdminRole" style="margin-right: 30px;" to="/admin/overview" type="primary">后台管理</Button>
+                            <!-- <Badge dot style="margin: 0 30px;" :offset="[30, 0]">
+                                <Icon type="ios-notifications-outline" size="26"></Icon>
+                            </Badge> -->
+                            <Dropdown @on-click="go" transfer>
+                                <template>
+                                    <badge :count="msgcount" :offset="[25, 5]">
+                                        <Avatar v-if="myinfo.stuImg !== '' && myinfo.stuImg  !== null && myinfo.stuImg !== undefined"
+                                                :src="upImgBase + myinfo.stuImg"/>
+                                        <Avatar v-else icon="ios-person"/>
+                                    </badge>
+                                </template>
+                                <a class="ios-arrow-down" href="javascript:void(0)">
+                                    <Icon type="ios-arrow-down"></Icon>
+                                </a>
+                                <DropdownMenu slot="list">
+                                    <DropdownItem name="#">
+                                        <Icon type="md-at" size="17"></Icon>
+                                        <span id="username"> {{ myinfo.stuName }}</span>
+                                    </DropdownItem>
+                                    <DropdownItem name="me" divided>
+                                        <Icon type="ios-person" size="17"></Icon>
+                                        个人中心
+                                    </DropdownItem>
+                                    <DropdownItem name="changepasswd">
+                                        <Icon type="md-settings" size="17"></Icon>
+                                        修改密码
+                                    </DropdownItem>
+                                    <DropdownItem name="logout" divided>
+                                        <Icon type="md-power" size="17"></Icon>
+                                        退出登录
+                                    </DropdownItem>
+                                    <!-- <DropdownItem name="person">
+                                        person
+                                    </DropdownItem> -->
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -669,7 +716,7 @@
                 bugcontent: '',
                 loading: false,
                 catalog: false,
-                navbarTheme: false,
+                navbarTheme: true,
                 myinfo: [],
                 msg: '',
                 more: '加载更多',
@@ -955,18 +1002,18 @@
                 this.$router.push(link);
             },
             handleScroll(e) {
-                let top = Math.floor(
-                    document.body.scrollTop ||
-                        document.documentElement.scrollTop ||
-                        window.pageXOffset
-                );
-                if (top >= 520) {
-                    this.navbarTheme = true;
-                } else {
-                    this.navbarTheme = false;
-                }
+                // let top = Math.floor(
+                //     document.body.scrollTop ||
+                //         document.documentElement.scrollTop ||
+                //         window.pageXOffset
+                // );
+                // if (top >= 520) {
+                //     this.navbarTheme = true;
+                // } else {
+                //     this.navbarTheme = false;
+                // }
 
-                let list = document.getElementsByClassName('device-height');
+                // let list = document.getElementsByClassName('device-height');
             },
             sendfeedback() {
                 if (this.bugtype === '' || this.bugcontent === '')
@@ -1078,7 +1125,7 @@
 
 @media screen and (min-width: 770px) {
     .navbar ul li {
-        padding: 0 50px;
+        padding: 0 2.5%;
     }
     .course-block,
     .xs-navbar,

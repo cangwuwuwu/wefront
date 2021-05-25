@@ -51,8 +51,8 @@
                                     <Icon custom="iconfont icon-linux" size="20"></Icon>
                                     Linux
                                 </MenuItem>
-                                <MenuItem name="/docs/resources/nosql">
-                                    <Icon custom="iconfont icon-mongodb" size="20"></Icon>
+                                <MenuItem name="/docs/resources/windows">
+                                    <Icon custom="iconfont icon-windows" size="20"></Icon>
                                     Windows
                                 </MenuItem>
                                 <MenuItem name="/docs/resources/docker">
@@ -156,7 +156,7 @@
                                 <Icon custom="iconfont icon-linux" size="20"></Icon>
                                 Linux
                             </MenuItem>
-                            <MenuItem name="/docs/resources/nosql">
+                            <MenuItem name="/docs/resources/windows">
                                 <Icon custom="iconfont icon-windows" size="20"></Icon>
                                 Windows
                             </MenuItem>

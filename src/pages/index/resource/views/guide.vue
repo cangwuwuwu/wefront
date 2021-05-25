@@ -102,7 +102,8 @@
         },
         mounted: function () {
             this.choose = this.$route.path;
-            if (this.choose === '/docs/guide') return;
+            if (this.choose === '/docs/guide'
+             || this.choose == '/docs/guide.md') return;
             this.$router.push('/docs/guide');
             this.$router.push(this.choose)
         },
