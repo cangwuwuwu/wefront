@@ -1029,6 +1029,9 @@
                         if (res) {
                             _self.$Message.success('反馈成功，感谢支持');
                             _self.loading = false;
+                            // 清空表单
+                            _self.bugtype = '';
+                            _self.bugcontent = '';
                             _self.bug = false;
                         }
                     })

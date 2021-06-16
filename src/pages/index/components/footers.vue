@@ -96,8 +96,10 @@
         props: ["hometheme"],
         methods: {
             sendfeedback() {
-                if (this.bugtype === '' || this.bugcontent === '')
+                if (this.bugtype === '' || this.bugcontent === '') {
+                    console.log(11111111111111)
                     return;
+            }
                 this.loading = true;
                 let _self = this;
                 axios
@@ -109,6 +111,9 @@
                         if (res) {
                             _self.$Message.success('反馈成功，感谢支持');
                             _self.loading = false;
+                            // 清空表单
+                            _self.bugtype = '';
+                            _self.bugcontent = '';
                             _self.bug = false;
                         }
                     })

@@ -45,15 +45,24 @@
                     </FormItem>
                     <FormItem prop="stuEmail">
                         <div class="query-head-div">输入你的邮箱（建议使用qq邮箱以便及时收到通知）：</div>
-                        <AutoComplete
-                                style="text-align: left;"
-                                transfer
-                                size="large"
-                                v-model="formEle.stuEmail"
-                                @on-search="emailSearch"
-                                placeholder="Please enter student Email">
-                            <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
-                        </AutoComplete>
+                        <Row>
+                            <Col :md="{span:18}" :xs="{span:17}">
+                            <AutoComplete
+                                    style="text-align: left;"
+                                    transfer
+                                    size="large"
+                                    v-model="formEle.stuEmail"
+                                    @on-search="emailSearch"
+                                    placeholder="Please enter student Email">
+                                <Option v-for="item in emailist" :value="item" :key="item">{{ item }}</Option>
+                            </AutoComplete>
+                            </Col>
+                            <Col :md="{span: 5, offset: 1}" :xs="{span: 6, offset: 1}">
+                                <FormItem style="text-align: center;">
+                                    <Button type="dashed" size="large" long @click="testMail">测试邮件</Button>
+                                </FormItem>
+                            </Col>
+                        </Row>
                     </FormItem>
                     <FormItem style="text-align: center;margin-top: 20px;">
                         <Button type="primary" size="large" @click="submitBuildRoom('formEle')">订阅提醒</Button>
@@ -70,10 +79,18 @@
                     <Button type="primary" size="large" @click="stopEleNotice">取消订阅</Button>
                 </Row>
             </Col>
-            <Col :md="{span:1, offset:1}" :xs="{span: 22}">
-                <div class="qr-code">
-                    <Icon type="ios-finger-print" size="35" />
-                </div>
+            <Col :md="{span:1, offset:1}" :xs="{span: 24}">
+                <Poptip trigger="hover" placement="right">
+                    <div slot="title">
+                       <img :src="manualImgBase + 'my_qq.jpg'" alt="联系我" width="200" height="200">
+                    </div>
+                    <div slot="content" style="text-align: center">
+                       联系我
+                    </div>
+                    <div class="qr-code">
+                        <Icon type="ios-finger-print" size="45" />
+                    </div>
+                </Poptip>
                 <Poptip trigger="hover" placement="right">
                     <div slot="title">
                        <img :src="manualImgBase + 'asqun.jpg'" alt="">
@@ -82,7 +99,7 @@
                        扫码加入计算机协会
                     </div>
                     <div class="qr-code">
-                        <Icon custom="iconfont icon-erweima" size="35" />
+                        <Icon custom="iconfont icon-erweima" size="45" />
                     </div>
                 </Poptip>
                 <!-- <Poptip trigger="hover" placement="right">
@@ -93,13 +110,10 @@
                        云端工作室公众号
                     </div> -->
                     <div class="qr-code">
-                        <Icon custom="iconfont icon-weixingongzhonghao" size="28" />
+                        <Icon custom="iconfont icon-weixingongzhonghao" size="38" />
                     </div>
                 <!-- </Poptip> -->
             </Col>
-            <!-- <Col :md="{span:1, offset:1}">
-                    
-            </Col> -->
         </Row>
     </div>
 </template>
@@ -247,6 +261,22 @@ export default {
                     }
                 });
             }
+        },
+        // 用于测试接收邮件
+        testMail() {
+            if (this.formEle.stuEmail == '') return;
+            let _self = this;
+            axios
+                .get('/api/sendmail/test', {
+                    params: {
+                        email: _self.formEle.stuEmail
+                    }
+                })
+                .then(res => {
+                    if (res) {
+                        _self.$Message.success('测试邮件发送成功')
+                    }
+                })
         }
     },
 }
@@ -277,8 +307,8 @@ export default {
     height: 400px;
 }
 .qr-code {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border: 1px solid @light-gray-color;
     border-radius: 50%;
     z-index: 10;
