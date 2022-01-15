@@ -12,7 +12,7 @@
     "core-js": "^2.6.5",
     "echarts": "^4.5.0",
     "highlight.js": "^9.15.9",
-    "marked": "^0.7.0",
+    "marked": "^4.0.10",
     "qrcode-vue": "^1.2.0",
     "stompjs": "^2.3.3",
     "view-design": "^4.0.0",
